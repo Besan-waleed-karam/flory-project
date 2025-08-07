@@ -6,6 +6,8 @@ import 'package:flory/utils/theme/custom_themes/text_field_theme.dart';
 import 'package:flory/utils/theme/custom_themes/text_theme.dart';
 import 'package:flutter/material.dart';
 
+import 'custom_themes/appbar_theme.dart';
+
 class TAppTheme{
   TAppTheme._();
 
@@ -19,6 +21,7 @@ class TAppTheme{
     brightness: Brightness.light,
     primaryColor: TColors.primary,
     scaffoldBackgroundColor: TColors.primaryBackground,
+    appBarTheme: TAppBarTheme.lightAppBarTheme,
     textTheme: TTextTheme.lightTextTheme,
     chipTheme: TChipTheme.lightChipTheme,
     checkboxTheme: TCheckboxTheme.lightCheckboxTheme,

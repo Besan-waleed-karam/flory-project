@@ -99,6 +99,13 @@ flutter:
      - assets/images/home2.jpg
      - assets/images/logregpic.png
      - assets/images/women.png
+     - assets/images/office.png
+     - assets/images/homeimage.png
+     - assets/images/location.png
+     - assets/images/map.jpg
+     - assets/images/check.png
+     - assets/images/new.png
+     - assets/images/ordertrack.png
 
 
 
@@ -125,6 +132,11 @@ flutter:
            weight: 700
          - asset: assets/fonts/LibreBaskerville-Italic.ttf
            style: italic
+     - family: Inter
+       fonts:
+         - asset: assets/fonts/Inter-VariableFont_opsz,wght.ttf
+
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

@@ -1,5 +1,5 @@
 import 'package:flory/navigationItems/homeScreen.dart';
-import 'package:flory/navigationItems/profile.dart';
+import 'package:flory/navigationItems/profile/profile.dart';
 import 'package:flory/navigationItems/shoppingBag.dart';
 import 'package:flory/navigationItems/wishlist1.dart';
 import 'package:flory/utils/helpers/helper_functions.dart';
