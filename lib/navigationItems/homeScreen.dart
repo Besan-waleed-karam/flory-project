@@ -1,4 +1,4 @@
-import 'package:flory/memoryframes.dart';
+import 'package:flory/screens/categories/memoryframes.dart';
 import 'package:flory/screens/detailsPage/detailsPage.dart';
 import 'package:flory/utils/constants/colors.dart';
 import 'package:flory/utils/constants/image_strings.dart';
@@ -7,6 +7,9 @@ import 'package:flory/utils/theme/custom_themes/text_theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
  import 'package:flutter/material.dart';
 
+import '../utils/theme/custom_themes/appbar_theme.dart';
+import '../utils/theme/custom_themes/search_Field.dart';
+import 'drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<String> categories = [
@@ -35,28 +38,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor:dark ? TColors.black : TColors.primaryBackground,
-        leading: Padding(
-          padding: EdgeInsets.only(left: 30.0.w),
-          child: Icon(Icons.menu, size: 40.r),
-        ),
-
-        actions: [
-          SizedBox(width: 150.w),
-          CircleAvatar(
-            backgroundColor: TColors.primary40,
-            radius: 40.r,
-            child: Image.asset(
-              TImages.women,
-              width: 43.w,
-              height: 52.h,
-              fit: BoxFit.fill,
-            ),
-          ),
-          SizedBox(width: 30.w),
-        ],
-      ),
+      drawer: DrawerNav(),
+      appBar: dark ? TAppbarTheme.darkAppBarTheme(): TAppbarTheme.lightAppBarTheme(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
@@ -84,39 +67,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 18.h),
-              Container(
-                width: 342.w,
-                height: 40.h,
-                child: TextField(
-                  style: TextStyle(fontSize: 22.sp),
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(7.r),
-                        borderSide: const BorderSide(color: Colors.white)
-
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: TColors.white
-                        )
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color:
-                            TColors.primary
-                        )
-                    ),
-                    prefixIcon: const Icon(Icons.search_outlined),
-                    prefixIconColor: Color(0xff1c1c1c),
-                    contentPadding: EdgeInsets.all(7.r),
-
-                    hintText: "Search",
-                    hintStyle: TextStyle(fontSize: 20.sp, color: Colors.black),
-                    filled: true,
-                    fillColor: dark ? TColors.primary40 : TColors.white,
-                  ),
-                ),
-              ),
+              SearchField.searchFiled(context),
               SizedBox(height: 28.h),
               Text(
                 "Categories",
@@ -142,7 +93,7 @@ class HomeScreen extends StatelessWidget {
                     return Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.fromLTRB(0, 5, 10, 6).r,
-                      padding: EdgeInsets.fromLTRB(5, 0, 7, 0).r,
+                      padding: EdgeInsets.fromLTRB(20, 0, 7, 0).r,
                       width: 100.w,
                       height: 10.h,
                       decoration: BoxDecoration(
@@ -150,14 +101,16 @@ class HomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10.r)),
                         border: Border.all(color: TColors.primary, width: 1.w),
                       ),
-                      child: TextButton(
-                        onPressed: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Memoryframes()));
-                        },child: Text(categories[index],
+                      child:  TextButton(
+                          style:ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.zero),
+                          ) ,
+                          onPressed: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Memoryframes()));
+                          },child: Text(categories[index],
                         style: TextStyle(color: TColors.primary, fontSize: 16.sp),)
 
                       ),
-
                     );
                   },
                 ),

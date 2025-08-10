@@ -1,4 +1,3 @@
-// contain all app images as string
 class TImages {
   // -- App logos
   static const String darkAppLogo = "assets/logos";

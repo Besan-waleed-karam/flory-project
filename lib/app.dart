@@ -1,4 +1,4 @@
-import 'package:flory/memoryframes.dart';
+import 'package:flory/screens/categories/memoryframes.dart';
 import 'package:flory/navigationItems/homeScreen.dart';
 import 'package:flory/screens/onBoarding/onBoarding.dart';
 import 'package:flory/utils/theme/theme.dart';

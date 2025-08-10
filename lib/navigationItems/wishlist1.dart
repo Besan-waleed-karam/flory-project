@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flory/utils/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../utils/constants/image_strings.dart';
+import '../utils/helpers/helper_functions.dart';
+import '../utils/theme/custom_themes/appbar_theme.dart';
+import '../utils/theme/custom_themes/search_Field.dart';
+import '../utils/theme/custom_themes/text_theme.dart';
+
 class Wishlist1 extends StatefulWidget {
   const Wishlist1({super.key});
 
@@ -14,84 +20,65 @@ class _Wishlist1State extends State<Wishlist1> {
     {
       "name":"Golden Wedding Memory Frame",
       "price":"\$119.9",
-      "image": "assets/images/pictu1.jpeg"
+      "image": TImages.home2
     },
     {
       "name":"Golden Wedding Memory Frame",
       "price":"\$119.9",
-      "image": "assets/images/pictu3.jpeg"
+      "image": TImages.home2
     },
     {
       "name":"Golden Wedding Memory Frame",
       "price":"\$119.9",
-      "image": "assets/images/pictu1.jpeg"
+      "image": TImages.home2
     },
     {
       "name":"Golden Wedding Memory Frame",
       "price":"\$119.9",
-      "image": "assets/images/pictu2.jpeg"
+      "image": TImages.home2
     },
     {
       "name":"Golden Wedding Memory Frame",
       "price":"\$119.9",
-      "image": "assets/images/pictu1.jpeg"
+      "image": TImages.home2
     },
     {
       "name":"Golden Wedding Memory Frame",
       "price":"\$119.9",
-      "image": "assets/images/pictu2.jpeg"
+      "image": TImages.home2
     },
 
 
   ];
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
-        leading: Padding(padding: const EdgeInsets.only(left: 30.0),
-          child: Icon(Icons.menu,size: 40.sp),),
-        actions: [
-          SizedBox(width: 150.w,),
-          Image.asset("assets/images/IMG_2006.PNG",width: 60.w,height: 60.h,fit: BoxFit.fill,),
-          SizedBox(width: 30.w,)
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30.w,vertical: 10.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(child: Text("Wish List",style: TextStyle(fontFamily: "LibreBaskerville",fontSize: 24.sp,color: Colors.black),)),
-            SizedBox(height: 15.h,),
-            Text("Loved it? Don't lose it",style: TextStyle(fontSize: 24.sp,fontFamily: "ScheherazadeNew",color: TColors.primary)),
-            SizedBox(height: 18.h,),
-            TextFormField(
-
-              style: TextStyle(fontSize: 20.sp),
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(7.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  prefixIcon: Icon(Icons.search_outlined,size: 28.sp,),
-                  prefixIconColor: Color(0xff1c1c1c),
-                  contentPadding: EdgeInsets.all(5.r),
-                  hintText: "Search",
-                  hintStyle: TextStyle(fontFamily: "Inter",fontSize: 20.sp,color: Colors.black),
-                  filled: true,
-                  fillColor: Colors.white
-
-              ),),
-             SizedBox(height: 10.h,),
-            Expanded(
-              // width: double.infinity,
-              // height: 510,
-              //   color: TColors.primaryColor,
-              child: Container(
+      appBar: dark ? TAppbarTheme.darkAppBarTheme(): TAppbarTheme.lightAppBarTheme(),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 30.w,vertical: 10.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(child: Text("Wish List",style: TTextTheme.lightTextTheme.labelLarge?.copyWith(
+                fontFamily: 'LibreBaskerville',
+                fontSize: 24,
+                color: dark ? TColors.light : TColors.black,
+              ),
+              ),  ),
+              SizedBox(height: 15.h,),
+              Text("Loved it? Don't lose it",style: TextStyle(fontSize: 24.sp,fontFamily: "ScheherazadeNew",color:TColors.primary)),
+              SizedBox(height: 18.h,),
+              SearchField.searchFiled(context),
+              SizedBox(height: 10.h,),
+              Container(
                 padding: EdgeInsets.only(left: 0.w),
                 margin: EdgeInsets.only(left: 0.w),
-                color: TColors.primary,
                 child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: items.length,
                     itemBuilder: (context,index){
                       final item = items[index];
@@ -99,10 +86,11 @@ class _Wishlist1State extends State<Wishlist1> {
                         width: double.infinity,
                         height: 170.h,
                         padding:  EdgeInsets.only(bottom: 2.h),
-                        //padding: EdgeInsets.fromLTRB(5, 5, 5, 2),
                         color: TColors.light,
                         margin: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 2.h),
                         child: Container(
+                            color:dark ?TColors.blackF : TColors.primaryBackground,
+
                             child: Row(
                               children: [
                                 Container(
@@ -191,9 +179,9 @@ class _Wishlist1State extends State<Wishlist1> {
 
                 ),
               ),
-            ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

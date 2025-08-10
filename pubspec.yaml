@@ -47,6 +47,7 @@ dependencies:
   animate_do: ^4.2.0
   smooth_page_indicator: ^1.2.1
   iconsax: ^0.0.8
+  dotted_line: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -103,9 +104,12 @@ flutter:
      - assets/images/homeimage.png
      - assets/images/location.png
      - assets/images/map.jpg
-     - assets/images/check.png
-     - assets/images/new.png
-     - assets/images/ordertrack.png
+     - assets/images/notificationPageImages/check.png
+     - assets/images/notificationPageImages/new.png
+     - assets/images/notificationPageImages/ordertrack.png
+     - assets/images/ordertrack1.png
+     - assets/images/ordertrack2.png
+     - assets/images/ordertrack3.png
 
 
 

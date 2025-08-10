@@ -22,7 +22,7 @@ class NavigationMenu extends StatelessWidget {
             () => Container(
           width: 281.w,
           height: 40.h,
-         // padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 4.h),
+          // padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 4.h),
           margin: EdgeInsets.symmetric(horizontal: 50.w, vertical: 40.h),
           decoration: BoxDecoration(
             color: TColors.primary,
@@ -72,7 +72,8 @@ class NavigationMenu extends StatelessWidget {
 
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
-  final screens = [HomeScreen(), Wishlist1(), Shopingbag(), Profile()];
+  final screens = [HomeScreen(), Wishlist1(), ShoppingBag(), Profile()];
+
 
 }
 final dark = THelperFunctions.isDarkMode(Get.context!);

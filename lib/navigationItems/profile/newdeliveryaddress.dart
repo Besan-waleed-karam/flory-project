@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:iconsax/iconsax.dart';
 import '../../utils/constants/colors.dart';
+import '../../utils/helpers/helper_functions.dart';
+import '../../utils/theme/custom_themes/appbar_theme.dart';
 import '../../utils/theme/custom_themes/text_theme.dart';
-import '../navigation_menu.dart';
 
 class Newdeliveryaddress extends StatefulWidget {
   const Newdeliveryaddress({super.key});
@@ -16,29 +19,39 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
   int selectedIndex = 1;
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor:dark ? TColors.black : TColors.primaryBackground,
-        leading: Padding(padding: EdgeInsets.only(left: 20.0.w),
-          child:IconButton(
-              onPressed: (){
-                Navigator.of(context).pop();
-              },icon: Icon(Icons.arrow_back_ios_new ,size: 28.sp,color: TColors.primary,)
-          ),
-
-        ),
-
-
-        actions: [
-          SizedBox(width: 150.w),
-          CircleAvatar(
-              backgroundColor: TColors.primary40,
-              radius: 40.r,
-              child:Icon(Icons.location_on_outlined,size: 50.sp,color: Colors.white,)
-          ),
-          SizedBox(width: 30.w),
-        ],
+      appBar: dark ?TAppbarTheme.darkAppBarTheme(leading: Padding(
+        padding: EdgeInsets.only(left: 20.0.w),
+        child: IconButton(icon:Icon(Iconsax.arrow_left_2), iconSize: 40.r,
+          onPressed: () {
+            Get.back();
+          }, ),
       ),
+          actions: [
+            SizedBox(width: 150.w),
+            CircleAvatar(
+                backgroundColor: TColors.primary40,
+                radius: 40.r,
+                child:Icon(Iconsax.location,size: 40.sp,color: Colors.white,)
+            ),
+            SizedBox(width: 30.w),
+          ]) : TAppbarTheme.lightAppBarTheme(leading: Padding(
+        padding: EdgeInsets.only(left: 20.0.w),
+        child: IconButton(icon:Icon(Iconsax.arrow_left_2), iconSize: 40.r,
+          onPressed: () {
+            Get.back();
+          }, ),
+      ),
+          actions: [
+            SizedBox(width: 150.w),
+            CircleAvatar(
+                backgroundColor: TColors.primary40,
+                radius: 40.r,
+                child:Icon(Iconsax.location,size: 40.sp,color: Colors.white,)
+            ),
+            SizedBox(width: 30.w),
+          ]) ,
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 31.w,vertical: 0.h),
         child:Column(
@@ -110,22 +123,22 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   fillColor: Colors.white
 
               ),),
-      SizedBox(height: 130.h,),
-      Center(
-        child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.r)
-              ),
-              backgroundColor: TColors.primary,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 100.w,vertical: 10.h),
+            SizedBox(height: 130.h,),
+            Center(
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.r)
+                      ),
+                      backgroundColor: TColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(horizontal: 100.w,vertical: 10.h),
 
-            ),
-            onLongPress: (){},
-            onPressed: (){},
-            child: Text("Save Address",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter"),))
-      )
+                    ),
+                    onLongPress: (){},
+                    onPressed: (){},
+                    child: Text("Save Address",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter"),))
+            )
           ],
         )
         ,

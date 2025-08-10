@@ -21,7 +21,6 @@ class TAppTheme{
     brightness: Brightness.light,
     primaryColor: TColors.primary,
     scaffoldBackgroundColor: TColors.primaryBackground,
-    appBarTheme: TAppBarTheme.lightAppBarTheme,
     textTheme: TTextTheme.lightTextTheme,
     chipTheme: TChipTheme.lightChipTheme,
     checkboxTheme: TCheckboxTheme.lightCheckboxTheme,
@@ -34,8 +33,8 @@ class TAppTheme{
     focusColor: Colors.transparent,
     useMaterial3: true,
     appBarTheme: AppBarTheme(
-      //color: TColors.black,
-        backgroundColor: TColors.black
+      backgroundColor: TColors.blackF,
+      scrolledUnderElevation: 0,
     ),
     brightness: Brightness.dark,
     primaryColor: TColors.primaryBackground,
@@ -44,7 +43,6 @@ class TAppTheme{
     chipTheme: TChipTheme.darkChipTheme,
     checkboxTheme: TCheckboxTheme.darkCheckboxTheme,
     bottomSheetTheme: TBottomSheetTheme.darkBottomSheetTheme,
-    inputDecorationTheme: TTextFormFieldTheme.darkInputDecorationTheme,
 
 
 
