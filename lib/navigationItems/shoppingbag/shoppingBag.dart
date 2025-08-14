@@ -1,10 +1,11 @@
+import 'package:flory/navigationItems/shoppingbag/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../utils/constants/colors.dart';
-import '../utils/constants/image_strings.dart';
-import '../utils/helpers/helper_functions.dart';
-import '../utils/theme/custom_themes/appbar_theme.dart';
-import '../utils/theme/custom_themes/text_theme.dart';
+import '../../utils/constants/colors.dart';
+import '../../utils/constants/image_strings.dart';
+import '../../utils/helpers/helper_functions.dart';
+import '../../utils/theme/custom_themes/appbar_theme.dart';
+import '../../utils/theme/custom_themes/text_theme.dart';
 
 class ShoppingBag extends StatelessWidget {
   const ShoppingBag({super.key});
@@ -183,7 +184,9 @@ class ShoppingBag extends StatelessWidget {
                         width: 281.w,
                         height: 40.h,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: TColors.white,
                             foregroundColor: TColors.primary,

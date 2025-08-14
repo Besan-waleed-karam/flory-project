@@ -1,3 +1,5 @@
+import 'package:flory/navigationItems/profile/newdeliveryaddress.dart';
+import 'package:flory/navigationItems/shoppingbag/paymentmethod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -144,6 +146,11 @@ class _CheckoutState extends State<Checkout> {
                            selectedValue = option;
                            isMenuOpen = false;
                          });
+                         if (option == "Add New Address") {
+                           Navigator.of(context).push(
+                             MaterialPageRoute(builder: (context) => Newdeliveryaddress()),
+                           );
+                         }
                        },
                        child: Container(
                          width: 400.w,
@@ -264,7 +271,9 @@ class _CheckoutState extends State<Checkout> {
         
                      ),
                      onLongPress: (){},
-                     onPressed: (){},
+                     onPressed: (){
+                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Paymentmethod()));
+                     },
                      child: Text("Checkout",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter"),))
              )
         

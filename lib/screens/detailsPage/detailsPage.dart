@@ -1,4 +1,4 @@
-import 'package:flory/screens/detailsPage/checkout.dart';
+import 'package:flory/navigationItems/shoppingbag/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -149,7 +149,6 @@ class _DetailspageState extends State<Detailspage> {
                       height: 40.h,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: TColors.primary,

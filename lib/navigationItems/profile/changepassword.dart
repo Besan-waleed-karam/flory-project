@@ -145,7 +145,8 @@ class _ChangepasswordState extends State<Changepassword> {
                   ),
                   onLongPress: (){},
                   onPressed: (){},
-                  child: Text("Save",style: TextStyle(fontSize: 18.sp,fontFamily: "Inter"),)),
+                  child: Text("Save",style: TextStyle(fontSize: 18.sp,fontFamily: "Inter"),)
+              ),
             ),
           ],
         ),
