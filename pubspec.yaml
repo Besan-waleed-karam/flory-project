@@ -48,6 +48,13 @@ dependencies:
   smooth_page_indicator: ^1.2.1
   iconsax: ^0.0.8
   dotted_line: ^3.0.0
+  firebase_core: ^4.0.0
+  provider: ^6.1.5+1
+  shared_preferences: ^2.5.3
+  cloud_firestore: ^6.0.0
+  firebase_storage: ^13.0.0
+  shimmer: ^3.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -107,11 +114,17 @@ flutter:
      - assets/images/notificationPageImages/check.png
      - assets/images/notificationPageImages/new.png
      - assets/images/notificationPageImages/ordertrack.png
-     - assets/images/ordertrack1.png
-     - assets/images/ordertrack2.png
-     - assets/images/ordertrack3.png
+     - assets/images/trackImages/ordertrack1.png
+     - assets/images/trackImages/ordertrack2.png
+     - assets/images/trackImages/ordertrack3.png
      - assets/images/axis.png
      - assets/images/visa.png
+     - assets/images/artDetails.jpg
+     - assets/images/artF.png
+     - assets/images/facebook_icon.png
+     - assets/images/google_icon.png
+     - assets/images/verify_done.png
+     - assets/images/verifyEmail.png
 
 
 

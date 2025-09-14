@@ -26,7 +26,21 @@ class TTexts {
   //SignIn Screen
   static const String title2 = "Welcome Back";
   static const String subTitle2 = "You’ve Been Missed!";
-  static const String confirm_msg2 = "Don’t Have An Account?";
+  static const String confirm_msg2 = "Don’t Have?";
+  static const String forgetyourpassword = "forget password?";
+  //
+  static const String forgetPasswordTittle = "Don’t worry sometimes people can forget too,enter your email and we will send you a password reset link.";
+  static const String cofirmEmail = "Verify your email address!";
+  static const String cofirmEmailSubTit = "Your Account Awaits: Verify Your Email to Start Shopping and Experience a World of Unrivaled Deals and Personalized Offers.";
+
+//
+  static const String createdSuccessfully = "Your account successfully created!";
+  static const String createdSuccessfullySubTittle = "Welcome to Your Ultimate Destination: Your Account is Created, Unleash the Joy of Seamless Online flowers!";
+  static const String passwordResetTittle = "Password Reset Email Sent";
+  static const String passwordResetSubTittle = "Your Account Security Is Our Priority! We’ve Sent You a Secure Link to Safely Change Your Password and Keep Your Account Protected.";
+
+
+  //
 
 
 

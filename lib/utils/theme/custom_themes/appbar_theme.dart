@@ -5,7 +5,6 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../constants/image_strings.dart';
 
-
 class TAppbarTheme {
   TAppbarTheme._();
 

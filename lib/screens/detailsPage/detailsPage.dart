@@ -1,13 +1,12 @@
-import 'package:flory/navigationItems/shoppingbag/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../utils/constants/colors.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/theme/custom_themes/text_theme.dart';
+
 class Detailspage extends StatefulWidget {
   const Detailspage({super.key});
 
@@ -148,8 +147,7 @@ class _DetailspageState extends State<Detailspage> {
                       width: 281.w,
                       height: 40.h,
                       child: ElevatedButton(
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: TColors.primary,
                           padding: EdgeInsets.zero,

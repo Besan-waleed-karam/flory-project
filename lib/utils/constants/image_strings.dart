@@ -1,3 +1,4 @@
+// contain all app images as string
 class TImages {
   // -- App logos
   static const String darkAppLogo = "assets/logos";
@@ -18,6 +19,10 @@ class TImages {
   static const String women = "assets/images/women.png";
   static const String home1 = "assets/images/home1.jpg";
   static const String home2 = "assets/images/home2.jpg";
+
+//
+  static const String verifyEmail = "assets/images/verifyEmail.png";
+  static const String verifyDone = "assets/images/verify_done.png";
 
 
 

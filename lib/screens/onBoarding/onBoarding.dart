@@ -13,7 +13,6 @@ import '../../utils/constants/sizes.dart';
 import '../../utils/device/device_utility.dart';
 import '../../utils/helpers/helper_functions.dart';
 
-
 class OnBoarding extends StatelessWidget {
   const OnBoarding({super.key});
 
@@ -147,7 +146,7 @@ class onBoardingButton extends StatelessWidget {
     return Positioned(
         bottom: TDeviceUtils.getBottomNavigationBarHeight()+25.h,
         right: TSizes.defaultSpace,
-        child: TextButton(onPressed: ()=>OnBoardingController.instance.skipPage(),
+        child: ElevatedButton(onPressed: ()=> OnBoardingController.instance.nextPage(),
             style:ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.r)

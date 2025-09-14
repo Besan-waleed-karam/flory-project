@@ -1,4 +1,3 @@
-import 'package:flory/screens/login/registerScreen.dart';
 import 'package:flory/utils/constants/text_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +5,10 @@ import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/theme/custom_themes/text_theme.dart';
-import '../login/SignInScreen.dart';
+import '../RegisterScreens/registerScreen.dart';
+import '../loginScreens/SignInScreen.dart';
+
+
 
 class Welcomescreen extends StatelessWidget {
   const Welcomescreen({super.key});
