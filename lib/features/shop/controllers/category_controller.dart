@@ -2,8 +2,9 @@ import 'package:flory/data/repositories/categories/category_repository.dart';
 import 'package:flory/data/repositories/categories/item_repository.dart';
 import 'package:flory/features/shop/models/category_model.dart';
 import 'package:flory/features/shop/models/item_model.dart';
-import 'package:flory/utils/validators/loaders.dart';
 import 'package:get/get.dart';
+
+import '../../../utils/loader/loaders.dart';
 
 class CategoryController extends GetxController{
 
@@ -37,7 +38,7 @@ class CategoryController extends GetxController{
         allCategories.where((category) => category.isFeatured).take(4).toList()
     );
     }catch(e){
-      TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
+      Loaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
     }finally{
       isLoading.value = false;
     }
@@ -46,13 +47,3 @@ class CategoryController extends GetxController{
 
 }
 
-// Future<List<ItemModel>> getItems({required String categoryId}) async{
-//   try{
-//     final items = await ItemRepository.instance.getItemsForCategory(categoryId: categoryId);
-//     return items;
-//   }catch(e){
-//     TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
-//     return [];
-//   }
-//
-// }

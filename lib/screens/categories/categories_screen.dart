@@ -3,6 +3,8 @@ import 'package:flory/features/shop/controllers/category_controller.dart';
 import 'package:flory/features/shop/controllers/item_controller.dart';
 import 'package:flory/features/shop/models/category_model.dart';
 import 'package:flory/features/shop/models/item_model.dart';
+import 'package:flory/screens/detailsPage/artificialDetailsPage.dart';
+import 'package:flory/screens/detailsPage/detailsPage.dart';
 import 'package:flory/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -74,7 +76,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               SizedBox(height: 30.h),
 
               FutureBuilder<List<ItemModel>>(
-                future: controller.fetchFeaturedItems(categoryId: widget.category.id),
+                future: controller.fetchCategoryItems(categoryId: widget.category.id),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const TShimmerEffect(
@@ -105,50 +107,60 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     itemCount: items.length,
                     itemBuilder: (context, index) {
                       final item = items[index];
-                      return Container(
-                        padding: EdgeInsets.all(8.r),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: TColors.primary, width: 1.r),
-                          borderRadius: BorderRadius.circular(18.r),
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 141.w,
-                              height: 165.h,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(14.r),
-                                child: Image.network(item.image, fit: BoxFit.fill),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(item.name, style: TextStyle(color: Colors.grey, fontSize: 15.sp),          // allow breaking into 2 lines
-                                          ),
-                                      Text(item.price.toString(), style: TextStyle(color: Colors.black, fontSize: 16.sp)),
-                                    ],
-                                                                 
-                                  ),
+                      return GestureDetector(
+                        onTap: () {
+                          if(widget.category.id == "3"){
+                            Get.to(() => Artificialdetailspage(item: item));
+                          }else{
+                            Get.to(() => Detailspage(item: item));
+                          }
 
-                                Spacer(),
-                                Container(
-                                  alignment: Alignment.center,
-                                  width: 20.w,
-                                  height: 20.h,
-                                  decoration: BoxDecoration(
-                                    color: TColors.primary,
-                                    borderRadius: BorderRadius.circular(5.r),
-                                  ),
-                                  child: Icon(Icons.add, color: Colors.white, size: 15.sp),
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8.r),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: TColors.primary, width: 1.r),
+                            borderRadius: BorderRadius.circular(18.r),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 141.w,
+                                height: 165.h,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(14.r),
+                                  child: Image.network(item.image, fit: BoxFit.fitWidth),
                                 ),
-                              ],
-                            ),
-                          ],
+                              ),
+                              Row(
+                                children: [
+                                     Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(item.name, style: TextStyle(color: Colors.grey, fontSize: 15.sp),          // allow breaking into 2 lines
+                                            ),
+                                        Text('\$${item.price}', style: TextStyle(color: Colors.black, fontSize: 16.sp)),
+                                      ],
+                                                                   
+                                    ),
+                        
+                                  Spacer(),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: 20.w,
+                                    height: 20.h,
+                                    decoration: BoxDecoration(
+                                      color: TColors.primary,
+                                      borderRadius: BorderRadius.circular(5.r),
+                                    ),
+                                    child: Icon(Icons.add, color: Colors.white, size: 15.sp),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

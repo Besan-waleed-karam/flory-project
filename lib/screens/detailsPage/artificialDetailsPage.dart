@@ -5,12 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../features/shop/models/item_model.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/theme/custom_themes/text_theme.dart';
 
 class Artificialdetailspage extends StatefulWidget {
-  const Artificialdetailspage({super.key});
+  const Artificialdetailspage({super.key, required this.item});
+
+  final ItemModel item;
+
 
   @override
   State<Artificialdetailspage> createState() => _ArtificialdetailspageState();
@@ -26,8 +30,8 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
           SizedBox(
             child: Column(
               children: [
-                Image.asset(
-                  'assets/images/artDetails.jpg',
+                Image.network(
+                  widget.item.image,
                   fit: BoxFit.cover,
                   width: 412.w,
                   height: 549.h,
@@ -79,7 +83,7 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      'Golden Wedding Memory Frame',
+                      widget.item.name,
                       style: dark ? TTextTheme.darkTextTheme.labelLarge : TTextTheme.lightTextTheme.labelLarge
                   ),
                   SizedBox(height: 30.h),
@@ -88,7 +92,7 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '\$119.9',
+                        '\$${widget.item.price}',
                         style: TextStyle(
                             fontSize: 20.sp,
                             color: TColors.primary,
@@ -138,7 +142,12 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
 
                   Row(
                     children: [
-                      _buildIncludeItem("PinkChrysanthemum"),
+                      if (widget.item.includes != null) ...[
+                         _buildIncludeItem(
+                           widget.item.includes?['flower name'] ?? '',
+                         )
+                      ]
+
                       //_buildIncludeItem("PinkChrysanthemum"),
 
 
@@ -190,23 +199,39 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
             width:70.w ,
             height: 70.h,
             decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(
-                    color: TColors.primary
-                )
+              color: TColors.primary,
+              borderRadius: BorderRadius.all(
+                Radius.circular(17.r),
+              ),
+              border: Border.all(
+                color: TColors.primary,
+                width: 2.w,
+              ),
             ),
-            child: Image.asset(
-              'assets/images/artF.png',
-              width:91.w ,
-              height: 85.h,
-            ),
+            child:ClipRRect(
+              borderRadius: BorderRadius.circular(15.r),
+              child: Image.network(
+                widget.item.includes?['flower image'] ?? '',
+                fit: BoxFit.cover,
+              ),
+            )
+
+
           ),
+
           const SizedBox(width: 10),
-          Text(
-            text,
-            style: const TextStyle(fontSize: 14),
-          ),
+
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
+              child: Text(
+                text,
+                style: const TextStyle(fontSize: 14,fontFamily: "Inter"),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+
+              ),
+            ),
+
         ],
       ),
     );

@@ -45,15 +45,15 @@ class ItemRepository extends GetxController{
   }
 
 
+  Future<List<ItemModel>> getFavouriteItems(List<String> itemIds) async{
+    try{
+     final snapshot = await _db.collection('Items').where(FieldPath.documentId, whereIn: itemIds).get();
+     return snapshot.docs.map((querySnapshot) => ItemModel.fromSnapshot(querySnapshot)).toList();
+    }catch(e){
+     throw "Something went wrong, Please try again";
+    }
+  }
+
+
+
 }
-// Future<List<ItemModel>> getItemsForCategory({required String categoryId}) async{
-//   try{
-//  QuerySnapshot itemCategoryQuery = await _db.collection('ItemCategory').where('categoryId' , isEqualTo: categoryId).get();
-//  List<String> itemsIds = itemCategoryQuery.docs.map((doc) => doc['itemId'] as String).toList();
-//  final itemQuery = await _db.collection('Items').where(FieldPath.documentId , whereIn: itemsIds).get();
-// List<ItemModel> items = itemQuery.docs.map((doc) => ItemModel.fromSnapshot(doc)).toList();
-//  return items;
-//   }catch(e){
-//     throw "Something went wrong";
-//   }
-// }
