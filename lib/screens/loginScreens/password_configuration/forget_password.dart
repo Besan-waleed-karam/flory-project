@@ -1,18 +1,23 @@
 import 'package:flory/screens/loginScreens/password_configuration/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../../features/authentication/controllers/password_controllers/forget_password_controller.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/text_strings.dart';
 import '../../../utils/helpers/helper_functions.dart';
-
+import '../../../utils/validators/validation.dart';
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+    final controller = Get.put(ForgetPasswordController());
+
     return Scaffold(
       appBar: AppBar(
         ////automaticallyImplyLeading: false,
@@ -35,23 +40,28 @@ class ForgetPassword extends StatelessWidget {
             ),),
             const SizedBox(height: TSizes.spaceBtwSections*2,),
 
-            TextFormField(
-              decoration:  InputDecoration(
-                  enabledBorder:OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(
-                        color: TColors.grey ,
-                      )
-                  ) ,
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
+            Form(
+              key: controller.forgetPasswordFormKey,
+              child: TextFormField(
+                controller: controller.email,
+                validator: (value)=>TValidator.validateEmail(value),
+                decoration:  InputDecoration(
+                    enabledBorder:OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        borderSide: BorderSide(
+                          color: TColors.grey ,
+                        )
+                    ) ,
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
 
-                      borderSide: BorderSide(
-                        color: TColors.primary ,
-                      )
-                  ),
-                  labelText: 'E-Mail' ,
-                  prefixIcon: Icon(Iconsax.direct_right)
+                        borderSide: BorderSide(
+                          color: TColors.primary ,
+                        )
+                    ),
+                    labelText: 'E-Mail' ,
+                    prefixIcon: Icon(Iconsax.direct_right)
+                ),
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwSections,),
@@ -59,10 +69,7 @@ class ForgetPassword extends StatelessWidget {
               height: 55.h,
               width: double.infinity.w,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_)=>ResetPassword()));
-                },
+                onPressed: () =>controller.sendResetPasswordEmail(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: TColors.buttonPrimary,
                   shape: RoundedRectangleBorder(

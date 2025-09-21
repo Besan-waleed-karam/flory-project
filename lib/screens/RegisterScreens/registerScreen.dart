@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:iconsax/iconsax.dart';
 
+import '../../features/authentication/controllers/register/register_controller.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
@@ -23,22 +25,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _phoneNumController = TextEditingController();
-
-  bool _isPasswordHidden = true;
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _usernameController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
+  final controller = Get.put(RegisterController());
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
@@ -84,65 +71,69 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
 
                   SizedBox(height: TSizes.spaceBtwSections.h),
-                  //Form
+                  //Register Form
                   Form(
-                    key: _formKey,
+                    key: controller.registerFormKey,
                     child: Column(
                       children: [
+                        // FullName Field
                         LoginTextFields(
-                          controller: _emailController,
-                          hintText: 'Email',
-                          icon: CupertinoIcons.mail,
-                          validator: TValidator.validateEmail,
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        SizedBox(height: TSizes.spaceBtwInputFields.h),
-                        LoginTextFields(
-                          controller: _phoneNumController,
-                          hintText: 'Phone number',
-                          icon: CupertinoIcons.phone,
-                          validator: TValidator.validatePhoneNumber,
-                          keyboardType: TextInputType.phone,
-                        ),
-                        SizedBox(height: TSizes.spaceBtwInputFields.h),
-                        LoginTextFields(
-                          controller: _usernameController,
-                          hintText: 'Username',
-                          icon: CupertinoIcons.person,
-                          validator: TValidator.validateUsername,
+                          validator:(value)=> TValidator.validateFullName(value),
+                          controller: controller.fullNameController,
+                          hintText: 'Full Name',
+                          icon: Iconsax.personalcard,
                           keyboardType: TextInputType.text,
                         ),
                         SizedBox(height: TSizes.spaceBtwInputFields.h),
+                        // Email Field
                         LoginTextFields(
-                          controller: _passwordController,
-                          hintText: 'Password',
-                          icon: CupertinoIcons.lock,
-                          //validator: _validatePassword,
-                          validator: TValidator.validatePassword,
-                          keyboardType: TextInputType.visiblePassword,
-
-                          obscureText: _isPasswordHidden,
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isPasswordHidden
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: const Color(0xFF666666),
+                          validator: (value)=>TValidator.validateEmail(value),
+                          controller: controller.emailController,
+                          hintText: 'Email',
+                          icon: CupertinoIcons.mail,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        SizedBox(height: TSizes.spaceBtwInputFields.h),
+                        // Phone Field
+                        LoginTextFields(
+                          validator:(value)=> TValidator.validatePhoneNumber(value),
+                          controller: controller.phoneNumController,
+                          hintText: 'Phone number',
+                          icon: CupertinoIcons.phone,
+                          keyboardType: TextInputType.phone,
+                        ),
+                        SizedBox(height: TSizes.spaceBtwInputFields.h),
+                        // Username Field
+                        LoginTextFields(
+                          validator: (value)=> TValidator.validateUsername(value),
+                          controller: controller.usernameController,
+                          hintText: 'Username',
+                          icon: CupertinoIcons.person,
+                          keyboardType: TextInputType.text,
+                        ),
+                        SizedBox(height: TSizes.spaceBtwInputFields.h),
+                        // Password Field
+                        Obx(
+                              ()=> LoginTextFields(
+                            validator: (value)=>TValidator.validatePassword(value),
+                            controller: controller.passwordController,
+                            hintText: 'Password',
+                            icon: CupertinoIcons.lock,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: controller.hidePassword.value,
+                            suffixIcon: IconButton(
+                              icon: Icon( controller.hidePassword.value ?Iconsax.eye_slash : Iconsax.eye),
+                              onPressed: ()=> controller.hidePassword.value= !controller.hidePassword.value,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                _isPasswordHidden = !_isPasswordHidden;
-                              });
-                            },
                           ),
                         ),
                         SizedBox(height: TSizes.spaceBtwInputFields.h),
-                        //confirm msg
+                        //have an account row
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              TTexts.confirm_msg,
+                              TTexts.haveAccount_msg,
                               style: TextStyle(
                                 fontSize: 14.0.sp,
                                 fontWeight: FontWeight.w500,
@@ -151,6 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                             SizedBox(width: 16.w),
+                            // Sign in if have account
                             GestureDetector(
                               onTap: () {
                                 Navigator.pushReplacement(
@@ -172,37 +164,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ],
                         ),
-                        //Register Btn
+                        //Register button and validation
                         SizedBox(height: TSizes.spaceBtwItems.h),
                         SizedBox(
                           height: 70.h,
                           width: 349.w,
                           child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                Get.to(VerifyEmail());
-                              } else {
-                                // check each field individually to identify where the problem is
-                                String? emailError = TValidator.validateEmail(
-                                  _emailController.text,
-                                );
-                                String? usernameError =
-                                TValidator.validateUsername(
-                                  _usernameController.text,
-                                );
-                                String? passwordError =
-                                TValidator.validatePassword(
-                                  _passwordController.text,
-                                );
-
-                                String firstErrorMessage =
-                                    emailError ??
-                                        usernameError ??
-                                        passwordError ??
-                                        'Please check the form';
-                              }
-                            },
-
+                            onPressed: () => controller.register(),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: TColors.buttonPrimary,
                               shape: RoundedRectangleBorder(
@@ -224,7 +192,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(height: TSizes.spaceBtwSections),
-                  DividerSocialLogin(divierText: 'Or Sign up with'),
+                  // Social accounts register
+                  DividerSocialLogin(dividerText: 'Or Sign up With',
+                    controller: controller,
+                    onGooglePressed:controller.googleSignIn,
+                    onTwitterPressed: controller.googleSignIn,
+                  ),
                 ],
               ),
             ),

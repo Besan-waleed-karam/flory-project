@@ -19,8 +19,6 @@ import '../../utils/theme/custom_themes/text_theme.dart';
 import '../../widgets/search_Field.dart';
 
 class CategoriesScreen extends StatefulWidget {
-
-
   const CategoriesScreen({super.key, required this.category});
 
   final CategoryModel category;
@@ -30,53 +28,71 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(ItemController());
     final dark = THelperFunctions.isDarkMode(context);
+
     return Scaffold(
-      appBar: dark ? TAppbarTheme.darkAppBarTheme(
+      appBar: dark
+          ? TAppbarTheme.darkAppBarTheme(
         leading: Padding(
           padding: EdgeInsets.only(left: 20.0.w),
-          child: IconButton(icon:Icon(Iconsax.arrow_left_2), iconSize: 40.r,
+          child: IconButton(
+            icon: Icon(Iconsax.arrow_left_2),
+            iconSize: 40.r,
             onPressed: () {
               Get.back();
-            }, ),
+            },
+          ),
         ),
-      ) : TAppbarTheme.lightAppBarTheme(
+      )
+          : TAppbarTheme.lightAppBarTheme(
         leading: Padding(
           padding: EdgeInsets.only(left: 20.0.w),
-          child: IconButton(icon:Icon(Iconsax.arrow_left_2), iconSize: 40.r,
+          child: IconButton(
+            icon: Icon(Iconsax.arrow_left_2),
+            iconSize: 40.r,
             onPressed: () {
               Get.back();
-            }, ),
+            },
+          ),
         ),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 30.w,vertical: 10.h),
+          padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(child: Text(widget.category.name,style: TTextTheme.lightTextTheme.labelLarge?.copyWith(
-                fontFamily: 'LibreBaskerville',
-                fontSize: 24.sp,
-                color: dark ? TColors.light : TColors.black,),)),
-              SizedBox(height: 15.h,),
-              Text("In every frame, a story gently blooms",
+              Center(
+                child: Text(
+                  widget.category.name,
+                  style: TTextTheme.lightTextTheme.labelLarge?.copyWith(
+                    fontFamily: 'LibreBaskerville',
+                    fontSize: 24.sp,
+                    color: dark ? TColors.light : TColors.black,
+                  ),
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Text(
+                "In every frame, a story gently blooms",
                 style: TTextTheme.lightTextTheme.titleLarge?.copyWith(
                   fontSize: 20.sp,
                   letterSpacing: 1,
                   fontWeight: FontWeight.w400,
-                ),),
-              SizedBox(height: 18.h,),
+                ),
+              ),
+              SizedBox(height: 18.h),
               SearchField.searchFiled(context),
               SizedBox(height: 30.h),
 
+              /// Items Grid
               FutureBuilder<List<ItemModel>>(
-                future: controller.fetchCategoryItems(categoryId: widget.category.id),
+                future: controller.fetchCategoryItems(
+                    categoryId: widget.category.id),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const TShimmerEffect(
@@ -109,58 +125,99 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       final item = items[index];
                       return GestureDetector(
                         onTap: () {
-                          if(widget.category.id == "3"){
+                          if (widget.category.id == "3") {
                             Get.to(() => Artificialdetailspage(item: item));
-                          }else{
+                          } else {
                             Get.to(() => Detailspage(item: item));
                           }
-
                         },
-                        child: Container(
-                          padding: EdgeInsets.all(8.r),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: TColors.primary, width: 1.r),
-                            borderRadius: BorderRadius.circular(18.r),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 141.w,
-                                height: 165.h,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(14.r),
-                                  child: Image.network(item.image, fit: BoxFit.fitWidth),
-                                ),
+                        child: Stack(
+                          children: [
+                            /// Card
+                            Container(
+                              padding: EdgeInsets.all(8.r),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: TColors.primary, width: 1.r),
+                                borderRadius: BorderRadius.circular(18.r),
+                                color: Colors.white,
                               ),
-                              Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(item.name, style: TextStyle(color: Colors.grey, fontSize: 15.sp),          // allow breaking into 2 lines
-                                            ),
-                                        Text('\$${item.price}', style: TextStyle(color: Colors.black, fontSize: 16.sp)),
-                                      ],
-                                                                   
-                                    ),
-                        
-                                  Spacer(),
+                                  /// product image
                                   Container(
-                                    alignment: Alignment.center,
-                                    width: 20.w,
-                                    height: 20.h,
-                                    decoration: BoxDecoration(
-                                      color: TColors.primary,
-                                      borderRadius: BorderRadius.circular(5.r),
+                                    width: 141.w,
+                                    height: 165.h,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(14.r),
+                                      child: Image.network(item.image,
+                                          fit: BoxFit.fitWidth),
                                     ),
-                                    child: Icon(Icons.add, color: Colors.white, size: 15.sp),
+                                  ),
+
+                                  /// name + price + add button
+                                  Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            item.name,
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 15.sp,
+                                            ),
+                                          ),
+                                          Text(
+                                            '\$${item.price}',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16.sp,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: 20.w,
+                                        height: 20.h,
+                                        decoration: BoxDecoration(
+                                          color: TColors.primary,
+                                          borderRadius:
+                                          BorderRadius.circular(5.r),
+                                        ),
+                                        child: Icon(Icons.add,
+                                            color: Colors.white, size: 15.sp),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+
+                            /// ❤️ Favorite Icon (top-right)
+                            Positioned(
+                              top: 16.h,
+                              right: 16.w,
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 28.w,
+                                height: 28.h,
+                                decoration: BoxDecoration(
+                                  color: TColors.primary,
+                                  borderRadius: BorderRadius.circular(5.r),
+                                ),
+                                child: Icon(
+                                  Icons.favorite,
+                                  color: Colors.white,
+                                  size: 16.sp,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     },

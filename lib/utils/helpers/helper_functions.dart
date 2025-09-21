@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../widgets/loader.dart';
 
 class THelperFunctions{
   static Color? getColor(String value){
@@ -89,5 +90,26 @@ class THelperFunctions{
       wrappedList.add(Row(children: rawChildren,));
     }
     return wrappedList;
+  }
+
+  static void openLoadDialog(String text , String animation){
+    if (Get.isDialogOpen == true) return;
+    showDialog(
+        context: Get.overlayContext!,
+        //useSafeArea: true,
+        useRootNavigator: true,
+        barrierDismissible: false,
+        builder: (_)=> PopScope(
+          canPop: false,
+          child: Center(child: LoaderWidget(text: text, animation: animation,),),
+        )
+    );
+  }
+  static stopLoading(){
+    final ctx = Get.overlayContext;
+    if (ctx == null) return;
+    final nav = Navigator.of(ctx, rootNavigator: true);
+    nav.pop();
+
   }
 }

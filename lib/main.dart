@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 //import 'package:get/get_core/src/get_main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
+import 'features/authentication/controllers/login_controller/user_controller.dart';
 import 'firebase_options.dart';
 
 import 'app.dart';
@@ -15,6 +16,7 @@ Future<void> main() async {
 
   /// Widgets Binding
   final  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   await ThemeManager.init();
 
   /// GetX local storage
@@ -26,6 +28,7 @@ FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   /// --  Initialize Firebase&Authentication repository
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
       (FirebaseApp value) => Get.put(AuthenticationRepository()));
+      Get.put(UserController());
 
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,5 +42,6 @@ FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   runApp(const App());
 }
+
 
 

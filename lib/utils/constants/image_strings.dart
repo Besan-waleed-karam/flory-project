@@ -20,9 +20,11 @@ class TImages {
   static const String home1 = "assets/images/home1.jpg";
   static const String home2 = "assets/images/home2.jpg";
 
-//
+//Loading.json
   static const String verifyEmail = "assets/images/verifyEmail.png";
   static const String verifyDone = "assets/images/verify_done.png";
+  static const String loaderAsset = "assets/images/Loading.json";
+
 
 
 
@@ -31,3 +33,8 @@ class TImages {
 
 
 }
+
+
+
+
+

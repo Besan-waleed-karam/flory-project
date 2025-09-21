@@ -4,14 +4,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../../features/authentication/controllers/password_controllers/forget_password_controller.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/text_strings.dart';
 import '../../../utils/helpers/helper_functions.dart';
+import '../SignInScreen.dart';
+
 
 class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key});
+  const ResetPassword({super.key, required this.email});
+  final String email ;
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +68,7 @@ class ResetPassword extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
-                onPressed: () {}
-                ,
+                onPressed:  ()=>Get.offAll(()=>const SignInScreen()),
                 child: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600),),
               ),
             ),
@@ -76,10 +79,9 @@ class ResetPassword extends StatelessWidget {
               child: TextButton(
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(TColors.primary ),
-
+                  overlayColor: MaterialStateProperty.all(TColors.primary40 ),
                 ),
-                onPressed: () {
-                },
+                onPressed: ()=>ForgetPasswordController.instance.resendResetPasswordEmail(email) ,
                 child: const Text('Resend Email' , style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600

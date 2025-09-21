@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flory/utils/constants/colors.dart';
 
+import 'bindings/general_bindings.dart';
 
 
 class App extends StatelessWidget {
@@ -17,25 +18,30 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
-        valueListenable: ThemeManager.themeNotifier,
-        builder: (context, themeMode, child)
-    {
-      print('الوضع الحالي: $themeMode');
-      return ScreenUtilInit(
+      valueListenable: ThemeManager.themeNotifier,
+      builder: (context, themeMode, child) {
+        print('الوضع الحالي: $themeMode');
+        return ScreenUtilInit(
           designSize: Size(412, 917),
           minTextAdapt: true,
           splitScreenMode: true,
           child: GetMaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: TAppTheme.LightTheme,
-              darkTheme: TAppTheme.DarkTheme,
-              themeMode: themeMode,
-
-              home:const Scaffold(backgroundColor: TColors.primary,body: Center(child:CircularProgressIndicator(color: TColors.primaryBackground,)),),
-
-          )
-      );
-    }
+            debugShowCheckedModeBanner: false,
+            theme: TAppTheme.LightTheme,
+            darkTheme: TAppTheme.DarkTheme,
+            themeMode: themeMode,
+            initialBinding: GeneralBindings(),
+            home: const Scaffold(
+              backgroundColor: TColors.primary,
+              body: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -21,7 +21,7 @@ class TTexts {
   //Register Screen
   static const String title1 = "Join Flory";
   static const String subTitle = "Where Memories Never Fade";
-  static const String confirm_msg = "You Already  Have An Account?";
+  static const String haveAccount_msg = "You Already  Have An Account?";
 
   //SignIn Screen
   static const String title2 = "Welcome Back";
@@ -40,7 +40,7 @@ class TTexts {
   static const String passwordResetSubTittle = "Your Account Security Is Our Priority! We’ve Sent You a Secure Link to Safely Change Your Password and Keep Your Account Protected.";
 
 
-  //
+  //Loading.json
 
 
 
