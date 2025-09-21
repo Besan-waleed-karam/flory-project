@@ -10,6 +10,7 @@ import '../../../utils/constants/sizes.dart';
 import '../../../utils/constants/text_strings.dart';
 import '../../../utils/helpers/helper_functions.dart';
 import '../../../utils/validators/validation.dart';
+
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({super.key});
 

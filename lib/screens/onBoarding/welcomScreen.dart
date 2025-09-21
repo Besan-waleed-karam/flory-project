@@ -9,14 +9,13 @@ import '../RegisterScreens/registerScreen.dart';
 import '../loginScreens/SignInScreen.dart';
 
 
-
 class Welcomescreen extends StatelessWidget {
   const Welcomescreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: TColors.primary,
       body: Stack(
         alignment: Alignment.topCenter,
@@ -29,18 +28,19 @@ class Welcomescreen extends StatelessWidget {
                 width: 394.w,
                 height: 489.h,
                 decoration: BoxDecoration(
-                  color: dark ? TColors.dark :  TColors.white,
+                  color: dark ? TColors.dark : TColors.white,
                   borderRadius: BorderRadius.circular(34.0.r),
                 ),
                 child: Column(
                   children: [
                     SizedBox(height: 32.0.h),
-                    Text(  TTexts.appName,
-                        style: dark ?TTextTheme.darkTextTheme.headlineLarge :TTextTheme.lightTextTheme.headlineLarge  ),
-                    // const SizedBox(height: 5),
                     Text(
-                        TTexts.tittle1,
-                        style: TTextTheme.lightTextTheme.titleLarge
+                      TTexts.appName,
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    Text(
+                      TTexts.tittle1,
+                      style: TTextTheme.lightTextTheme.titleLarge,
                     ),
                   ],
                 ),
@@ -51,8 +51,8 @@ class Welcomescreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Column(
                   children: [
-                    Text( TTexts.description
-                      ,
+                    Text(
+                      TTexts.description,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 24.sp,
@@ -61,7 +61,8 @@ class Welcomescreen extends StatelessWidget {
                         color: TColors.primaryBackground,
                       ),
                     ),
-                    Text( TTexts.description0,
+                    Text(
+                      TTexts.description0,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.sp,
@@ -73,85 +74,88 @@ class Welcomescreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 40.h,),
+              SizedBox(height: 40.h),
               Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 20.w , vertical: 20.h),
-                  child: Container(
-                    height: 72.h,
-                    width: 347.w,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFB1B7A2),
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    child: Row(
-                      children: [
-                        // زر Register
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (_)=> RegisterScreen())
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:Color(0xFFB1B7A2),
-                              elevation: 0,
-                              shadowColor: Colors.transparent,
-                              shape:  RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16.r),
-                                  bottomLeft: Radius.circular(16.r),
-                                ),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                child: Container(
+                  height: 72.h,
+                  width: 347.w,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFB1B7A2),
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: Row(
+                    children: [
+                      // Register button
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => RegisterScreen(),
                               ),
-                            ),
-                            child: Text(
-                              'Register',
-                              style: TextStyle(
-                                fontFamily: 'LibreBaskerville',
-                                color: Colors.white,
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.w400,
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFFB1B7A2),
+                            elevation: 0,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(16.r),
+                                bottomLeft: Radius.circular(16.r),
                               ),
                             ),
                           ),
-                        ),
-
-                        // زر Sign In
-                        Container(
-                          height: 72.h,
-                          width: 185.w,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (_)=> SignInScreen())
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:dark ? TColors.dark :  TColors.white,
-                              elevation: 4,
-                              shape:  RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.r)
-                              ),
-                            ),
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              'Sign In',
-                              style: TextStyle(
-                                fontFamily: 'LibreBaskerville',
-                                color: dark ? TColors.white :  TColors.dark,
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                              fontFamily: 'LibreBaskerville',
+                              color: Colors.white,
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  )
+                      ),
+                      // Sign In btton
+                      Container(
+                        height: 72.h,
+                        width: 185.w,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => SignInScreen()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: dark
+                                ? TColors.dark
+                                : TColors.white,
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16.r),
+                            ),
+                          ),
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            'Sign In',
+                            style: TextStyle(
+                              fontFamily: 'LibreBaskerville',
+                              color: dark ? TColors.white : TColors.dark,
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-
             ],
           ),
+          // Centered Pic
           Positioned(
             bottom: 320.h,
             child: Image.asset(
@@ -162,7 +166,6 @@ class Welcomescreen extends StatelessWidget {
           ),
         ],
       ),
-
     );
   }
 }

@@ -16,15 +16,14 @@ class SuccessScreen extends StatelessWidget {
   });
 
   final String? image;
-
   final String tittle, subTittle;
-
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
+      // AppBar
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: dark ? TColors.blackF : TColors.primaryBackground,
@@ -35,6 +34,7 @@ class SuccessScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: TSizes.defaultSpace),
+            // image
             Center(
               child: Image(
                 image: AssetImage(image!),
@@ -42,6 +42,7 @@ class SuccessScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
+            // page tittle
             Text(
               tittle,
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -51,12 +52,14 @@ class SuccessScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
+            // page Sub tittle
             Text(
               subTittle,
               style: Theme.of(context).textTheme.labelMedium,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: TSizes.spaceBtwSections),
+            // Done Button
             SizedBox(
               width: double.infinity.w,
               height: 55.h,

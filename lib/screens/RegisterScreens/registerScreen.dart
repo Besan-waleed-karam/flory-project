@@ -1,21 +1,20 @@
-import 'package:flory/screens/RegisterScreens/verify_email.dart';
-import 'package:flory/utils/helpers/helper_functions.dart';
+import 'package:flory/features/authentication/controllers/register/register_controller.dart';
+import 'package:flory/utils/constants/sizes.dart';
+import 'package:flory/widgets/divider_social_login.dart';
+import 'package:flory/widgets/login_text_fields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
-
-import '../../features/authentication/controllers/register/register_controller.dart';
-import '../../utils/constants/colors.dart';
-import '../../utils/constants/image_strings.dart';
-import '../../utils/constants/sizes.dart';
 import '../../utils/constants/text_strings.dart';
 import '../../utils/validators/validation.dart';
-import '../../widgets/divider_social_login.dart';
-import '../../widgets/login_text_fields.dart';
 import '../loginScreens/SignInScreen.dart';
+import '../../../utils/constants/colors.dart';
+import '../../../utils/constants/image_strings.dart';
+import '../../../utils/helpers/helper_functions.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -192,6 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(height: TSizes.spaceBtwSections),
+
                   // Social accounts register
                   DividerSocialLogin(dividerText: 'Or Sign up With',
                     controller: controller,

@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:flory/screens/onBoarding/onBoardingController.dart';
 import 'package:flory/utils/constants/text_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import '../../features/authentication/controllers/onboarding/onboarding_controller.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
@@ -27,7 +27,7 @@ class OnBoarding extends StatelessWidget {
             PageView(
               controller:  controller.pageController,
               onPageChanged: controller.updatePageIndicator,
-              children: const [
+              children: const  [
                 onBoadrdingPage(
                   image: TImages.onBoardingImage1,
                   tittle: TTexts.onBoardingTitle1,
