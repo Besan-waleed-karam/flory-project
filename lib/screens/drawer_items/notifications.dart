@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../utils/constants/colors.dart';
@@ -73,7 +72,7 @@ class _NotificationsState extends State<Notifications> {
               ),
             ),
             SizedBox(height: 5.h,),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Column(
                 children: [

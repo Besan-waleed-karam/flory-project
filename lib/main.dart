@@ -23,17 +23,17 @@ Future<void> main() async {
   await GetStorage.init();
 
   //Todo: Await Native Splash
-FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   /// --  Initialize Firebase&Authentication repository
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
-      (FirebaseApp value) => Get.put(AuthenticationRepository()));
-      Get.put(UserController());
+          (FirebaseApp value) => Get.put(AuthenticationRepository()));
+  Get.put(UserController());
 
-
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
+  //
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  //
 
 
 
@@ -42,6 +42,3 @@ FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   runApp(const App());
 }
-
-
-

@@ -4,6 +4,7 @@ class TValidator {
     if (value == null || value.isEmpty) {
       return '$fieldName is required.';
     }
+    return null;
   }
 
   //Empty Email

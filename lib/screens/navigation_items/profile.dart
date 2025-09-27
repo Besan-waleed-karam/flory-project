@@ -112,7 +112,7 @@ class _ProfileState extends State<Profile> {
                         color: dark? TColors.blackF :TColors.primaryBackground,
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 298.w,
                               height: 63.h,
                               child:TextButton(
@@ -145,7 +145,7 @@ class _ProfileState extends State<Profile> {
                         color: dark? TColors.blackF :TColors.primaryBackground,
                         child: Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 298.w,
                               height: 63.h,
                               child:TextButton(

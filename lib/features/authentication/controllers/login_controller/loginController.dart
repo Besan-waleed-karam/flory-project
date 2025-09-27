@@ -1,7 +1,6 @@
 import 'package:flory/features/authentication/controllers/login_controller/user_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../../data/repositories/authentication/authentication_repository.dart';

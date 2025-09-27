@@ -5,12 +5,12 @@ import 'package:shimmer/shimmer.dart';
 
 class TShimmerEffect extends StatelessWidget {
   const TShimmerEffect({
-    Key? key,
+    super.key,
     required this.height,
     required this.width,
     this.radius = 15,
     this.color
-}):super(key: key);
+});
 
 
   final double width,height,radius;

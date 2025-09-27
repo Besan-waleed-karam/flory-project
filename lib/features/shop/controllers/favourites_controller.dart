@@ -19,16 +19,23 @@ class FavouritesController extends GetxController{
   }
 
 
-  Future<void> initFavourites() async{
-   final json = TLocalStorage.instance().readData('favourites');
-   if(json != null){
-     final storedFavourites = jsonDecode(json) as Map<String,dynamic>;
-     
-     favourites.assignAll(storedFavourites.map((key,value) => MapEntry(key, value as bool)));
-   }
-  }
+  Future<void> initFavourites() async {
+    final jsonStr = TLocalStorage.instance().readData<String>('favourites');
 
-  bool isFaourites(String itemId) {
+    if (jsonStr != null && jsonStr.isNotEmpty) {
+      try {
+        final storedFavourites = jsonDecode(jsonStr) as Map<String, dynamic>;
+        favourites.assignAll(storedFavourites.map(
+              (key, value) => MapEntry(key, value as bool),
+        ));
+      } catch (e) {
+        print("Error parsing favourites JSON: $e");
+        TLocalStorage.instance().removeData('favourites');
+        favourites.clear();
+      }
+    }
+  }
+  bool isFavourites(String itemId) {
     return favourites[itemId] ?? false;
   }
 

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../features/authentication/controllers/login_controller/loginController.dart';
@@ -15,7 +14,6 @@ import '../../utils/helpers/helper_functions.dart';
 import '../../utils/validators/validation.dart';
 import '../../widgets/divider_social_login.dart';
 import '../../widgets/login_text_fields.dart';
-import '../../widgets/navigation_menu.dart';
 import '../RegisterScreens/registerScreen.dart';
 
 class SignInScreen extends StatefulWidget {

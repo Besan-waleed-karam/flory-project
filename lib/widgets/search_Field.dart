@@ -1,5 +1,4 @@
 import 'package:flory/screens/search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../utils/constants/colors.dart';
@@ -10,7 +9,7 @@ class SearchField {
 
   static Widget searchFiled(BuildContext context)  {
     final dark = THelperFunctions.isDarkMode(context);
-    return Container(
+    return SizedBox(
       width: 342.w,
       height: 40.h,
       child: TextField(

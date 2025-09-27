@@ -1,5 +1,4 @@
 import 'dart:core';
-import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -28,6 +27,7 @@ class THelperFunctions{
     }else if(value == 'Teal'){
       return Colors.teal;
     }
+    return null;
   }
 
   static void showSnackBar(String message, BuildContext context) {

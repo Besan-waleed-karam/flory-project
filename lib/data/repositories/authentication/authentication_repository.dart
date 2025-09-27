@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flory/screens/loginScreens/SignInScreen.dart';
 import 'package:flory/screens/onBoarding/onBoarding.dart';
 import 'package:flory/utils/local_storage/storage_utility.dart';
 import 'package:flutter/foundation.dart';
@@ -42,7 +41,7 @@ class AuthenticationRepository extends GetxController{
       if(user.emailVerified){
 
         // Initialize uUser Specific Storage
-        await TLocalStorage.init(user.uid);
+        //await TLocalStorage.init(user.uid);
         // if user's email is verified, navigate to the navigation menu.
         Get.offAll(()=>NavigationMenu());
       }else{

@@ -6,12 +6,14 @@ import 'package:flory/features/shop/models/item_model.dart';
 import 'package:flory/screens/detailsPage/artificialDetailsPage.dart';
 import 'package:flory/screens/detailsPage/detailsPage.dart';
 import 'package:flory/utils/constants/colors.dart';
+import 'package:flory/widgets/item_card_add_to_cart_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../data/services/shimmer_effect.dart';
+import '../../features/shop/controllers/cart_controller.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/theme/custom_themes/appbar_theme.dart';
@@ -30,6 +32,7 @@ class CategoriesScreen extends StatefulWidget {
 class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
+    final cartController = CartController.instance;
     final controller = Get.put(ItemController());
     final dark = THelperFunctions.isDarkMode(context);
 
@@ -180,18 +183,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         ],
                                       ),
                                       Spacer(),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        width: 20.w,
-                                        height: 20.h,
-                                        decoration: BoxDecoration(
-                                          color: TColors.primary,
-                                          borderRadius:
-                                          BorderRadius.circular(5.r),
-                                        ),
-                                        child: Icon(Icons.add,
-                                            color: Colors.white, size: 15.sp),
-                                      ),
+                                      ItemCardAddToCartButton(item: item)
                                     ],
                                   ),
                                 ],

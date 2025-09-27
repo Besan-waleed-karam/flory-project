@@ -1,11 +1,10 @@
 import 'package:flory/features/shop/models/item_model.dart';
+import 'package:flory/screens/navigation_items/favourite_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
-import '../../data/services/shimmer_effect.dart';
-import '../../features/shop/controllers/item_controller.dart';
+import '../../features/shop/controllers/favourites_controller.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/theme/custom_themes/text_theme.dart';
@@ -13,6 +12,7 @@ class Detailspage extends StatefulWidget {
   const Detailspage({super.key, required this.item});
 
   final ItemModel item;
+
   @override
   State<Detailspage> createState() => _DetailspageState();
 }
@@ -20,6 +20,7 @@ class Detailspage extends StatefulWidget {
 class _DetailspageState extends State<Detailspage> {
   @override
   Widget build(BuildContext context) {
+    final favouriteController = Get.put(FavouritesController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       body:
@@ -58,10 +59,7 @@ class _DetailspageState extends State<Detailspage> {
               right: 16.w,
               child: CircleAvatar(
                 backgroundColor: dark ? Colors.black : Colors.white,
-                child: IconButton(
-                  icon: const Icon(Icons.favorite_border  , color: TColors.primary,),
-                  onPressed: () {},
-                ),
+                child: TFavouriteIcon(itemId: widget.item.id,)
               ),
             ),
             Positioned(

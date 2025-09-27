@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flory/features/shop/models/item_model.dart';
+import 'package:flory/utils/exceptions/firebase_exceptions.dart';
+import 'package:flory/utils/exceptions/platform_exceptions.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class ItemRepository extends GetxController{
@@ -17,7 +20,7 @@ class ItemRepository extends GetxController{
           .where('categoryId', isEqualTo: categoryId)
           .get();
 
-      print("ItemCategory docs: ${itemCategoryQuery.docs.length}");
+
 
       List<String> itemsIds = itemCategoryQuery.docs
           .map((doc) => doc['itemId'] as String)
@@ -33,11 +36,18 @@ class ItemRepository extends GetxController{
           .get();
 
       print("Items docs: ${itemQuery.docs.length}");
+      for (var doc in itemQuery.docs) {
+        print("Doc: ${doc.id}, Data: ${doc.data()}");
+      }
 
       List<ItemModel> items =
       itemQuery.docs.map((doc) => ItemModel.fromSnapshot(doc)).toList();
-
       return items;
+
+    } on FirebaseException catch (e){
+      throw TFirebaseException(e.code).message;
+    }on PlatformException catch (e){
+      throw TPlatformException(e.code).message;
     } catch (e) {
       print("Error fetching items: $e");
       return [];
@@ -49,7 +59,12 @@ class ItemRepository extends GetxController{
     try{
      final snapshot = await _db.collection('Items').where(FieldPath.documentId, whereIn: itemIds).get();
      return snapshot.docs.map((querySnapshot) => ItemModel.fromSnapshot(querySnapshot)).toList();
-    }catch(e){
+    }
+    on FirebaseException catch (e){
+      throw TFirebaseException(e.code).message;
+    }on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch(e){
      throw "Something went wrong, Please try again";
     }
   }

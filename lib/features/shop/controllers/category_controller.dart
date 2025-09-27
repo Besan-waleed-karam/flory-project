@@ -1,7 +1,5 @@
 import 'package:flory/data/repositories/categories/category_repository.dart';
-import 'package:flory/data/repositories/categories/item_repository.dart';
 import 'package:flory/features/shop/models/category_model.dart';
-import 'package:flory/features/shop/models/item_model.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/loader/loaders.dart';

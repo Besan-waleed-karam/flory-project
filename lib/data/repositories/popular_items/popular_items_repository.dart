@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flory/data/services/firebase_storage_service.dart';
 import 'package:get/get.dart';
 
 import '../../../features/shop/models/item_model.dart';

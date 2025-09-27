@@ -1,8 +1,6 @@
-import 'package:flory/screens/loginScreens/password_configuration/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../features/authentication/controllers/password_controllers/forget_password_controller.dart';
 import '../../../utils/constants/colors.dart';

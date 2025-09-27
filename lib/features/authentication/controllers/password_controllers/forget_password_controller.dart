@@ -1,7 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../screens/loginScreens/password_configuration/reset_password.dart';
@@ -9,7 +8,6 @@ import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/helpers/helper_functions.dart';
 import '../../../../utils/loader/loaders.dart';
 import '../../../../utils/network/network_manager.dart';
-
 
 class ForgetPasswordController extends GetxController {
   static ForgetPasswordController get instance => Get.find();

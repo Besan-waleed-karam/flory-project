@@ -67,21 +67,25 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 7.h),
 
               Obx((){
-                if (categoryController.isLoading.value) {
-                  return const TShimmerEffect(
-                    height: 190,
-                    width: double.infinity,
-                  );
-                }
-
                 if (categoryController.featuredCategories.isEmpty) {
-                  return Center(
-                    child: Text(
-                      "No data found",
-                      style: TextStyle(fontFamily: "Inter", fontSize: 22),
-                    ),
-                  );
+                  print("Products list is empty in Obx");
+                  return Text("No data found");
                 }
+                // if (categoryController.isLoading.value) {
+                //   return const TShimmerEffect(
+                //     height: 190,
+                //     width: double.infinity,
+                //   );
+                // }
+                //
+                // if (categoryController.featuredCategories.isEmpty) {
+                //   return Center(
+                //     child: Text(
+                //       "No data found",
+                //       style: TextStyle(fontFamily: "Inter", fontSize: 22),
+                //     ),
+                //   );
+                // }
                 return Container(
                   width: double.infinity.w,
                   height: 76.h,
@@ -145,21 +149,25 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
               Obx((){
-                if (popularItemsController.isLoading.value) {
-                  return const TShimmerEffect(
-                    height: 190,
-                    width: double.infinity,
-                  );
-                }
-
                 if (popularItemsController.popularItems.isEmpty) {
-                  return Center(
-                    child: Text(
-                      "No data found",
-                      style: TextStyle(fontFamily: "Inter", fontSize: 22),
-                    ),
-                  );
+                  print("Products list is empty in Obx");
+                  return Text("No data found");
                 }
+                // if (popularItemsController.isLoading.value) {
+                //   return const TShimmerEffect(
+                //     height: 190,
+                //     width: double.infinity,
+                //   );
+                // }
+                //
+                // if (popularItemsController.popularItems.isEmpty) {
+                //   return Center(
+                //     child: Text(
+                //       "No data found",
+                //       style: TextStyle(fontFamily: "Inter", fontSize: 22),
+                //     ),
+                //   );
+                // }
                 return Container(
                   padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                   width: double.infinity.w,

@@ -1,4 +1,3 @@
-import 'package:flory/screens/loginScreens/SignInScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';

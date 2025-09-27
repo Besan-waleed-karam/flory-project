@@ -2,11 +2,9 @@ import 'package:flory/utils/constants/colors.dart';
 import 'package:flory/utils/theme/custom_themes/bottom_sheet_theme.dart';
 import 'package:flory/utils/theme/custom_themes/checkbox_theme.dart';
 import 'package:flory/utils/theme/custom_themes/chip_theme.dart';
-import 'package:flory/utils/theme/custom_themes/text_field_theme.dart';
 import 'package:flory/utils/theme/custom_themes/text_theme.dart';
 import 'package:flutter/material.dart';
 
-import 'custom_themes/appbar_theme.dart';
 
 class TAppTheme{
   TAppTheme._();

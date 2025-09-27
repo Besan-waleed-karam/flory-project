@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../utils/constants/colors.dart';
@@ -97,7 +96,7 @@ class _AddcardState extends State<Addcard> {
                       SizedBox(height: 12.h,),
                       Container(width: 300.w,height: 1.h,color: TColors.primary40,),
                       SizedBox(height: 30.h,),
-                      Container(
+                      SizedBox(
                         width: 295.w,
                         height: 340.h,
                         child: Column(

@@ -1,6 +1,4 @@
 
-import 'package:flory/screens/navigation_items/homeScreen.dart';
-import 'package:flory/screens/onBoarding/onBoarding.dart';
 import 'package:flory/utils/theme/theme.dart';
 import 'package:flory/utils/theme/theme_manager.dart';
 import 'package:flutter/material.dart';

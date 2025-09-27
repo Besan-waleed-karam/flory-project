@@ -1,6 +1,8 @@
+import 'package:flory/features/shop/controllers/cart_controller.dart';
 import 'package:flory/screens/navigation_items/shopping_items/checkout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
@@ -13,6 +15,7 @@ class ShoppingBag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartController = CartController.instance;
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       //drawer: DrawerNav(),
@@ -20,206 +23,208 @@ class ShoppingBag extends StatelessWidget {
       //     dark
       //         ? TAppbarTheme.darkAppBarTheme()
       //         : TAppbarTheme.lightAppBarTheme(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text(
-                    "Shopping Bag",
-                    style: TTextTheme.lightTextTheme.labelLarge?.copyWith(
-                      fontFamily: 'LibreBaskerville',
-                      fontSize: 24.sp,
-                      color: dark ? TColors.light : TColors.black,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 8.h),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0).w,
-                  child: Text(
-                    "Check out now & keep the beauty.",
-                    style: TTextTheme.lightTextTheme.titleLarge?.copyWith(
-                      fontSize: 20.sp,
-                      letterSpacing: 1,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 12.h),
-
-                ProductCardWithCustomization(
-                  title: 'Golden Wedding Memory Frame',
-                  imagePath: TImages.home1,
-                  price: '\$119.9',
-                ),
-                ProductCardWithCustomization(
-                  title: 'Golden Wedding Memory Frame',
-                  imagePath: TImages.home1,
-                  price: '\$119.9',
-                ),
-                ProductCardSimple(
-                  title: 'Golden Wedding Memory Frame',
-                  imagePath: TImages.home1,
-                  price: '\$119.9',
-                ),
-                ProductCardSimple(
-                  title: 'Golden Wedding Memory Frame',
-                  imagePath: TImages.home1,
-                  price: '\$119.9',
-                ),
-
-                SizedBox(height: 8.h),
-                Container(
-                  width: double.infinity.w,
-                  height: 55.h,
-                  padding: EdgeInsets.fromLTRB(35.w, 5.h, 35.w, 5.h),
-                  child: Stack(
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          hintText: "promo code",
-                          hintStyle: TextStyle(
-                            color: TColors.primary70,
-                            fontSize: 16.sp,
-                          ),
-                          filled: true,
-                          fillColor: dark ? TColors.primary40 : TColors.white,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                            borderSide: BorderSide.none,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                        ),
+      body:
+         SafeArea(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                      "Shopping Bag",
+                      style: TTextTheme.lightTextTheme.labelLarge?.copyWith(
+                        fontFamily: 'LibreBaskerville',
+                        fontSize: 24.sp,
+                        color: dark ? TColors.light : TColors.black,
                       ),
-                      Positioned(
-                        right: 6.w,
-                        top: 6.h,
-                        width: 97.w,
-                        height: 32.h,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: TColors.primary,
-                            //color : ,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                  SizedBox(height: 8.h),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0).w,
+                    child: Text(
+                      "Check out now & keep the beauty.",
+                      style: TTextTheme.lightTextTheme.titleLarge?.copyWith(
+                        fontSize: 20.sp,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  ProductCardWithCustomization(
+                    title: 'Golden Wedding Memory Frame',
+                    imagePath: TImages.home1,
+                    price: '\$119.9',
+                  ),
+                  ProductCardWithCustomization(
+                    title: 'Golden Wedding Memory Frame',
+                    imagePath: TImages.home1,
+                    price: '\$119.9',
+                  ),
+                  ProductCardSimple(
+                    title: 'Golden Wedding Memory Frame',
+                    imagePath: TImages.home1,
+                    price: '\$119.9',
+                  ),
+                  ProductCardSimple(
+                    title: 'Golden Wedding Memory Frame',
+                    imagePath: TImages.home1,
+                    price: '\$119.9',
+                  ),
+
+                  SizedBox(height: 8.h),
+                  Container(
+                    width: double.infinity.w,
+                    height: 55.h,
+                    padding: EdgeInsets.fromLTRB(35.w, 5.h, 35.w, 5.h),
+                    child: Stack(
+                      children: [
+                        TextField(
+                          decoration: InputDecoration(
+                            hintText: "promo code",
+                            hintStyle: TextStyle(
+                              color: TColors.primary70,
+                              fontSize: 16.sp,
                             ),
-                          ),
-                          child: Text(
-                            "Apply",
-                            style: TextStyle(
-                              color: TColors.white,
-                              fontSize: 15.sp,
+                            filled: true,
+                            fillColor: dark ? TColors.primary40 : TColors.white,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                              borderSide: BorderSide.none,
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(15.r),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "SubTotal",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            '\$359.99',
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      Divider(thickness: 2, color: TColors.white),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Shipping",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            "\$4.99",
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(thickness: 2, color: TColors.white),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Bag Total (3 Items)",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            "\$404.99",
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 25.h),
-                      Container(
-                        width: 260.w,
-                        height: 38.h,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => Checkout(),
+                        Positioned(
+                          right: 6.w,
+                          top: 6.h,
+                          width: 97.w,
+                          height: 32.h,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: TColors.primary,
+                              //color : ,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
                               ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            backgroundColor: TColors.white,
-                            foregroundColor: TColors.primary,
-                            elevation: 5,
-                            shadowColor: TColors.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.r),
+                            ),
+                            child: Text(
+                              "Apply",
+                              style: TextStyle(
+                                color: TColors.white,
+                                fontSize: 15.sp,
+                              ),
                             ),
                           ),
-                          child: Text("Checkout"),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 100.h),
-              ],
+                  Padding(
+                    padding: EdgeInsets.all(15.r),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "SubTotal",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              '\$359.99',
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        Divider(thickness: 2, color: TColors.white),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Shipping",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              "\$4.99",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Divider(thickness: 2, color: TColors.white),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Bag Total (3 Items)",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              "\$404.99",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 25.h),
+                        SizedBox(
+                          width: 260.w,
+                          height: 38.h,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Checkout(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              backgroundColor: TColors.white,
+                              foregroundColor: TColors.primary,
+                              elevation: 5,
+                              shadowColor: TColors.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.r),
+                              ),
+                            ),
+                            child: Text("Checkout"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 100.h),
+                ],
+              ),
             ),
           ),
         ),
@@ -275,6 +280,7 @@ class _ProductCardWithCustomizationState
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     String? selectedOption;
@@ -379,13 +385,13 @@ class _ProductCardWithCustomizationState
                       height: 32.h,
                       child: OutlinedButton(
                         style: ButtonStyle(
-                          padding: MaterialStateProperty.all(EdgeInsets.zero),
-                          shape: MaterialStateProperty.all(
+                          padding: WidgetStateProperty.all(EdgeInsets.zero),
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(7.r),
                             ),
                           ),
-                          side: MaterialStateProperty.all(
+                          side: WidgetStateProperty.all(
                             BorderSide(color: TColors.primary),
                           ),
                         ),
@@ -721,7 +727,7 @@ class _ProductCardWithCustomizationState
           ),
         ),
         SizedBox(height: 8.h),
-        Container(
+        SizedBox(
           width: 330.w,
           height: 35.h,
           child: TextField(
@@ -780,7 +786,7 @@ class ProductCardSimple extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-    return Container(
+    return SizedBox(
       width: double.infinity.w,
       height: 140.h,
       child: Card(

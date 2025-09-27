@@ -1,10 +1,9 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
+import 'package:flory/screens/navigation_items/favourite_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../features/shop/controllers/favourites_controller.dart';
 import '../../features/shop/models/item_model.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/helpers/helper_functions.dart';
@@ -23,6 +22,7 @@ class Artificialdetailspage extends StatefulWidget {
 class _ArtificialdetailspageState extends State<Artificialdetailspage> {
   @override
   Widget build(BuildContext context) {
+    final favouriteController = Get.put(FavouritesController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       body: Stack(
@@ -60,10 +60,7 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
             right: 16.w,
             child: CircleAvatar(
               backgroundColor: dark ? Colors.black : Colors.white,
-              child: IconButton(
-                icon: const Icon(Icons.favorite_border  , color: TColors.primary,),
-                onPressed: () {},
-              ),
+              child:  TFavouriteIcon(itemId: widget.item.id,)
             ),
           ),
           Positioned(
@@ -155,7 +152,7 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
                   ),
                   SizedBox(height: 30.h),
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       width: 281.w,
                       height: 40.h,
                       child: ElevatedButton(

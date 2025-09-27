@@ -68,7 +68,7 @@ class Welcomescreen extends StatelessWidget {
                         fontSize: 20.sp,
                         fontFamily: 'LibreBaskerville',
                         fontWeight: FontWeight.w400,
-                        color: Color(0xFAF7F38),
+                        color: Color(0x0faf7f38),
                       ),
                     ),
                   ],
@@ -119,7 +119,7 @@ class Welcomescreen extends StatelessWidget {
                         ),
                       ),
                       // Sign In btton
-                      Container(
+                      SizedBox(
                         height: 72.h,
                         width: 185.w,
                         child: ElevatedButton(

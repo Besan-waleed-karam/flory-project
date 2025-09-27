@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../data/repositories/authentication/authentication_repository.dart';
 import '../../features/authentication/controllers/register/verify_email.dart';
@@ -13,7 +12,6 @@ import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/constants/text_strings.dart';
 import '../../utils/helpers/helper_functions.dart';
-import '../loginScreens/SignInScreen.dart';
 class VerifyEmail extends StatelessWidget {
   const VerifyEmail({super.key, this.email});
   final String? email ;
@@ -89,7 +87,7 @@ class VerifyEmail extends StatelessWidget {
                 width: double.infinity,
                 child: TextButton(
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all(TColors.primary ),
+                    foregroundColor: WidgetStateProperty.all(TColors.primary ),
 
                   ),
                   onPressed: () =>controller.sendEmailVerification(),

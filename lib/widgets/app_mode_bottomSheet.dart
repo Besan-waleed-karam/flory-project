@@ -6,7 +6,7 @@ import '../utils/helpers/helper_functions.dart';
 import '../utils/theme/theme_manager.dart';
 
 class AppModeBottomSheet extends StatefulWidget {
-  const AppModeBottomSheet({Key? key}) : super(key: key);
+  const AppModeBottomSheet({super.key});
 
   @override
   _AppModeBottomSheetState createState() => _AppModeBottomSheetState();
