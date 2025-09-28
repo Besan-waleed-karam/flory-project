@@ -9,9 +9,9 @@ class GeneralBindings extends Bindings{
   @override
   void dependencies() {
     Get.put(NetworkManager());
-    // Get.put(FavouritesController());
-    // Get.lazyPut<PopularItemsController>(() => PopularItemsController());
-    // Get.lazyPut<CategoryController>(() => CategoryController());
+  //  Get.put(FavouritesController());
+  //   Get.lazyPut<PopularItemsController>(() => PopularItemsController());
+   //  Get.lazyPut<CategoryController>(() => CategoryController());
   }
 
 

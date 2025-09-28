@@ -10,6 +10,7 @@ import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/helper_functions.dart';
 import '../../../../utils/loader/loaders.dart';
+import '../../../../utils/network/network_manager.dart';
 import '../../models/user_model.dart';
 import '../register/register_controller.dart';
 
@@ -118,7 +119,7 @@ class UserController extends GetxController {
   }
 
 /// -- RE-AUTHENTICATE before deleting
-/*  Future<void> reAuthenticateEmailAndPasswordUser() async {
+  Future<void> reAuthenticateEmailAndPasswordUser() async {
      try {
        THelperFunctions.openLoadDialog('Processing', TImages.loaderAsset);
 
@@ -141,6 +142,6 @@ class UserController extends GetxController {
        THelperFunctions.stopLoading();
        Loaders.warningSnackBar(title: 'Oh Snap!', message: e.toString());
      }
-   }*/
+   }
 
 }

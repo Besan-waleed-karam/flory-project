@@ -54,7 +54,7 @@ class UserRepository extends GetxController {
     }
   }
 
-  /// Function to update user data in Firestore
+  // Function to update user data in Firestore
   Future<void> updateUserDetails(UserModel updatedUser) async {
     try {
       await _db.collection("Users").doc(updatedUser.id).update(updatedUser.toJson());

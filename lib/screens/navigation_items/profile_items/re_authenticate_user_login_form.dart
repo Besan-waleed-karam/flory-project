@@ -50,7 +50,7 @@ class ReAuthLoginForm extends StatelessWidget {
                 const SizedBox (height: TSizes.spaceBtwSections),
                 SizedBox(
                   width: double.infinity,
-                  // child: ElevatedButton(onPressed: ()=> controller.re, child: const Text("verify")),
+                   child: ElevatedButton(onPressed: ()=> controller.reAuthenticateEmailAndPasswordUser(), child: const Text("verify")),
                 ),
 
 

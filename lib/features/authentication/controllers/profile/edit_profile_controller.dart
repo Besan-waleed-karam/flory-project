@@ -9,6 +9,7 @@ import '../../../../screens/navigation_items/profile.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/helpers/helper_functions.dart';
 import '../../../../utils/network/network_manager.dart';
+import '../../../../widgets/navigation_menu.dart';
 import '../login_controller/user_controller.dart';
 
 class EditProfileController extends GetxController{
@@ -16,7 +17,7 @@ class EditProfileController extends GetxController{
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneNumController = TextEditingController();
-  var selectedGender = "".obs;
+  final selectedGender = "".obs;
   final GlobalKey<FormState> EditFormKey = GlobalKey<FormState>();
   final userController = UserController.instance ;
   final userRepository = Get.put(UserRepository());
@@ -57,11 +58,12 @@ class EditProfileController extends GetxController{
       }
 
       //update user's data in the Firebase Firestore
-      Map<String , dynamic>userData = {'FullName':fullNameController.text.trim() ,
-        //'Email' :emailController.text.trim() ,
-        'PhoneNumber':phoneNumController.text.trim() , 'Gender':selectedGender.value};
+      Map<String , dynamic>userData = {
+        'FullName':fullNameController.text.trim() ,
+        'PhoneNumber':phoneNumController.text.trim() ,
+        'Gender':selectedGender.value
+      };
       await userRepository.updateSingleField(userData);
-
 
       //update RX user value
       userController.user.value.fullName = fullNameController.text.trim();
@@ -76,7 +78,9 @@ class EditProfileController extends GetxController{
       Loaders.successSnackBar(title: "Congratulations" ,message: "Your Data has been updated." );
 
       //Move to pre screen
-      Get.off(()=>const Profile());
+      Get.find<NavigationController>().changePage(3);
+      Navigator.pop(Get.context!);
+      //Get.off(()=>const Profile());
 
     }catch (e){
       THelperFunctions.stopLoading();

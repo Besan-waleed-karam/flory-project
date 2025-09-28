@@ -18,7 +18,7 @@ class RegisterController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final phoneNumController = TextEditingController();
-  var selectedGender = "".obs;
+  final selectedGender = "".obs;
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   final userController = UserController.instance;
 

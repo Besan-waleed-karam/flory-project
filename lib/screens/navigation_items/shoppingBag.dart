@@ -15,7 +15,7 @@ class ShoppingBag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartController = CartController.instance;
+    final cartController = Get.put(CartController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       //drawer: DrawerNav(),

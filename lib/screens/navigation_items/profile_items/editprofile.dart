@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import '../../../utils/constants/image_strings.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_functions.dart';
 import '../../../utils/theme/custom_themes/appbar_theme.dart';
+import '../../../utils/validators/validation.dart';
 
 
 
@@ -94,6 +96,7 @@ class _EditprofileState extends State<Editprofile> {
               Form(
                 key: controller.EditFormKey,
                 child: TextFormField(
+                  controller: controller.fullNameController,
                   style: TextStyle(fontSize: 20.sp),
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -112,6 +115,7 @@ class _EditprofileState extends State<Editprofile> {
               Text("Phone Number",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),
               SizedBox(height: 5.h,),
               TextFormField(
+                controller: controller.phoneNumController,
                 keyboardType: TextInputType.phone,
                 style: TextStyle(fontSize: 20.sp),
                 decoration: InputDecoration(
@@ -131,31 +135,36 @@ class _EditprofileState extends State<Editprofile> {
               Text("Gender",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),
               SizedBox(height: 5.h,),
 
-              DropdownButtonFormField<String>(
-                dropdownColor: Colors.white,
+              Obx(()=>DropdownButtonFormField<String>(
+                value: controller.selectedGender.value.isEmpty ? null : controller.selectedGender.value,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: dark ? TColors.white.withOpacity(0.2): Colors.white,
+                  fillColor:TColors.white,
                   border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.r),
                     borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(7.r),
                   ),
+                  hintText: 'Select Gender',
+                  prefixIcon: Icon(CupertinoIcons.person, color: TColors.primary),
                 ),
-                value:  selectedGender != "" ? selectedGender : null,
                 items: ["Male", "Female"].map((gender) {
                   return DropdownMenuItem<String>(
                     value: gender,
-                    child: Text(gender,style: TextStyle(
-                        color: TColors.primary70
-                    ),),
+                    child: Text(
+                      gender,
+                      style: TextStyle(
+                        fontFamily: "LibreBaskerville",
+                        fontSize: 14.sp,
+                        color: TColors.primary,
+                      ),
+                    ),
                   );
                 }).toList(),
                 onChanged: (value) {
-                  setState(() {
-                    selectedGender = value;
-                  });
+                  controller.selectedGender.value = value ?? "";
                 },
-              ),
+                validator: (value)=>TValidator.validateGender(value),
+              ),),
               SizedBox(height: TSizes.spaceBtwSections.h),
               Center(
                 child: ElevatedButton(
