@@ -228,7 +228,7 @@ class ShoppingBag extends StatelessWidget {
             ),
           ),
         ),
-      ),
+
     );
   }
 }

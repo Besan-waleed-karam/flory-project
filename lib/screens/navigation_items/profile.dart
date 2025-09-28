@@ -5,6 +5,8 @@ import 'package:flory/screens/navigation_items/profile_items/shippingaddress.dar
 import 'package:flory/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import '../../features/authentication/controllers/login_controller/user_controller.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/helpers/helper_functions.dart';
 
@@ -17,30 +19,42 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final controller = UserController.instance ;
+
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 31.w,vertical: 0.h),
+          padding: EdgeInsets.symmetric(horizontal: 31.w, vertical: 0.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 50.h,),
-              Center(child: Text("My Profile",style: TextStyle(fontFamily: "LibreBaskerville",fontSize: 24.sp,color: dark?TColors.white :TColors.blackF),)),
+              SizedBox(height: 20.h,),
+              Center(child: Text("My Profile", style: TextStyle(
+                  fontFamily: "LibreBaskerville",
+                  fontSize: 24.sp,
+                  color: dark ? TColors.white : TColors.blackF),)),
               SizedBox(height: 50.h,),
               Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(TImages.women,width: 108.w,height: 108.h),
+                    CircleAvatar(
+                        radius: 50,
+                        backgroundColor: TColors.primary40,
+                        child: Image.asset(TImages.women, width: 108.w, height: 108.h)
+
+                    ),
                     SizedBox(width: 20.w,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text("Baraa Alaydi",style: TextStyle(fontSize: 20.sp,color: dark?TColors.white :TColors.blackF ),),
-                        Text("baraaalayde30@gmail.com",style: TextStyle(fontSize: 15.sp,color: TColors.primary),),
+                        Obx(()=> Text(controller.user.value.fullName, style: TextStyle(fontSize: 20.sp,
+                            color: dark ? TColors.white : TColors.blackF),),),
+                        Obx(()=> Text(controller.user.value.email, style: TextStyle(
+                            fontSize: 15.sp, color: TColors.primary),),),
                         SizedBox(height: 14.h,),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -49,12 +63,17 @@ class _ProfileState extends State<Profile> {
                               ),
                               backgroundColor: TColors.primary,
                               foregroundColor: Colors.white,
-                              padding: EdgeInsets.symmetric(horizontal: 27.w,vertical: 8.h),
+                              padding: EdgeInsets.symmetric(horizontal: 27.w,
+                                  vertical: 8.h),
 
                             ),
-                            onLongPress: (){},
-                            onPressed: (){},
-                            child: Text("Upload Photo",style: TextStyle(fontSize: 16.sp),)),
+                            onLongPress: () {},
+                            onPressed: () {
+                              //   _uploadImageFromGallery();
+                            },
+                            child: Text(
+                              "Upload Photo", style: TextStyle(fontSize: 16
+                                .sp),)),
 
                       ],
                     ),
@@ -63,108 +82,138 @@ class _ProfileState extends State<Profile> {
               ),
               SizedBox(height: 70.h,),
               Container(
-                width: 349.w,
-                height: 200.h,
-                color: Colors.white,
+                width: double.infinity.w,
+                height: 230.h,
                 child: Column(
-                  //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      //  foregroundColor: dark ? TColors.white :TColors.blackF,
-                        padding: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0.h),
                         margin: EdgeInsets.only(bottom: 3.h),
                         width: 349.w,
-                        height: 63.h,
-                        color: dark? TColors.blackF :TColors.primaryBackground,
+                        height: 45.h,
+                        color: dark ? TColors.blackF : TColors
+                            .primaryBackground,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              width: 298.w,
-                              height: 63.h,
-                              color: dark? TColors.blackF :TColors.primaryBackground,
-                              child:TextButton(
-                                onPressed: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Editprofile()));
+                              width: 150.w,
+                              height: 40.h,
+                              color: dark ? TColors.blackF : TColors
+                                  .primaryBackground,
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Editprofile()));
                                 },
-                                style:TextButton.styleFrom(
+                                style: TextButton.styleFrom(
                                     alignment: Alignment.centerLeft,
-                                    backgroundColor:dark? TColors.blackF :TColors.primaryBackground,
-                                    foregroundColor: dark ? TColors.white :TColors.blackF,
-                                    padding: EdgeInsets.fromLTRB(10.w,15.h,5.w,5.h)
+                                    backgroundColor: dark
+                                        ? TColors.blackF
+                                        : TColors.primaryBackground,
+                                    foregroundColor: dark
+                                        ? TColors.white
+                                        : TColors.blackF,
+                                    padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0)
+
                                 ),
-                                child: Text("Edit Profile",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter"),),
+                                child: Text("Edit Profile", style: TextStyle(
+                                    fontSize: 16.sp, fontFamily: "Inter"),),
                               ),
                             ),
-                            // SizedBox(width: 10.w,),
-                            IconButton(onPressed: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Editprofile()));
-                            }, icon: Icon(Icons.arrow_forward_ios))
+                            IconButton(onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Editprofile()));
+                            }, icon: Icon(Icons.arrow_forward_ios, size: 18,))
                           ],
                         )
 
                     ),
-
+                    Divider(
+                      thickness: 1,
+                      color: Colors.white,
+                    ),
                     Container(
-                        padding: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0.h),
-                        margin: EdgeInsets.only(bottom: 3.h),
-                        width: 349.w,
-                        height: 63.h,
-                        color: dark? TColors.blackF :TColors.primaryBackground,
+                        width: 370.w,
+                        height: 45.h,
+                        color: dark ? TColors.blackF : TColors
+                            .primaryBackground,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                              width: 298.w,
+                            Container(
+                              width: 150.w,
                               height: 63.h,
-                              child:TextButton(
-                                onPressed: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Shippingaddress()));
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Shippingaddress()));
                                 },
-                                style:TextButton.styleFrom(
+                                style: TextButton.styleFrom(
                                     alignment: Alignment.centerLeft,
-                                    backgroundColor:dark? TColors.blackF :TColors.primaryBackground,
-                                    foregroundColor: dark ? TColors.white :TColors.blackF,
-                                    padding: EdgeInsets.fromLTRB(10.w,15.h,5.w,5.h)
+                                    backgroundColor: dark
+                                        ? TColors.blackF
+                                        : TColors.primaryBackground,
+                                    foregroundColor: dark
+                                        ? TColors.white
+                                        : TColors.blackF,
+                                    padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0)
                                 ),
-                                child: Text("Shipping Address",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter"),),
+                                child: Text("Shipping Address",
+                                  style: TextStyle(
+                                      fontSize: 16.sp, fontFamily: "Inter"),),
                               ),
                             ),
                             // SizedBox(width: 10.w,),
-                            IconButton(onPressed: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Shippingaddress()));
-                            }, icon: Icon(Icons.arrow_forward_ios))
+                            IconButton(onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Shippingaddress()));
+                            }, icon: Icon(Icons.arrow_forward_ios, size: 18,))
                           ],
                         )
 
                     ),
-
+                    Divider(
+                      thickness: 1,
+                      color: Colors.white,
+                    ),
                     Container(
                         padding: EdgeInsets.fromLTRB(0.w, 0.h, 0.w, 0.h),
                         margin: EdgeInsets.only(bottom: 0.h),
                         width: 349.w,
-                        height: 63.h,
-                        color: dark? TColors.blackF :TColors.primaryBackground,
+                        height: 45.h,
+                        color: dark ? TColors.blackF : TColors
+                            .primaryBackground,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
-                              width: 298.w,
+                            Container(
+                              width: 150.w,
                               height: 63.h,
-                              child:TextButton(
-                                onPressed: (){
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Changepassword()));
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Changepassword()));
                                 },
-                                style:TextButton.styleFrom(
+                                style: TextButton.styleFrom(
                                     alignment: Alignment.centerLeft,
-                                    backgroundColor:dark? TColors.blackF :TColors.primaryBackground,
-                                    foregroundColor: dark ? TColors.white :TColors.blackF,
-                                    padding: EdgeInsets.fromLTRB(10.w,15.h,5.w,5.h)
+                                    backgroundColor: dark
+                                        ? TColors.blackF
+                                        : TColors.primaryBackground,
+                                    foregroundColor: dark
+                                        ? TColors.white
+                                        : TColors.blackF,
+                                    padding: EdgeInsets.fromLTRB(10.w, 0, 0, 0)
+
                                 ),
-                                child: Text("Change Password",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter"),),
+                                child: Text("Change Password", style: TextStyle(
+                                    fontSize: 16.sp, fontFamily: "Inter"),),
                               ),
                             ),
                             // SizedBox(width: 10.w,),
-                            IconButton(onPressed: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Changepassword()));
-                            }, icon: Icon(Icons.arrow_forward_ios))
+                            IconButton(onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Changepassword()));
+                            }, icon: Icon(Icons.arrow_forward_ios, size: 18,))
                           ],
                         )
 
@@ -179,4 +228,26 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+
+// Future<void> _uploadImageFromGallery() async {
+//   var status = await Permission.photos.request(); // أو Permission.storage
+//   if (status.isGranted) {
+//     final ImagePicker picker = ImagePicker();
+//     // choosing image from the gallery
+//     final XFile? image = await picker.pickImage(
+//       source: ImageSource.gallery,
+//       imageQuality: 85,
+//       maxWidth: 800,
+//     );
+//     if (image != null) {
+//       setState(() {
+//         _selectedImage = File(image.path);
+//       });
+//
+//       print('Image : ${image.path}');
+//     }
+//   } else {
+//     print('Permission denied.');
+//   }
+// }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import '../data/repositories/authentication/authentication_repository.dart';
 import '../screens/drawer_items/notifications.dart';
 import '../screens/drawer_items/ordertracking.dart';
 import '../utils/constants/colors.dart';
@@ -75,17 +76,52 @@ class DrawerNav extends StatelessWidget {
               ,
             ),
             ListTile(
-              title: Text("Logout"),
-              leading: Icon(Iconsax.logout ,size: 30.sp,color: TColors.primary),
-              onTap: () {
-
-              }
+                title: Text("Logout"),
+                leading: Icon(Iconsax.logout ,size: 30.sp,color: TColors.primary),
+                onTap: () => showLogoutDialog()
               ,
             )
           ],
         ),
       ),
 
+    );
+  }
+  void showLogoutDialog() {
+    final dark = THelperFunctions.isDarkMode(Get.context!);
+    Get.dialog(
+      AlertDialog(
+        contentPadding:EdgeInsets.all(30),
+        icon:Icon( Iconsax.logout, color: TColors.primary,),
+        alignment: Alignment.center,
+        //insetPadding: EdgeInsets.all(30),
+        backgroundColor: dark ?TColors.black : TColors.white ,
+        title: const Text("Logout" , style:
+        TextStyle(fontWeight: FontWeight.w600 , fontSize: 18),),
+        content: const Text("Do you really want to log out?" ,
+          style:  TextStyle(
+            fontSize: 16,
+          ),),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(), // close the dialog.
+            child: Text("No" , style: TextStyle(
+                color: dark? TColors.grey : TColors.darkGrey
+            ),),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+              AuthenticationRepository.instance.logout();
+            },
+            child: const Text("Yes" , style: TextStyle(
+                color: TColors.primary ,
+                fontWeight: FontWeight.bold
+            ),),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
     );
   }
 }

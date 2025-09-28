@@ -4,7 +4,6 @@ class TValidator {
     if (value == null || value.isEmpty) {
       return '$fieldName is required.';
     }
-    return null;
   }
 
   //Empty Email
@@ -55,12 +54,6 @@ class TValidator {
     if (!value.contains(RegExp(r'[0-9]'))) {
       return 'Password must contain at least one number.';
     }
-
-    // Check for special characters
-    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      return 'Password must contain at least one special character.';
-    }
-
     return null;
   }
 
@@ -106,6 +99,12 @@ class TValidator {
 
     return 'Please enter a valid phone number';
   }
-
+  // validate gender
+  static String? validateGender(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Please select gender";
+    }
+    return null;
+  }
 
 }
