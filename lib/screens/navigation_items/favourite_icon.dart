@@ -1,5 +1,6 @@
 import 'package:flory/features/shop/controllers/favourites_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -13,8 +14,10 @@ class TFavouriteIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(FavouritesController());
     return  Obx(() => FavouriteIcon(
-      icon: controller.isFavourites(itemId) ? Iconsax.heart5 : Iconsax.heart,
+      icon: controller.isFavourites(itemId) ? Icons.favorite : Icons.favorite,
       color: controller.isFavourites(itemId) ? Colors.red : Colors.white,
+       height: 32.h,
+       width: 32.w,
       onPressed: () => controller.toggleFavouritesItem(itemId),
 
 

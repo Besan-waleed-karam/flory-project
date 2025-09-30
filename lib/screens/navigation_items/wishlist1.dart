@@ -1,5 +1,6 @@
 import 'package:flory/data/services/shimmer_effect.dart';
 import 'package:flory/features/shop/controllers/favourites_controller.dart';
+import 'package:flory/screens/navigation_items/favourite_icon.dart';
 import 'package:flory/utils/helpers/cloud_helper_functions.dart';
 import 'package:flory/widgets/animation_loader_widget.dart';
 import 'package:flory/widgets/item_card_add_to_cart_button.dart';
@@ -111,18 +112,24 @@ class _Wishlist1State extends State<Wishlist1> {
                                                   Positioned(
                                                     top: 8.h,
                                                     right: 5.w,
-                                                    child: Container(
-                                                      alignment: Alignment.center,
-                                                      width: 20.w,
-                                                      height: 20.h ,
-                                                      decoration: BoxDecoration(
-                                                          color: TColors.primary,
-                                                          borderRadius: BorderRadius.all(Radius.circular(5.r))
-                                                      ),
-
-                                                      child:Icon(Icons.favorite,color: Colors.white,size: 11.sp,),
-                                                    ),
+                                                    child: TFavouriteIcon(itemId: item.id),
                                                   )
+
+                                                  // Positioned(
+                                                  //   top: 8.h,
+                                                  //   right: 5.w,
+                                                  //   child: Container(
+                                                  //     alignment: Alignment.center,
+                                                  //     width: 20.w,
+                                                  //     height: 20.h ,
+                                                  //     decoration: BoxDecoration(
+                                                  //         color: TColors.primary,
+                                                  //         borderRadius: BorderRadius.all(Radius.circular(5.r))
+                                                  //     ),
+                                                  //
+                                                  //     child:Icon(Icons.favorite,color: Colors.white,size: 11.sp,),
+                                                  //   ),
+                                                  // )
                                                 ]
                                             ),
                                           ),

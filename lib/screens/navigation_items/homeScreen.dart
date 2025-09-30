@@ -2,6 +2,7 @@ import 'package:flory/features/shop/controllers/category_controller.dart';
 import 'package:flory/features/shop/controllers/popular_items_controller.dart';
 import 'package:flory/screens/categories/categories_screen.dart';
 import 'package:flory/screens/detailsPage/detailsPage.dart';
+import 'package:flory/screens/navigation_items/favourite_icon.dart';
 import 'package:flory/utils/constants/colors.dart';
 import 'package:flory/utils/constants/image_strings.dart';
 import 'package:flory/utils/helpers/helper_functions.dart';
@@ -196,28 +197,40 @@ class HomeScreen extends StatelessWidget {
                                 }
 
                               } ,
-                              child: Container(
-                                width: 145.w,
-                                height: 200.h,
-                                decoration: BoxDecoration(
-                                  color: TColors.primary,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(15.r),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    width: 145.w,
+                                    height: 200.h,
+                                    decoration: BoxDecoration(
+                                      color: TColors.primary,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(15.r),
+                                      ),
+                                      border: Border.all(
+                                        color: TColors.primary,
+                                        width: 2.w,
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15.r),
+                                      child: Image.network(
+                                        popularItem.image,
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ),
                                   ),
-                                  border: Border.all(
-                                    color: TColors.primary,
-                                    width: 2.w,
-                                  ),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(15.r),
-                                  child: Image.network(
-                                    popularItem.image,
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                ),
+                                  Positioned(
+                                      top: 11.h,
+                                      right: 11.w,
+                                      child: TFavouriteIcon(
+
+                                          itemId: popularItem.id)),
+                                ],
                               ),
                             ),
+
+
                             SizedBox(height: 10.h),
                             Text(
                               popularItem.name,
@@ -234,6 +247,7 @@ class HomeScreen extends StatelessWidget {
                                 color: TColors.primary,
                               ),
                             ),
+
                           ],
                         ),
                       );
@@ -250,3 +264,21 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+// Positioned(
+//   top: 16.h,
+//   right: 16.w,
+//   child: Container(
+//     alignment: Alignment.center,
+//     width: 28.w,
+//     height: 28.h,
+//     decoration: BoxDecoration(
+//       color: TColors.primary,
+//       borderRadius: BorderRadius.circular(5.r),
+//     ),
+//     child: Icon(
+//       Icons.favorite,
+//       color: Colors.white,
+//       size: 16.sp,
+//     ),
+//   ),
+// ),

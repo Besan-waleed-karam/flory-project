@@ -33,7 +33,7 @@ class AuthenticationRepository extends GetxController{
   }
 
   // Function to show relevant screen
-  screenRedirect() async{
+  void  screenRedirect() async{
     final user = _auth.currentUser;
 
     if(user != null){
@@ -41,7 +41,7 @@ class AuthenticationRepository extends GetxController{
       if(user.emailVerified){
 
         // Initialize uUser Specific Storage
-        //await TLocalStorage.init(user.uid);
+        await TLocalStorage.init(user.uid);
         // if user's email is verified, navigate to the navigation menu.
         Get.offAll(()=>NavigationMenu());
       }else{
