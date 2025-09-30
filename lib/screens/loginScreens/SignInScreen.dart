@@ -81,9 +81,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
                         ),
                         SizedBox(height: TSizes.spaceBtwInputFields.h),
-                        Obx(
-                              ()=> LoginTextFields(
-                            validator: (value)=>TValidator.validatePassword(value),
+                        Obx(()=> LoginTextFields(
+                            validator: (value)=>TValidator.validateEmptyText('password', value),
                             controller: controller.passwordController,
                             hintText: 'Password',
                             icon: CupertinoIcons.lock,

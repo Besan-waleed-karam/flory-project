@@ -106,9 +106,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           value: controller.selectedGender.value.isEmpty ? null : controller.selectedGender.value,
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor:TColors.textFieldsColor,
+                            fillColor:dark ? TColors.dark :TColors.textFieldsColor,
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12.r),
+                              borderRadius: BorderRadius.circular(7.r),
                               borderSide: BorderSide.none,
                             ),
                             hintText: 'Select Gender',

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../data/services/shimmer_effect.dart';
 import '../../../features/authentication/controllers/login_controller/user_controller.dart';
 import '../../../features/authentication/controllers/profile/edit_profile_controller.dart';
 import '../../../utils/constants/colors.dart';
@@ -12,6 +13,7 @@ import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_functions.dart';
 import '../../../utils/theme/custom_themes/appbar_theme.dart';
 import '../../../utils/validators/validation.dart';
+import '../../../widgets/circular_image.dart';
 
 
 
@@ -62,7 +64,25 @@ class _EditprofileState extends State<Editprofile> {
               Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset(TImages.women,width: 108.w,height: 108.h),
+                    Obx(() {
+                      final networkImage = UserController.instance.user.value.profilePicture;
+                      final image = networkImage.isNotEmpty
+                          ? networkImage
+                          : TImages.women;
+                      return UserController.instance.imageUploading.value
+                          ? TShimmerEffect(
+                        width: 55.w,
+                        height: 55.h,
+                        radius: 55.r,
+                      )
+                          : CircularImage(
+                        image: image,
+                        width: 80.w,
+                        height: 80.h,
+                        isNetworkImage: networkImage.isNotEmpty,
+                      );
+                    }),
+                    //Image.asset(TImages.women,width: 108.w,height: 108.h),
                     SizedBox(width: 20.w,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +102,7 @@ class _EditprofileState extends State<Editprofile> {
 
                             ),
                             onLongPress: (){},
-                            onPressed: (){},
+                            onPressed: () => UserController.instance.uploadUserProfilePicture(),
                             child: Text("Upload Photo",style: TextStyle(fontSize: 16.sp),)),
 
                       ],
@@ -139,11 +159,11 @@ class _EditprofileState extends State<Editprofile> {
                 value: controller.selectedGender.value.isEmpty ? null : controller.selectedGender.value,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor:TColors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                    borderSide: BorderSide.none,
-                  ),
+                  fillColor:dark ? TColors.dark :TColors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(7.r),
+                      borderSide: BorderSide.none,
+                    ),
                   hintText: 'Select Gender',
                   prefixIcon: Icon(CupertinoIcons.person, color: TColors.primary),
                 ),
@@ -196,7 +216,6 @@ class _EditprofileState extends State<Editprofile> {
                         foregroundColor: Colors.white,
                         padding: EdgeInsets.zero,
                       ),
-
                       onPressed: ()=>UserController.instance.deleteAccountWarningPopup(),
                       child: Text("Close Account",style: TextStyle(fontSize: 18.sp,fontFamily: "Inter"),)),
                 ),

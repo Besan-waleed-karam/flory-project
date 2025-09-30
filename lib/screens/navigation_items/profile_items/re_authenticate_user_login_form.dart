@@ -1,3 +1,4 @@
+import 'package:flory/utils/constants/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -14,7 +15,10 @@ class ReAuthLoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = UserController.instance ;
     return Scaffold(
-      appBar: AppBar(title: const Text('Re-Authenticate User')),
+      appBar: AppBar(title:
+      const Text('Delete account', style: TextStyle(
+        fontFamily: 'Inter'
+      ),)),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(TSizes.defaultSpace),
@@ -50,7 +54,13 @@ class ReAuthLoginForm extends StatelessWidget {
                 const SizedBox (height: TSizes.spaceBtwSections),
                 SizedBox(
                   width: double.infinity,
-                   child: ElevatedButton(onPressed: ()=> controller.reAuthenticateEmailAndPasswordUser(), child: const Text("verify")),
+                   child: ElevatedButton(
+                     style: ElevatedButton.styleFrom(
+                       backgroundColor: TColors.primary,
+                       foregroundColor: TColors.white,
+                     ),
+                       onPressed: ()=> controller.reAuthenticateEmailAndPasswordUser(),
+                       child: const Text("verify")),
                 ),
 
 
