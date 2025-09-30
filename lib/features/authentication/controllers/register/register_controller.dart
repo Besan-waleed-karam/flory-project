@@ -16,9 +16,9 @@ class RegisterController extends GetxController {
   final hidePassword = true.obs;
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
-  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final phoneNumController = TextEditingController();
+  final selectedGender = "".obs;
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   final userController = UserController.instance;
 
@@ -51,8 +51,8 @@ class RegisterController extends GetxController {
         fullName: fullNameController.text.trim(),
         email: emailController.text.trim(),
         phoneNumber: phoneNumController.text.trim(),
-        username: usernameController.text.trim(),
         profilePicture: '',
+        gender: selectedGender.value,
       );
       final userRepository = Get.put(UserRepository());
       userRepository.saveUserRecord(newUser);
@@ -96,68 +96,14 @@ class RegisterController extends GetxController {
       Loaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
     }
   }
-
   void clearFields() {
     registerFormKey.currentState?.reset();
     emailController.clear();
     passwordController.clear();
-    usernameController.clear();
     fullNameController.clear();
     phoneNumController.clear();
     FocusScope.of(Get.context!).unfocus();
   }
 
 }
-// Facebook sign up
-// Future<void> facebookSignIn() async {
-//   try {
-//     // check internet
-//     final isConnected = await NetworkManager.instance.isConnected();
-//     if (!isConnected) {
-//       Loaders.errorSnackBar(
-//         title: 'No Internet Connection',
-//         message: 'Please check your connection and try again later.',
-//       );
-//       return;
-//     }
-//
-//     // show loader
-//     THelperFunctions.openLoadDialog(
-//       'Creating your account with Facebook...',
-//       TImages.loaderAsset,
-//     );
-//
-//     // call sign in from repository
-//     final userCredentials = await AuthenticationRepository.instance.signInWithFacebook();
-//
-//     // create new user model
-//     final newUser = UserModel(
-//       id: userCredentials.user!.uid,
-//       fullName: userCredentials.user!.displayName ?? '',
-//       email: userCredentials.user!.email ?? '',
-//       username: userCredentials.user!.displayName ?? '',
-//       phoneNumber: userCredentials.user!.phoneNumber ?? '',
-//       profilePicture: userCredentials.user!.photoURL ?? '',
-//     );
-//
-//     // save to Firestore
-//     final userRepository = Get.put(UserRepository());
-//     await userRepository.saveUserRecord(newUser);
-//
-//     // stop loader
-//     THelperFunctions.stopLoading();
-//
-//     // success message
-//     Loaders.successSnackBar(
-//       title: 'Account Created',
-//       message: 'Welcome, ${newUser.fullName}!',
-//     );
-//
-//     // redirect
-//     AuthenticationRepository.instance.screenRedirect();
-//   } catch (e) {
-//     THelperFunctions.stopLoading();
-//     Loaders.errorSnackBar(title: 'Facebook Sign-Up Failed', message: e.toString());
-//   }
-// }
 

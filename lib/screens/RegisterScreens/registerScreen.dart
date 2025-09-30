@@ -101,14 +101,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           keyboardType: TextInputType.phone,
                         ),
                         SizedBox(height: TSizes.spaceBtwInputFields.h),
-                        // Username Field
-                        LoginTextFields(
-                          validator: (value)=> TValidator.validateUsername(value),
-                          controller: controller.usernameController,
-                          hintText: 'Username',
-                          icon: CupertinoIcons.person,
-                          keyboardType: TextInputType.text,
-                        ),
+                        // Gender Field
+                        Obx(()=>DropdownButtonFormField<String>(
+                          value: controller.selectedGender.value.isEmpty ? null : controller.selectedGender.value,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor:dark ? TColors.dark :TColors.textFieldsColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(7.r),
+                              borderSide: BorderSide.none,
+                            ),
+                            hintText: 'Select Gender',
+                            prefixIcon: Icon(CupertinoIcons.person, color: TColors.primary),
+                          ),
+                          items: ["Male", "Female"].map((gender) {
+                            return DropdownMenuItem<String>(
+                              value: gender,
+                              child: Text(
+                                gender,
+                                style: TextStyle(
+                                  fontFamily: "LibreBaskerville",
+                                  fontSize: 14.sp,
+                                  color: TColors.primary,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            controller.selectedGender.value = value ?? "";
+                          },
+                          validator: (value)=>TValidator.validateGender(value),
+                        ),),
                         SizedBox(height: TSizes.spaceBtwInputFields.h),
                         // Password Field
                         Obx(
@@ -190,7 +213,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   SizedBox(height: TSizes.spaceBtwSections),
-
                   // Social accounts register
                   DividerSocialLogin(dividerText: 'Or Sign up With',
                     controller: controller,

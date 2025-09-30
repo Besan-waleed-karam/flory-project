@@ -1,14 +1,15 @@
+import 'package:flory/features/authentication/controllers/login_controller/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart' show Iconsax;
-
+import 'package:iconsax/iconsax.dart';
+import '../../../data/services/shimmer_effect.dart';
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/image_strings.dart';
 import '../../../utils/helpers/helper_functions.dart';
 import '../../../utils/theme/custom_themes/appbar_theme.dart';
 import '../../../utils/theme/custom_themes/text_theme.dart';
-
+import '../../../widgets/circular_image.dart';
 
 class Changepassword extends StatefulWidget {
   const Changepassword({super.key});
@@ -18,6 +19,7 @@ class Changepassword extends StatefulWidget {
 }
 
 class _ChangepasswordState extends State<Changepassword> {
+  final controller = UserController.instance;
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
@@ -51,61 +53,69 @@ class _ChangepasswordState extends State<Changepassword> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(TImages.women,width: 108.w,height: 108.h),
+                Obx(() {
+                  final networkImage = UserController.instance.user.value.profilePicture;
+                  final image = networkImage.isNotEmpty
+                      ? networkImage
+                      : TImages.women;
+                  return UserController.instance.imageUploading.value
+                      ? TShimmerEffect(
+                    width: 55.w,
+                    height: 55.h,
+                    radius: 55.r,
+                  )
+                      : CircularImage(
+                    image: image,
+                    width: 80.w,
+                    height: 80.h,
+                    isNetworkImage: networkImage.isNotEmpty,
+                  );
+                }),
+               // Image.asset(TImages.women,width: 108.w,height: 108.h),
                 SizedBox(width: 20.w,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Baraa Alaydi",style: TextStyle(fontSize: 20.sp,color: Colors.black),),
-                    Text("baraaalayde30@gmail.com",style: TextStyle(fontSize: 15.sp,
+                    Text(UserController.instance.user.value.fullName,style: TextStyle(fontSize: 20.sp,color: dark ? TColors.white :Colors.black),),
+                    Text(UserController.instance.user.value.email,style: TextStyle(fontSize: 15.sp,
                       color: dark ? TColors.light : TColors.black,
                     ),),
                     SizedBox(height: 14.h),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4.r)
-                          ),
-                          backgroundColor: TColors.primary,
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(horizontal: 27.w,vertical: 8.h),
-
-                        ),
-                        onLongPress: (){},
-                        onPressed: (){},
-                        child: Text("Upload Photo",style: TextStyle(fontSize: 16.sp),)),
-
                   ],
                 ),
 
               ],
-
-
             ),
 
             SizedBox(height: 30.h,),
             Text("Your Password",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),
             SizedBox(height: 5.h,),
-            TextFormField(
-              style: TextStyle(fontSize: 20.sp),
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(7.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: EdgeInsets.only(left: 15.w),
-                  hintText: "..........",
-                  hintStyle: TextStyle(fontFamily: "Inter",fontSize: 15.sp,color: TColors.primary40),
-                  filled: true,
-                  fillColor: dark ? TColors.white.withOpacity(0.2): Colors.white
+            Form(
+              key: controller.formKey,
+              child: TextFormField(
+                controller: controller.currentPassword,
+                  style: TextStyle(fontSize: 20.sp),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(7.r),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: EdgeInsets.only(left: 15.w),
+                      hintText: "..........",
+                      hintStyle: TextStyle(fontFamily: "Inter",fontSize: 15.sp,color: TColors.primary40),
+                      filled: true,
+                      fillColor: dark ? TColors.white.withOpacity(0.2): Colors.white
 
-              ),),
+                  ),),
+            ),
+
 
             SizedBox(height: 20.h),
             Text("New Password",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),
             SizedBox(height: 5.h),
             TextFormField(
+              controller: controller.newPassword,
               style: TextStyle(fontSize: 20.sp),
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -121,6 +131,7 @@ class _ChangepasswordState extends State<Changepassword> {
             Text("Confirm Password",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),
             SizedBox(height: 5.h),
             TextFormField(
+              controller: controller.confirmPassword,
               style: TextStyle(fontSize: 20.sp),
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -145,7 +156,9 @@ class _ChangepasswordState extends State<Changepassword> {
 
                   ),
                   onLongPress: (){},
-                  onPressed: (){},
+                  onPressed: (){
+                    controller.changePassword();
+                  },
                   child: Text("Save",style: TextStyle(fontSize: 18.sp,fontFamily: "Inter"),)
               ),
             ),
