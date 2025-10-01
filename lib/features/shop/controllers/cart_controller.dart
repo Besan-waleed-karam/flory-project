@@ -33,8 +33,6 @@ class CartController extends GetxController{
       }else{
         cartItems.add(selectedCartItem);
       }
-
-
    }
 
    void addOneToCart(CartItemModel item){

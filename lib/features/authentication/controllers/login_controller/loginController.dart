@@ -54,8 +54,7 @@ class SignInController extends GetxController{
 
       //SignIn user using Email & Password Auth
 
-      final userCredentials = await AuthenticationRepository.instance
-          .loginWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
+      final userCredentials = await AuthenticationRepository.instance.loginWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
       //  Remove Loader
       THelperFunctions.stopLoading();
       // Redirect

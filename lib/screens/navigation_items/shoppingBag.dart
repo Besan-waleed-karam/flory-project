@@ -18,11 +18,8 @@ class ShoppingBag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    final controller = CartController.instance;
-=======
-    final cartController = Get.put(CartController());
->>>>>>> 7296f7a634b52328c4677d4c54fc508c05d42496
+    final controller = Get.put(CartController());
+   // final cartController =
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       //drawer: DrawerNav(),
@@ -252,19 +249,9 @@ class ShoppingBag extends StatelessWidget {
             }
 
             ),
-<<<<<<< HEAD
-          );
+);
 
 
-
-
-
-=======
-          ),
-        ),
-
-    );
->>>>>>> 7296f7a634b52328c4677d4c54fc508c05d42496
   }
 }
 

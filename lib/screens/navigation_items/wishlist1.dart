@@ -28,8 +28,6 @@ class _Wishlist1State extends State<Wishlist1> {
     final controller = FavouritesController.instance;
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      //drawer: DrawerNav(),
-      //appBar: dark ? TAppbarTheme.darkAppBarTheme(): TAppbarTheme.lightAppBarTheme(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
@@ -78,7 +76,7 @@ class _Wishlist1State extends State<Wishlist1> {
                             return Column(
                               children: [
                                 Container(
-                                  width: double.infinity,
+                                  width: double.infinity.w,
                                   height: 150.h,
                                   padding:  EdgeInsets.only(bottom: 2.h),
                                   color: TColors.light,
@@ -150,7 +148,7 @@ class _Wishlist1State extends State<Wishlist1> {
                                           ),
 
                                           SizedBox(width: 10.w,),
-                                          ItemCardAddToCartButton(item: item)
+                               //    ItemCardAddToCartButton(item: item)
                                           // Container(
                                           //     alignment: Alignment.center,
                                           //     width: 42.w,

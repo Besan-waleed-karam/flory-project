@@ -103,7 +103,7 @@ class _ProfileState extends State<Profile> {
                           ),
                         ),
                         onLongPress: () {},
-                        onPressed: () => Get.Yto(Editprofile()),
+                        onPressed: () => Get.to(Editprofile()),
                         child: Text(
                           "Change Photo",
                           style: TextStyle(fontSize: 16.sp),

@@ -53,6 +53,53 @@ class ItemRepository extends GetxController{
       return [];
     }
   }
+  Future<List<ItemModel>> getAllItems() async {
+    try {
+      final snapshot = await _db.collection('Items').get();
+
+      return snapshot.docs
+          .map((doc) => ItemModel.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
+          .toList();
+
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw "Something went wrong while fetching items";
+    }
+  }
+
+  Future<List<ItemModel>> searchItems(String query) async {
+    try {
+      final String searchQuery = query.toLowerCase();
+      QuerySnapshot snapshot = await _db
+          .collection('Items')
+          .where('name', isGreaterThanOrEqualTo: searchQuery)
+          .where('name', isLessThan: searchQuery + 'z')
+          .limit(20)
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        snapshot = await _db
+            .collection('Items')
+            .where('description', isGreaterThanOrEqualTo: searchQuery)
+            .where('description', isLessThan: searchQuery + 'z')
+            .limit(20)
+            .get();
+      }
+
+      return snapshot.docs
+          .map((doc) => ItemModel.fromSnapshot(doc as DocumentSnapshot<Map<String, dynamic>>))
+          .toList();
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw "Something went wrong, Please try again";
+    }
+  }
 
 
   Future<List<ItemModel>> getFavouriteItems(List<String> itemIds) async{

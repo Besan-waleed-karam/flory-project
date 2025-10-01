@@ -1,11 +1,13 @@
+import 'package:flory/features/shop/controllers/search_controller.dart';
+import 'package:flory/features/shop/models/item_model.dart';
+import 'package:flory/screens/detailsPage/detailsPage.dart';
+import 'package:flory/screens/navigation_items/favourite_icon.dart';
+import 'package:flory/utils/constants/colors.dart';
+import 'package:flory/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-
-import '../utils/constants/colors.dart';
-import '../utils/helpers/helper_functions.dart';
-import '../utils/theme/custom_themes/appbar_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -15,148 +17,310 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  final TextEditingController _searchController = TextEditingController();
-  List<String> searchHistory = [
-    'Golden wedding Memory Frame',
-    'Memory Frames',
-    'Golden wedding Memory Frame',
-    'Memory Frames',
+  final controller = Get.put(SearchCtr());
+  final TextEditingController _searchTextController = TextEditingController();
 
-  ];
-  List<String> searchResults = [];
-  bool isSearching = false;
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _performSearch(String query) {
-    setState(() {
-      isSearching = query.isNotEmpty;
-      if (isSearching) {
-        // In a real app, you would fetch actual search results here
-        searchResults = [
-          '$query result 1',
-          '$query result 2',
-          '$query result 3'
-        ];
-      }
-    });
-  }
-
-  void _clearSearch() {
-    setState(() {
-      _searchController.clear();
-      isSearching = false;
-    });
-  }
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+
     return Scaffold(
-      appBar: dark ?TAppbarTheme.darkAppBarTheme(leading: Padding(
-        padding: EdgeInsets.only(left: 20.0.w),
-        child: IconButton(icon:Icon(Iconsax.arrow_left_2), iconSize: 40.r,
-          onPressed: () {
-            Get.back();
-          }, ),
+      appBar: AppBar(
+        title: _buildSearchField(dark),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: TColors.primary),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
-          actions: [
-            SizedBox(width: 150.w),
-            CircleAvatar(
-              backgroundColor: TColors.primary40,
-              radius: 40.r,
-              child:Icon(Icons.search,size: 40.sp,color: Colors.white,),
+      body: _buildSearchBody(dark),
+    );
+  }
 
-            ),
-            SizedBox(width: 30.w),
-
-          ]) :TAppbarTheme.lightAppBarTheme(leading: Padding(
-        padding: EdgeInsets.only(left: 20.0.w, right: 20.w),
-        child: IconButton(icon:Icon(Iconsax.arrow_left_2), iconSize: 40.r,
-          onPressed: () {
-            Get.back();
-          }, ),
+  Widget _buildSearchField(bool dark) {
+    return Container(
+      decoration: BoxDecoration(
+        color: dark ? TColors.primary40 : TColors.white,
+        borderRadius: BorderRadius.circular(12.r),
       ),
-          actions: [
-            SizedBox(width: 150.w),
-            CircleAvatar(
-                backgroundColor: TColors.primary40,
-                radius: 40.r,
-                child:Icon(Icons.search,size: 40.sp,color: Colors.white,)
-            ),
-            SizedBox(width: 30.w),
+      child: TextField(
+        controller: _searchTextController,
+        autofocus: true,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: "Search products...",
+          hintStyle: TextStyle(fontSize: 18.sp, color: Colors.grey),
+          prefixIcon: Icon(Icons.search, color: TColors.primary),
+          suffixIcon: Obx(() => controller.searchQuery.isNotEmpty
+              ? IconButton(
+            icon: Icon(Icons.clear, color: TColors.primary),
+            onPressed: () {
+              controller.clearSearch();
+              _searchTextController.clear();
+            },
+          )
+              : Icon(Icons.abc)),
+        ),
+        onChanged: controller.onSearchChanged,
+      ),
+    );
+  }
 
-          ]) ,
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 31.w,vertical: 0.h),
-        child: Column(
+  Widget _buildSearchBody(bool dark) {
+    return Obx(() {
+      // إذا ما في بحث، عرض السجل
+      if (controller.searchQuery.isEmpty) {
+        return _buildSearchHistory(dark);
+      }
+
+      // تحميل
+      if (controller.isLoading.value) {
+        return Center(child: CircularProgressIndicator(color: TColors.primary));
+      }
+
+      // لا توجد نتائج
+      if (controller.searchQuery.isNotEmpty && controller.searchResults.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.search_off, size: 64, color: Colors.grey),
+              SizedBox(height: 16.h),
+              Text('No results found for "${controller.searchQuery}"'),
+            ],
+          ),
+        );
+      }
+
+      // عرض نتائج البحث
+      return ListView.builder(
+        itemCount: controller.searchResults.length,
+        itemBuilder: (context, index) {
+          final item = controller.searchResults[index];
+          return _buildSearchResultItem(item, dark);
+        },
+      );
+    });
+  }
+
+  Widget _buildSearchResultItem(ItemModel item, bool dark) {
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+      child: ListTile(
+        leading: Container(
+          width: 50.w,
+          height: 50.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.r),
+            image: DecorationImage(
+              image: NetworkImage(item.image),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        title: Text(
+          item.name,
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        subtitle: Text(
+          '\$${item.price.toStringAsFixed(2)}',
+          style: TextStyle(
+            fontSize: 14.sp,
+            color: TColors.primary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        trailing: TFavouriteIcon(itemId: item.id),
+        onTap: () => _openProductDetails(item),
+      ),
+    );
+  }
+
+  Widget _buildSearchHistory(bool dark) {
+    return FutureBuilder<List<String>>(
+      future: _getSearchHistory(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.history, size: 64, color: Colors.grey),
+                SizedBox(height: 16.h),
+                Text(
+                  'No search history',
+                  style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  'Products you view will appear here',
+                  style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                ),
+              ],
+            ),
+          );
+        }
+
+        final historyIds = snapshot.data!;
+
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height:30.h,),
-            TextFormField(
-
-              style: TextStyle(fontSize: 20.sp),
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(7.r),
-                    borderSide: BorderSide.none,
+            Padding(
+              padding: EdgeInsets.all(16.w),
+              child: Row(
+                children: [
+                  Text(
+                    'Recently Viewed',
+                    style: TextStyle(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold
+                    ),
                   ),
-                  prefixIcon: Icon(Icons.search_outlined,size: 28.sp,),
-                  prefixIconColor: Color(0xff1c1c1c),
-                  contentPadding: EdgeInsets.all(5.r),
-                  hintText: "Search",
-                  hintStyle: TextStyle(fontFamily: "Inter",fontSize: 20.sp,color: Colors.black),
-                  filled: true,
-                  fillColor: dark ? Colors.white.withOpacity(0.5): Colors.white
-
-              ),),
-            SizedBox(height: 20.h,),
-            Text("Search History",style: TextStyle(fontFamily: "Inter",fontSize: 20.sp,color: Colors.black),),
-
+                  Spacer(),
+                  if (historyIds.isNotEmpty)
+                    TextButton(
+                      onPressed: _clearSearchHistory,
+                      child: Text(
+                        'Clear All',
+                        style: TextStyle(color: Colors.red, fontSize: 14.sp),
+                      ),
+                    ),
+                ],
+              ),
+            ),
             Expanded(
-              child: isSearching
-                  ? ListView.builder(
-                itemCount: searchResults.length,
+              child: ListView.builder(
+                itemCount: historyIds.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: Icon(Icons.search,size: 25.sp,color:Color(0xFFB2ADAD),),
-                    title: Text(searchResults[index],style: TextStyle(fontSize: 15.sp,color: Color(0x80000000),fontFamily: "Inter"),),
-                    onTap: () {
-                      // Handle search result tap
+                  return FutureBuilder<ItemModel?>(
+                    future: _getItemById(historyIds[index]),
+                    builder: (context, itemSnapshot) {
+                      if (!itemSnapshot.hasData || itemSnapshot.data == null) {
+                        return SizedBox.shrink();
+                      }
+
+                      final item = itemSnapshot.data!;
+                      return _buildHistoryItem(item, dark);
                     },
                   );
                 },
-              )
-                  : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: searchHistory.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: Icon(Icons.history,size: 25.sp,color:Color(0xFFB2ADAD),),
-                          title: Text(searchHistory[index],style: TextStyle(fontSize: 15.sp,color: dark ? Colors.white : Color(0x80000000),fontFamily: "Inter"),),
-                          onTap: () {
-                            // Re-run the search when history item is tapped
-                            _searchController.text = searchHistory[index];
-                            _performSearch(searchHistory[index]);
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ],
               ),
-            )
+            ),
           ],
+        );
+      },
+    );
+  }
 
-
+  Widget _buildHistoryItem(ItemModel item, bool dark) {
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+      child: ListTile(
+        leading: Container(
+          width: 40.w,
+          height: 40.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6.r),
+            image: DecorationImage(
+              image: NetworkImage(item.image),
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
+        title: Text(
+          item.name,
+          style: TextStyle(fontSize: 14.sp),
+        ),
+        subtitle: Text(
+          '\$${item.price.toStringAsFixed(2)}',
+          style: TextStyle(fontSize: 12.sp, color: TColors.primary),
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.close, size: 18.sp),
+          onPressed: () => _removeFromHistory(item.id),
+        ),
+        onTap: () => _openProductDetails(item),
       ),
     );
+  }
+
+  void _openProductDetails(ItemModel item) async {
+    // حفظ في السجل عند فتح المنتج
+    await _saveToSearchHistory(item);
+    Get.to(() => Detailspage(item: item));
+  }
+
+  Future<void> _saveToSearchHistory(ItemModel item) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      List<String> currentHistory = prefs.getStringList('search_history') ?? [];
+
+      // إزالة العنصر إذا موجود مسبقاً
+      currentHistory.removeWhere((id) => id == item.id);
+
+      // إضافة العنصر في البداية
+      currentHistory.insert(0, item.id);
+
+      // حفظ فقط آخر 10 عناصر
+      if (currentHistory.length > 10) {
+        currentHistory = currentHistory.sublist(0, 10);
+      }
+
+      await prefs.setStringList('search_history', currentHistory);
+
+      // تحديث الواجهة إذا كنا في صفحة السجل
+      if (mounted) setState(() {});
+
+    } catch (e) {
+      print('Error saving to history: $e');
+    }
+  }
+
+  Future<List<String>> _getSearchHistory() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList('search_history') ?? [];
+  }
+
+  Future<ItemModel?> _getItemById(String itemId) async {
+    try {
+      // استخدام الـ repository الموجود لديك
+      final items = await controller.getAllItems();
+      return items.firstWhere((item) => item.id == itemId);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<void> _removeFromHistory(String itemId) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      List<String> currentHistory = prefs.getStringList('search_history') ?? [];
+      currentHistory.removeWhere((id) => id == itemId);
+      await prefs.setStringList('search_history', currentHistory);
+
+      if (mounted) setState(() {});
+    } catch (e) {
+      print('Error removing from history: $e');
+    }
+  }
+
+  Future<void> _clearSearchHistory() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('search_history');
+
+      if (mounted) setState(() {});
+    } catch (e) {
+      print('Error clearing history: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchTextController.dispose();
+    super.dispose();
   }
 }
