@@ -18,29 +18,6 @@ class FavouritesController extends GetxController{
     super.onInit();
     initFavourites();
   }
-
-
-  // Future<void> initFavourites() async {
-  //   final jsonStr = TLocalStorage.instance().readData<String>('favourites');
-  //
-  //   print("RAW favourites in storage: $jsonStr");
-  //   if (jsonStr != null && jsonStr.isNotEmpty) {
-  //     try {
-  //       final decoded = jsonDecode(jsonStr);
-  //       if (decoded is Map<String, dynamic>) {
-  //         favourites.assignAll(decoded.map(
-  //               (key, value) => MapEntry(key, value as bool),
-  //         ));
-  //       } else {
-  //         throw Exception("Invalid favourites format");
-  //       }
-  //     } catch (e) {
-  //       print("Error parsing favourites JSON: $e");
-  //       await TLocalStorage.instance().removeData('favourites');
-  //       favourites.clear();
-  //     }
-  //   }
-  // }
   void initFavourites() {
     try {
       final raw = GetStorage().read('favourites');
@@ -57,22 +34,6 @@ class FavouritesController extends GetxController{
       GetStorage().write('favourites', jsonEncode(favourites));
     }
   }
-  // Future<void> initFavourites() async {
-  //   final jsonStr = TLocalStorage.instance().readData<String>('favourites');
-  //
-  //   if (jsonStr != null && jsonStr.isNotEmpty) {
-  //     try {
-  //       final storedFavourites = jsonDecode(jsonStr) as Map<String, dynamic>;
-  //       favourites.assignAll(storedFavourites.map(
-  //             (key, value) => MapEntry(key, value as bool),
-  //       ));
-  //     } catch (e) {
-  //       print("Error parsing favourites JSON: $e");
-  //       TLocalStorage.instance().removeData('favourites');
-  //       favourites.clear();
-  //     }
-  //   }
-  // }
   bool isFavourites(String itemId) {
     return favourites[itemId] ?? false;
   }

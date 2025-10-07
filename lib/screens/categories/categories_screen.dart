@@ -238,21 +238,3 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 }
 
-// Positioned(
-//   top: 16.h,
-//   right: 16.w,
-//   child: Container(
-//     alignment: Alignment.center,
-//     width: 28.w,
-//     height: 28.h,
-//     decoration: BoxDecoration(
-//       color: TColors.primary,
-//       borderRadius: BorderRadius.circular(5.r),
-//     ),
-//     child: Icon(
-//       Icons.favorite,
-//       color: Colors.white,
-//       size: 16.sp,
-//     ),
-//   ),
-// ),

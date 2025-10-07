@@ -23,8 +23,8 @@ class ItemCardAddToCartButton extends StatelessWidget {
         final itemQuantityInCart = cartController.getItemQuantityInCart(item.id);
         return Container(
           alignment: Alignment.center,
-          width: 20.w,
-          height: 20.h,
+          width: 50.w,
+          height: 30.h,
           decoration: BoxDecoration(
             color: TColors.primary,
             borderRadius:
@@ -34,9 +34,7 @@ class ItemCardAddToCartButton extends StatelessWidget {
             width: TSizes.iconLg * 1.2,
             height: TSizes.iconLg * 1.2,
             child: Center(
-              child: itemQuantityInCart > 0
-                ? Text(itemQuantityInCart.toString() , style: Theme.of(context).textTheme.bodyLarge!.apply(color: Colors.white))
-                : Icon(Icons.add,
+              child:  Icon(Icons.add,
                   color: Colors.white, size: 15.sp),
             ),
           ),

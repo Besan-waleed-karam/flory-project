@@ -27,8 +27,6 @@ class HomeScreen extends StatelessWidget {
     final popularItemsController = Get.put(PopularItemsController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      //drawer: DrawerNav(),
-      //appBar: dark ? TAppbarTheme.darkAppBarTheme(): TAppbarTheme.lightAppBarTheme(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
@@ -72,21 +70,6 @@ class HomeScreen extends StatelessWidget {
                   print("Products list is empty in Obx");
                   return Text("No data found");
                 }
-                // if (categoryController.isLoading.value) {
-                //   return const TShimmerEffect(
-                //     height: 190,
-                //     width: double.infinity,
-                //   );
-                // }
-                //
-                // if (categoryController.featuredCategories.isEmpty) {
-                //   return Center(
-                //     child: Text(
-                //       "No data found",
-                //       style: TextStyle(fontFamily: "Inter", fontSize: 22),
-                //     ),
-                //   );
-                // }
                 return Container(
                   width: double.infinity.w,
                   height: 76.h,
@@ -141,9 +124,14 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 110.w),
-                    Text(
-                      "View All",
-                      style: TextStyle(fontSize: 20.sp, color: TColors.primary),
+                    GestureDetector(
+                      onTap: (){
+                      //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CategoriesScreen(category:category)));
+                      },
+                      child: Text(
+                        "View All",
+                        style: TextStyle(fontSize: 20.sp, color: TColors.primary),
+                      ),
                     ),
                   ],
                 ),
@@ -154,21 +142,6 @@ class HomeScreen extends StatelessWidget {
                   print("Products list is empty in Obx");
                   return Text("No data found");
                 }
-                // if (popularItemsController.isLoading.value) {
-                //   return const TShimmerEffect(
-                //     height: 190,
-                //     width: double.infinity,
-                //   );
-                // }
-                //
-                // if (popularItemsController.popularItems.isEmpty) {
-                //   return Center(
-                //     child: Text(
-                //       "No data found",
-                //       style: TextStyle(fontFamily: "Inter", fontSize: 22),
-                //     ),
-                //   );
-                // }
                 return Container(
                   padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                   width: double.infinity.w,
@@ -224,7 +197,6 @@ class HomeScreen extends StatelessWidget {
                                       top: 11.h,
                                       right: 11.w,
                                       child: TFavouriteIcon(
-
                                           itemId: popularItem.id)),
                                 ],
                               ),

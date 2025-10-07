@@ -7,14 +7,19 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get_storage/get_storage.dart';
 import 'features/authentication/controllers/login_controller/user_controller.dart';
+import 'features/shop/controllers/favourites_controller.dart';
 import 'firebase_options.dart';
 import 'app.dart';
 import 'package:flory/features/shop/controllers/search_controller.dart';
 
-Future<void> main() async {
+import 'notifications/notification_service.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+Future<void> main() async {
   /// Widgets Binding
   final  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+ // await FirebaseNotification().initNotification();
 
   await ThemeManager.init();
 
@@ -28,9 +33,15 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
           (FirebaseApp value) => Get.put(AuthenticationRepository()));
   Get.put(UserController());
+  // notification initiate
   Get.put(SearchCtr());
-  //Get.put(ItemRepository());
-  //
+  Get.put(ItemRepository());
+  Get.put(FavouritesController());
+
+  NotificationService notificationService = NotificationService();
+  await notificationService.initNotification();
+ // final fcmToken = await FirebaseMessaging.instance.getToken();
+  //print('FCMtoken:$fcmToken +');
   // WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
   //

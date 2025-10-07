@@ -38,7 +38,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   get: ^4.6.5
   http: ^1.1.0
-  intl: ^0.18.1
+  intl: ^0.19.0
   logger: ^2.0.1
   url_launcher: ^6.1.12
   get_storage: ^2.1.1
@@ -62,6 +62,16 @@ dependencies:
   permission_handler: ^11.3.0
   image_picker: ^1.2.0
   cached_network_image: ^3.4.1
+  firebase_analytics: ^12.0.2
+  flutter_local_notifications: ^19.4.2
+  flutter_launcher_icons: ^0.14.4
+  json_annotation: ^4.9.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/appLogo.png"
+  adaptive_icon_foreground_scale: 1.4
 
 
 dev_dependencies:
@@ -74,7 +84,6 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
 
 
 
@@ -91,6 +100,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+     - assets/images/notificationPageImages/promo.png
      - assets/images/IMG_2006.PNG
      - assets/images/Loading.json
      - assets/images/bloom.jpeg
@@ -134,6 +144,7 @@ flutter:
      - assets/images/google_icon.png
      - assets/images/verify_done.png
      - assets/images/verifyEmail.png
+     - assets/images/appLogo.png
 
 
 
