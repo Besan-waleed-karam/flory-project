@@ -6,37 +6,60 @@ import 'package:get/get.dart';
 
 class CartController extends GetxController{
   static CartController get instance => Get.find();
-
-
   //variables
    RxInt noOfCartItems = 0.obs;
    RxDouble totalCartPrice = 0.0.obs;
    RxInt itemQuantityInCart = 0.obs;
    RxList<CartItemModel> cartItems  = <CartItemModel>[].obs;
-
-   CartController(){
-     loadCartItems();
-   }
-
-   void addToCart(ItemModel item){
-     //Quantity Check
-     if(itemQuantityInCart.value < 1){
-       Loaders.customToast(message: 'Select Quantity');
-       return;
-     }
-
-     final selectedCartItem = convertToCartItem(item,itemQuantityInCart.value);
-
-      int index = cartItems.indexWhere((cartItems) => cartItems.itemId == selectedCartItem.itemId);
-      if(index >= 0){
-        cartItems[index].quantity = selectedCartItem.quantity;
-      }else{
-        cartItems.add(selectedCartItem);
-      }
+  RxMap<String, int> itemQuantities = <String, int>{}.obs;
 
 
-   }
+   // CartController(){
+   //   loadCartItems();
+   // }
 
+  @override
+  void onInit() {
+    super.onInit();
+    loadCartItems();
+  }
+  void addToCart(ItemModel item,{String variantKey = ""}) {
+    final qty = itemQuantities[item.id] ?? 0;
+
+    if (qty < 1) {
+      Loaders.customToast(message: 'Select Quantity');
+      return;
+    }
+    // create a CartItemModel with the selected quantity
+    final selectedCartItem = convertToCartItem(item, qty);
+
+    // if you need variant separation (customization vs simple),
+    // add variantKey to CartItemModel and compare by that too.
+    int index = cartItems.indexWhere((cartItem) => cartItem.itemId == selectedCartItem.itemId
+      /* && cartItem.variantKey == selectedCartItem.variantKey */);
+
+    if (index >= 0) {
+      // increase existing cart item quantity
+      cartItems[index].quantity += selectedCartItem.quantity;
+    } else {
+      cartItems.add(selectedCartItem);
+    }
+
+    // reset selected quantity for that product (optional UX)
+    itemQuantities[item.id] = 0;
+
+    // recalc totals, save and refresh
+    updateCart();
+
+    Loaders.customToast(message: '${item.name} added to cart');
+  }
+  void increaseQuantity(ItemModel item) {
+    itemQuantities[item.id] = (itemQuantities[item.id] ?? 0) + 1;
+  }
+  void decreaseQuantity(ItemModel item) {
+    final cur = (itemQuantities[item.id] ?? 0);
+    if (cur > 0) itemQuantities[item.id] = cur - 1;
+  }
    void addOneToCart(CartItemModel item){
      int index = cartItems.indexWhere((cartItem) => cartItem.itemId == item.itemId);
 
@@ -47,7 +70,6 @@ class CartController extends GetxController{
      }
      updateCart();
    }
-
    void removeOneFromCart(CartItemModel item){
      int index = cartItems.indexWhere((cartItem) => cartItem.itemId == item.itemId);
 
@@ -60,7 +82,6 @@ class CartController extends GetxController{
        updateCart();
      }
    }
-
    void removeFromCartDialog (int index){
      Get.defaultDialog(
          title: "Remove Item",
@@ -75,7 +96,8 @@ class CartController extends GetxController{
      );
    }
   CartItemModel convertToCartItem(ItemModel item, int quantity){
-
+    final isCustomization = item.categoryId == "1" || item.categoryId == "4";
+    final variantKey = isCustomization ? "customization" : "simple";
     return CartItemModel(
         itemId: item.id,
         name: item.name,
@@ -83,13 +105,15 @@ class CartController extends GetxController{
         quantity: quantity,
         image: item.image,
         description: item.description,
-        includes: item.includes
-
+        includes: item.includes,
+        categoryId: item.categoryId,
+        variantKey: variantKey.isNotEmpty ? variantKey : item.categoryId,
     );
-
   }
-
-
+  void updateAlreadyAddedProductCount(ItemModel item) {
+    // set the selection counter to how many of this item are already in the cart
+    itemQuantities[item.id] = getItemQuantityInCart(item.id);
+  }
   void updateCart(){
     updateCartTotals();
     saveCartItems();
@@ -111,33 +135,88 @@ class CartController extends GetxController{
 
    void saveCartItems(){
      final cartItemsStrings = cartItems.map((item) => item.toJson()).toList();
-     TLocalStorage.instance().savaData('cartItems', cartItemsStrings);
+     print("Saving cart items: $cartItemsStrings"); // Debug
+
+     TLocalStorage.instance().saveData('cartItems', cartItemsStrings);
    }
 
-   void loadCartItems(){
-     final cartItemStrings = TLocalStorage.instance().readData<List<dynamic>>('cartItems');
-     if(cartItemStrings != null){
-       cartItems.assignAll(cartItemStrings.map((item) => CartItemModel.fromJson(item as Map<String,dynamic>)));
-       updateCartTotals();
-     }
-   }
-
-
+  void loadCartItems() {
+    try {
+      final cartItemStrings = TLocalStorage.instance().readData<List<dynamic>>('cartItems');
+      print("Loaded cart items from storage: $cartItemStrings"); // 👈 Debug
+      if (cartItemStrings != null) {
+        cartItems.assignAll(cartItemStrings.map(
+                (item) => CartItemModel.fromJson(Map<String, dynamic>.from(item))));
+        updateCartTotals();
+      }
+    } catch (e) {
+      print("Cart load failed: $e");
+    }
+  }
    int getItemQuantityInCart(String itemId){
      final foundItem = cartItems.where((item) => item.itemId == itemId).fold(0, (previousValue, element) => previousValue + element.quantity);
      return foundItem;
    }
-
    int getQuantityInCart(String itemId){
      final foundItem = cartItems.firstWhere((item) => item.itemId == itemId,orElse: () => CartItemModel.empty());
      return foundItem.quantity;
    }
-
    void clearCart(){
      itemQuantityInCart.value = 0;
      cartItems.clear();
      updateCart();
    }
-
 }
 
+
+// void loadCartItems(){
+//   try{
+//     final cartItemStrings = TLocalStorage.instance().readData<List<dynamic>>('cartItems');
+//     if(cartItemStrings != null){
+//       cartItems.assignAll(cartItemStrings.map((item) => CartItemModel.fromJson(item as Map<String,dynamic>)));
+//       updateCartTotals();
+//     }
+//   }catch(e){
+//     print("Cart load failed: $e");
+//   }
+//
+// }
+// void addToCart(ItemModel item, {String variantKey = ""}){
+//   //Quantity Check
+//   if(itemQuantityInCart.value < 1){
+//     Loaders.customToast(message: 'Select Quantity');
+//     return;
+//   }
+//
+//   final isCustomization = item.categoryId == "1" || item.categoryId == "4";
+//   final variantKey = isCustomization ? "customization" : "simple";
+//
+//   final selectedCartItem = CartItemModel(
+//     itemId: item.id,
+//     categoryId: item.categoryId,
+//     name: item.name,
+//     price: item.price,
+//     image: item.image,
+//     quantity: itemQuantityInCart.toInt(),
+//     description: item.description,
+//     includes: item.includes,
+//     variantKey:variantKey
+//   );
+//   int index = cartItems.indexWhere((cartItem) =>
+//   cartItem.itemId == selectedCartItem.itemId &&
+//       cartItem.variantKey == selectedCartItem.variantKey);
+//
+//   // final selectedCartItem = convertToCartItem(item,itemQuantityInCart.value);
+//   //
+//    //int index = cartItems.indexWhere((cartItems) => cartItems.itemId == selectedCartItem.itemId);
+//    if(index >= 0){
+//      //cartItems[index].quantity = selectedCartItem.quantity;
+//      cartItems[index].quantity += selectedCartItem.quantity;
+//    }else{
+//      cartItems.add(selectedCartItem);
+//    }
+//   updateCart();
+//   itemQuantityInCart.value = 0;
+//
+//   Loaders.customToast(message: '${item.name} added to cart');
+// }

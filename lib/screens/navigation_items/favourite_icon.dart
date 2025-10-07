@@ -12,9 +12,9 @@ class TFavouriteIcon extends StatelessWidget {
   final String itemId;
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(FavouritesController());
-    return  Obx(() => FavouriteIcon(
-      icon: controller.isFavourites(itemId) ? Icons.favorite : Icons.favorite,
+    final controller = Get.find<FavouritesController>();    return  Obx(() => FavouriteIcon(
+      icon: Icons.favorite,
+      //controller.isFavourites(itemId) ? Icons.favorite : Icons.favorite,
       color: controller.isFavourites(itemId) ? Colors.red : Colors.white,
        height: 32.h,
        width: 32.w,

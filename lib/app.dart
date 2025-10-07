@@ -1,4 +1,3 @@
-
 import 'package:flory/utils/theme/theme.dart';
 import 'package:flory/utils/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +6,6 @@ import 'package:get/get.dart';
 import 'package:flory/utils/constants/colors.dart';
 
 import 'bindings/general_bindings.dart';
-
-
 class App extends StatelessWidget {
   const App({super.key});
 

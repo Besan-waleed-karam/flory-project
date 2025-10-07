@@ -34,11 +34,11 @@ class CategoriesScreen extends StatefulWidget {
 class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
+
   //  final cartController = CartController.instance;
-=======
+
    // final cartController = CartController.instance;
->>>>>>> 7296f7a634b52328c4677d4c54fc508c05d42496
+
     final controller = Get.put(ItemController());
     final dark = THelperFunctions.isDarkMode(context);
 
@@ -189,7 +189,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                         ],
                                       ),
                                       Spacer(),
-<<<<<<< HEAD
+
                               Container(
                                 alignment: Alignment.center,
                                 width: 20.w,
@@ -213,10 +213,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 ),
 
                               )
-                                  //    ItemCardAddToCartButton(item: item)
-=======
+                                  //    ItemCardAddToCartButton(item: item
                                     //  ItemCardAddToCartButton(item: item)
->>>>>>> 7296f7a634b52328c4677d4c54fc508c05d42496
+
                                     ],
                                   ),
                                 ],

@@ -31,8 +31,8 @@ class ItemCardAddToCartButton extends StatelessWidget {
             BorderRadius.circular(5.r),
           ),
           child: SizedBox(
-            width: TSizes.iconLg * 1.2,
-            height: TSizes.iconLg * 1.2,
+            width: 19.w,
+            height: 19.h,
             child: Center(
               child: itemQuantityInCart > 0
                 ? Text(itemQuantityInCart.toString() , style: Theme.of(context).textTheme.bodyLarge!.apply(color: Colors.white))

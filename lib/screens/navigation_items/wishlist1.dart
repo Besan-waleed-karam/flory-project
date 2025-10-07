@@ -55,18 +55,32 @@ class _Wishlist1State extends State<Wishlist1> {
                   FutureBuilder(
                     future: controller.favouriteItems(),
                     builder: (context,snapshot){
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
 
-                      final emptyWidget = AnimationLoaderWidget(
-                          text: 'Whoops! wishlist is Empty....',
+                      if (!snapshot.hasData || (snapshot.data as List).isEmpty) {
+                        // Show empty widget when there are no favourites
+                        return AnimationLoaderWidget(
+                          text: 'Whoops! WishList is Empty...',
                           animation: 'assets/images/on_boarding/onBoarding1.png',
                           showAction: true,
                           actionText: 'Let\'s add some',
-                          onActionPressed: () => Get.off(() =>const NavigationMenu()),
-                      );
+                          onActionPressed: () => Get.off(() => const NavigationMenu()),
+                        );
+                      }
 
-                     const loader = TShimmerEffect(height: 23, width: 23);
-                     final widget = TCloudHelperFunctions.checkMultiRecordState(snapshot: snapshot,loader: loader,nothingFound: emptyWidget);
-                     if(widget != null) return widget;
+                     //  final emptyWidget = AnimationLoaderWidget(
+                     //      text: 'Whoops! wishlist is Empty....',
+                     //      animation: 'assets/images/on_boarding/onBoarding1.png',
+                     //      showAction: true,
+                     //      actionText: 'Let\'s add some',
+                     //      onActionPressed: () => Get.off(() =>const NavigationMenu()),
+                     //  );
+                     //
+                     // const loader = TShimmerEffect(height: 23, width: 23);
+                     // final widget = TCloudHelperFunctions.checkMultiRecordState(snapshot: snapshot,loader: loader,nothingFound: emptyWidget);
+                     // if(widget != null) return widget;
 
                       final items = snapshot.data!;
                         return ListView.builder(
@@ -107,7 +121,7 @@ class _Wishlist1State extends State<Wishlist1> {
                                                     height: 113.h,
                                                     child: ClipRRect(
                                                       borderRadius: BorderRadius.circular(14.r),
-                                                      child:Image.asset(item.image,fit: BoxFit.fitWidth,),),
+                                                      child:Image.network(item.image,fit: BoxFit.fitWidth,),),
                                                   ),
                                                   Positioned(
                                                     top: 8.h,
@@ -150,7 +164,7 @@ class _Wishlist1State extends State<Wishlist1> {
                                           ),
 
                                           SizedBox(width: 10.w,),
-                                          ItemCardAddToCartButton(item: item)
+                                        //  ItemCardAddToCartButton(item: item)
                                           // Container(
                                           //     alignment: Alignment.center,
                                           //     width: 42.w,

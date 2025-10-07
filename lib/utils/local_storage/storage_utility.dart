@@ -9,6 +9,8 @@ class TLocalStorage {
   TLocalStorage._internal();
 
 
+
+
   factory TLocalStorage.instance() {
     _instance ??= TLocalStorage._internal();
     return _instance!;
@@ -21,7 +23,7 @@ static Future<void> init(String bucketName) async {
 }
 
   // Generic method to save data
-  Future<void> savaData<T>(String key, T value) async {
+  Future<void> saveData<T>(String key, T value) async {
     await _storage.write(key, value);
   }
 
@@ -36,7 +38,7 @@ static Future<void> init(String bucketName) async {
   }
 
   // Clear all data in storage
-  Future<void> clearAll(String key) async {
-    await _storage.erase() /**/;
+  Future<void> clearAll() async {
+    await _storage.erase();
   }
 }
