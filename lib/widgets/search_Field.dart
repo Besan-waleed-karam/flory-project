@@ -1,6 +1,8 @@
 import 'package:flory/screens/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../utils/constants/colors.dart';
 import '../utils/helpers/helper_functions.dart';
 
@@ -9,11 +11,11 @@ class SearchField {
 
   static Widget searchFiled(BuildContext context)  {
     final dark = THelperFunctions.isDarkMode(context);
+    final searchController = Get.put(SearchController());
     return SizedBox(
       width: 342.w,
       height: 40.h,
       child: TextField(
-      readOnly: true, // So the keyboard doesn’t show immediately
       onTap: () {
         Navigator.push(
             context,

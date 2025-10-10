@@ -10,6 +10,8 @@ import 'package:flory/utils/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../features/shop/models/item_model.dart';
+import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/theme/custom_themes/text_theme.dart';
 import '../../widgets/search_Field.dart';
@@ -52,152 +54,134 @@ class _Wishlist1State extends State<Wishlist1> {
                 padding: EdgeInsets.only(left: 0.w),
                 margin: EdgeInsets.only(left: 0.w),
                 child:
-                  FutureBuilder(
-                    future: controller.favouriteItems(),
-                    builder: (context,snapshot){
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
+                Obx(() {
+                  final emptyWidget = AnimationLoaderWidget(
+                    text: 'Whoops! Wishlist is empty....',
+                    animation: 'assets/images/on_boarding/onBoarding1.png',
+                    showAction: true,
+                    actionText: 'Let\'s add some',
+                    onActionPressed: () => Get.off(() => const NavigationMenu()),
+                  );
 
-                      if (!snapshot.hasData || (snapshot.data as List).isEmpty) {
-                        // Show empty widget when there are no favourites
-                        return AnimationLoaderWidget(
-                          text: 'Whoops! WishList is Empty...',
-                          animation: 'assets/images/on_boarding/onBoarding1.png',
-                          showAction: true,
-                          actionText: 'Let\'s add some',
-                          onActionPressed: () => Get.off(() => const NavigationMenu()),
+                  if (controller.favourites.isEmpty) {
+                    print("Wishlist empty → skip FutureBuilder");
+                    return emptyWidget;
+                  }else{
+                    return FutureBuilder<List<ItemModel>>(
+                      future: controller.favouriteItems(),
+                      builder: (context, snapshot) {
+                        const loader = TShimmerEffect(height: 23, width: 23);
+                        final widget = TCloudHelperFunctions.checkMultiRecordState(
+                          snapshot: snapshot,
+                          loader: loader,
+                          nothingFound: emptyWidget,
                         );
-                      }
+                        if (widget != null) return widget;
 
-                     //  final emptyWidget = AnimationLoaderWidget(
-                     //      text: 'Whoops! wishlist is Empty....',
-                     //      animation: 'assets/images/on_boarding/onBoarding1.png',
-                     //      showAction: true,
-                     //      actionText: 'Let\'s add some',
-                     //      onActionPressed: () => Get.off(() =>const NavigationMenu()),
-                     //  );
-                     //
-                     // const loader = TShimmerEffect(height: 23, width: 23);
-                     // final widget = TCloudHelperFunctions.checkMultiRecordState(snapshot: snapshot,loader: loader,nothingFound: emptyWidget);
-                     // if(widget != null) return widget;
-
-                      final items = snapshot.data!;
+                        final items = snapshot.data!;
                         return ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: items.length,
-                          itemBuilder: (context,index){
+                          itemBuilder: (context, index) {
                             final item = items[index];
                             return Column(
                               children: [
                                 Container(
-                                  width: double.infinity,
-                                  height: 150.h,
-                                  padding:  EdgeInsets.only(bottom: 2.h),
-                                  color: TColors.light,
-                                  margin: EdgeInsets.fromLTRB(0.w, 0.h, 0.w,0.h),
-                                  child: Container(
-                                      color:dark ?TColors.blackF : TColors.primaryBackground,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 111.w,
-                                            height: 122.h,
-                                            margin: EdgeInsets.only(bottom: 5.h),
-                                            padding: EdgeInsets.all(4.r),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.all(Radius.circular(18.r)),
-                                                border: Border.all(color: TColors.primary , width: 1.w),
-                                                boxShadow: [
-                                                  BoxShadow(color: TColors.primary40 , offset: Offset(0, 1.h) , spreadRadius: 1.r , blurRadius: 4.r),
-                                                ]
-                                            ),
-                                            child: Stack(
-                                                children:[
-                                                  SizedBox(
-                                                    width: 102.w,
-                                                    height: 113.h,
-                                                    child: ClipRRect(
-                                                      borderRadius: BorderRadius.circular(14.r),
-                                                      child:Image.network(item.image,fit: BoxFit.fitWidth,),),
-                                                  ),
-                                                  Positioned(
-                                                    top: 8.h,
-                                                    right: 5.w,
-                                                    child: TFavouriteIcon(itemId: item.id),
-                                                  )
-
-                                                  // Positioned(
-                                                  //   top: 8.h,
-                                                  //   right: 5.w,
-                                                  //   child: Container(
-                                                  //     alignment: Alignment.center,
-                                                  //     width: 20.w,
-                                                  //     height: 20.h ,
-                                                  //     decoration: BoxDecoration(
-                                                  //         color: TColors.primary,
-                                                  //         borderRadius: BorderRadius.all(Radius.circular(5.r))
-                                                  //     ),
-                                                  //
-                                                  //     child:Icon(Icons.favorite,color: Colors.white,size: 11.sp,),
-                                                  //   ),
-                                                  // )
-                                                ]
-                                            ),
+                                    width: double.infinity,
+                                    height: 150.h,
+                                    color: dark ? TColors.blackF : TColors.primaryBackground,
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 111.w,
+                                          height: 122.h,
+                                          margin: EdgeInsets.only(bottom: 5.h),
+                                          padding: EdgeInsets.all(4.r),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(18.r),
+                                            border: Border.all(color: TColors.primary, width: 1.w),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: TColors.primary40,
+                                                offset: Offset(0, 1.h),
+                                                spreadRadius: 1.r,
+                                                blurRadius: 4.r,
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            width: 150.w,
-                                            height: 100.h,
-                                            //  color: Colors.purple,
-                                            padding: EdgeInsets.only(top: 6.h),
-                                            margin: EdgeInsets.only(left: 15.w),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                          child: Stack(
                                               children: [
-                                                Text(item.name,style: TextStyle(fontFamily: "Inter",fontSize: 15.sp,color: TColors.primary),),
-                                                SizedBox(height: 10.h,),
-                                                Text(item.price.toString(),style: TextStyle(fontFamily: "Inter",fontSize: 16.sp,color: Colors.black)),
-                                              ],
-                                            ),
+                                                SizedBox( width: 102.w, height: 113.h, child: ClipRRect( borderRadius: BorderRadius.circular(14.r), child:Image.network(item.image,fit: BoxFit.fitWidth,),), ),
+                                                Positioned( top: 8.h, right: 5.w, child: TFavouriteIcon(itemId: item.id), )
+                                                // Positioned(
+                                                // top: 8.h,
+                                                // right: 5.w,
+                                                // child: Container(
+                                                // alignment: Alignment.center,
+                                                // width: 20.w,
+                                                // height: 20.h ,
+                                                // decoration: BoxDecoration(
+                                                // color: TColors.primary,
+                                                // borderRadius: BorderRadius.all(Radius.circular(5.r))
+                                                // ),
+                                                //
+                                                // child:Icon(Icons.favorite,color: Colors.white,size: 11.sp,),
+                                                // ),
+                                                // )
+                                              ] ), ),
+                                        Container(
+                                          width: 150.w,
+                                          height: 100.h,
+                                          // color: Colors.purple,
+                                          padding: EdgeInsets.only(top: 6.h),
+                                          margin: EdgeInsets.only(left: 15.w),
+                                          child: Column( crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(item.name,style: TextStyle(fontFamily: "Inter",fontSize: 15.sp,color: TColors.primary),
+                                              ),
+                                              SizedBox(height: 10.h,), Text(item.price.toString(),
+                                                  style: TextStyle(fontFamily: "Inter",fontSize: 16.sp,color: Colors.black)),
+                                            ],
                                           ),
+                                        ), SizedBox(width: 10.w,),
+                                        Container(
+                                            alignment: Alignment.center,
+                                            width: 45.w,
+                                            height: 38.h,
+                                            decoration: BoxDecoration(
+                                              color: TColors.primary,
+                                              borderRadius: BorderRadius.circular(5.r), ),
+                                            child: SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: Center(
+                                                  child: ItemCardAddToCartButton(item: item) ), ) ),
+                                        // Container( // alignment: Alignment.center,
+                                        // width: 42.w, // height: 22.h,
+                                        // padding: EdgeInsets.only(top: 0.h),
+                                        // margin: EdgeInsets.only(bottom: 50.h),
+                                        // decoration: BoxDecoration( // color: TColors.primary,
+                                        // borderRadius: BorderRadius.all(Radius.circular(5.r)),
+                                        // boxShadow: [
+                                        // BoxShadow(color: TColors.primary40 , offset: Offset(0, 1.h) , spreadRadius: 1.r , blurRadius: 3.r),
+                                        // ] //
+                                        // ), // // child:Icon(Icons.add,color: TColors.light,size: 17.sp,)),
+                                      ],
+                                    ) ),
 
-                                          SizedBox(width: 10.w,),
-                                        //  ItemCardAddToCartButton(item: item)
-                                          // Container(
-                                          //     alignment: Alignment.center,
-                                          //     width: 42.w,
-                                          //     height: 22.h,
-                                          //     padding: EdgeInsets.only(top: 0.h),
-                                          //     margin: EdgeInsets.only(bottom: 50.h),
-                                          //     decoration: BoxDecoration(
-                                          //         color: TColors.primary,
-                                          //         borderRadius: BorderRadius.all(Radius.circular(5.r)),
-                                          //         boxShadow: [
-                                          //           BoxShadow(color: TColors.primary40 , offset: Offset(0, 1.h) , spreadRadius: 1.r , blurRadius: 3.r),
-                                          //         ]
-                                          //     ),
-                                          //
-                                          //     child:Icon(Icons.add,color: TColors.light,size: 17.sp,)),
-                                        ],
-
-                                      )
-                                  ),
-                                ),
-                                Divider(
-                                  thickness: 2,
-                                  color: TColors.primary,
-                                ),
-
+                                Divider( thickness: 2, color: TColors.primary, ),
                               ],
                             );
-                          }
+                          },
+                        );
+                      },
+                    );
+                  }
 
-                      );
-                    }
 
-                  ),
+                })
 
               ),
               SizedBox(height: 50.w,),

@@ -1,6 +1,7 @@
 import 'package:flory/data/repositories/categories/item_repository.dart';
 import 'package:flory/features/shop/controllers/category_controller.dart';
 import 'package:flory/features/shop/controllers/item_controller.dart';
+import 'package:flory/features/shop/models/cart_item_model.dart';
 import 'package:flory/features/shop/models/category_model.dart';
 import 'package:flory/features/shop/models/item_model.dart';
 import 'package:flory/screens/detailsPage/artificialDetailsPage.dart';
@@ -20,6 +21,7 @@ import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/theme/custom_themes/appbar_theme.dart';
 import '../../utils/theme/custom_themes/text_theme.dart';
+import '../../widgets/item_qantity_with_add_remove_button.dart';
 import '../../widgets/search_Field.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -37,7 +39,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   //  final cartController = CartController.instance;
 
-   // final cartController = CartController.instance;
+    final cartController = CartController.instance;
 
     final controller = Get.put(ItemController());
     final dark = THelperFunctions.isDarkMode(context);
@@ -190,32 +192,24 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                       ),
                                       Spacer(),
 
-                              Container(
-                                alignment: Alignment.center,
-                                width: 20.w,
-                                height: 20.h,
-                                decoration: BoxDecoration(
-                                  color: TColors.primary,
-                                  borderRadius:
-                                  BorderRadius.circular(5.r),
-                                ),
-                                child: SizedBox(
-                                  width: TSizes.iconLg * 1.2,
-                                  height: TSizes.iconLg * 1.2,
-                                  child: Center(
-                                    child:
-                                    // itemQuantityInCart > 0
-                                    //     ? Text(itemQuantityInCart.toString() , style: Theme.of(context).textTheme.bodyLarge!.apply(color: Colors.white))
-                                    //     :
-                                    Icon(Icons.add,
-                                        color: Colors.white, size: 15.sp),
-                                  ),
-                                ),
+                                      Container(
+                                          alignment: Alignment.center,
+                                          width: 25.w,
+                                             height: 25.h,
+                                          decoration: BoxDecoration(
+                                            color: TColors.primary,
+                                            borderRadius: BorderRadius.circular(5.r),
+                                          ),
+                                          child: SizedBox(
+                                                width: TSizes.iconLg * 1.2,
+                                                height: TSizes.iconLg * 1.2,
+                                            child: Center(
+                                              child:  ItemCardAddToCartButton(item: item)
+                                            ),
+                                          )
 
-                              )
-                                  //    ItemCardAddToCartButton(item: item
-                                    //  ItemCardAddToCartButton(item: item)
 
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -227,7 +221,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 top: 16.h,
                                 right: 16.w,
                                 child: TFavouriteIcon(itemId: item.id))
-
                           ],
                         ),
                       );

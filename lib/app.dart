@@ -1,11 +1,13 @@
+import 'package:flory/main.dart';
 import 'package:flory/utils/theme/theme.dart';
 import 'package:flory/utils/theme/theme_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flory/utils/constants/colors.dart';
-
 import 'bindings/general_bindings.dart';
+
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -21,6 +23,7 @@ class App extends StatelessWidget {
           minTextAdapt: true,
           splitScreenMode: true,
           child: GetMaterialApp(
+            navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             theme: TAppTheme.LightTheme,
             darkTheme: TAppTheme.DarkTheme,

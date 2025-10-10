@@ -1,14 +1,17 @@
 
+import 'dart:async';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flory/notifications/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../utils/constants/colors.dart';
+import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/theme/custom_themes/appbar_theme.dart';
-import '../../utils/theme/custom_themes/text_theme.dart';
-import 'ordertracking.dart';
 
 
 
@@ -20,6 +23,23 @@ class Notifications extends StatefulWidget {
 }
 
 class _NotificationsState extends State<Notifications> {
+
+  // store notification
+  List<Map<String, dynamic>> notifications = [];
+
+  @override
+  void initState() {
+    super.initState();
+   // NotificationService().initNotification();
+  }
+
+
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,70 +76,45 @@ class _NotificationsState extends State<Notifications> {
             ),
             SizedBox(width: 30.w),
           ]) ,
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 31.w,vertical: 0.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body:Stack(
+        children :[
+          Column(
           children: [
-            Center(child: Text("Notification",style: TextStyle(fontFamily: "LibreBaskerville",fontSize: 24.sp,color: dark ?TColors.white :Colors.black),)),
-            SizedBox(height: 15.h),
-            Text(
-              "We’ll ship it to your address below:",
-              style: TTextTheme.lightTextTheme.titleLarge?.copyWith(
-                fontSize: 20.sp,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w400,
-              ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.h),
+              child: Center(child: Text("Notifications",style: TextStyle(fontFamily: "LibreBaskerville",fontSize: 24.sp,color: Colors.black),)),
             ),
-            SizedBox(height: 5.h,),
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                children: [
-                  buildNotificationTile( context,
-                    title: "Tracking Your Order",
-                    subtitle: "We’re carefully preparing your floral keepsake.",
-                    trailingTime: "30m",
-                    leadingImagePath: "assets/images/notificationPageImages/ordertrack.png",
-                    onTap: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_)=> Ordertracking())
+            Expanded(
+              child:ValueListenableBuilder<List<Map<String, dynamic>>>(
+                valueListenable: NotificationService.notificationsNotifier,
+                builder: (context, notifications, _) {
+                  if (notifications.isEmpty) {
+                    return const Center(child: Text("No notifications yet"));
+                  }
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(8),
+                    itemCount: notifications.length,
+                    itemBuilder: (context, index) {
+                      final n = notifications[index];
+                      return buildNotificationTile(
+                        context,
+                        title: n["title"]?? "",
+                        subtitle: n["subtitle"]?? "",
+                        trailingTime: n["time"]?? "",
+                        leadingImagePath: n["image"]?? "assets/images/appLogo.png",
                       );
                     },
-                    onLongPress: () {
-                      // action here
-                    },
-                  ),
-                  buildNotificationTile(context,
-                    title: "Payment Verified",
-                    subtitle: "Thank you! Your payment has been confirmed.",
-                    trailingTime: "30m",
-                    leadingImagePath: "assets/images/notificationPageImages/check.png",
-                    onTap: () {
-                      // action here
-                    },
-                    onLongPress: () {
-                      // action here
-                    },
-                  ),
-                  buildNotificationTile(context,
-                    title: "New Promo Just For You",
-                    subtitle: "Enjoy a special discount on your next order.",
-                    trailingTime: "30m",
-                    leadingImagePath: "assets/images/notificationPageImages/new.png",
-                    onTap: () {
-                      // action here
-                    },
-                    onLongPress: () {
-                      // action here
-                    },
-                  ),
-
-                ],
+                  );
+                },
               ),
             ),
-            SizedBox(height:300.h,),
-            Center(
+            SizedBox(height: 80.h), ]),
+      
+          Positioned(
+            bottom: 20.h,
+            left: 0,
+            right: 0,
+            child: Center(
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -128,17 +123,18 @@ class _NotificationsState extends State<Notifications> {
                       backgroundColor: TColors.primary,
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(horizontal: 140.w,vertical: 10.h),
-
+            
                     ),
                     onLongPress: (){},
-                    onPressed: (){},
+                    onPressed:NotificationService().clearAll,
                     child: Text("Clear",style: TextStyle(fontSize: 18.sp,fontFamily: "Inter"),))
-            )
-          ],
-        ),
-      ),
-    );
-  }
+            ),
+          ),
+          SizedBox(height: TSizes.spaceBtwSections,)
+        ],
+      ));
+        }
+
   Widget buildNotificationTile( BuildContext context ,{
     required String title,
     required String subtitle,

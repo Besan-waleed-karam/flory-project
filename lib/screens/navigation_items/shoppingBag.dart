@@ -22,6 +22,8 @@ class ShoppingBag extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = CartController.instance;
     //final cartController = Get.put(CartController());
+    //final controller = Get.put(CartController());
+    // final cartController =
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       //drawer: DrawerNav(),
@@ -29,231 +31,235 @@ class ShoppingBag extends StatelessWidget {
       //     dark
       //         ? TAppbarTheme.darkAppBarTheme()
       //         : TAppbarTheme.lightAppBarTheme(),
-      body:SafeArea(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text(
-                    "Shopping Bag",
-                    style: TTextTheme.lightTextTheme.labelLarge?.copyWith(
-                      fontFamily: 'LibreBaskerville',
-                      fontSize: 24.sp,
-                      color: dark ? TColors.light : TColors.black,
+        body:SafeArea(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                      "Shopping Bag",
+                      style: TTextTheme.lightTextTheme.labelLarge?.copyWith(
+                        fontFamily: 'LibreBaskerville',
+                        fontSize: 24.sp,
+                        color: dark ? TColors.light : TColors.black,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 8.h),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 0, 0).w,
-                  child: Text(
-                    "Check out now & keep the beauty.",
-                    style: TTextTheme.lightTextTheme.titleLarge?.copyWith(
-                      fontSize: 20.sp,
-                      letterSpacing: 1,
-                      fontWeight: FontWeight.w400,
+                  SizedBox(height: 8.h),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0).w,
+                    child: Text(
+                      "Check out now & keep the beauty.",
+                      style: TTextTheme.lightTextTheme.titleLarge?.copyWith(
+                        fontSize: 20.sp,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
-                ),
 
-                SizedBox(height: 12.h),
-                Obx(() {
-                  final emptyWidget = AnimationLoaderWidget(
-                    text: 'Woops! cart is empty',
-                    animation: TImages.loaderAsset,
-                    showAction: true,
-                    actionText: 'Let\'s fill it',
-                    onActionPressed: () => Get.off(() => const NavigationMenu()),
+                  SizedBox(height: 12.h),
+                  Obx(() {
+                    final emptyWidget = AnimationLoaderWidget(
+                      text: 'Woops! cart is empty',
+                      animation: TImages.loaderAsset,
+                      showAction: true,
+                      actionText: 'Let\'s fill it',
+                      onActionPressed: () => Get.off(() => const NavigationMenu()),
 
-                  );
-                  if(controller.cartItems.isEmpty){
-                    return emptyWidget;
-                  }else{
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: controller.cartItems.length,
-                      itemBuilder: (context, index) {
-                        final item = controller.cartItems[index];
+                    );
+                    if(controller.cartItems.isEmpty){
+                      return emptyWidget;
+                    }else{
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: controller.cartItems.length,
+                        itemBuilder: (context, index) {
+                          final item = controller.cartItems[index];
 
-                        if (item.variantKey == "customization") {
-                               return ProductCardWithCustomization(
-                               title: item.name,
-                               imagePath: item.image ?? '',
-                               price: (item.price * item.quantity).toStringAsFixed(1),
-                                 item: item,
-                             );
-                        } else {
-                              return ProductCardSimple(
-                               title: item.name,
-                               imagePath: item.image ?? '',
+                          if (item.variantKey == "customization") {
+                            return ProductCardWithCustomization(
+                              title: item.name,
+                              imagePath: item.image ?? '',
+                              price: (item.price * item.quantity).toStringAsFixed(1),
+                              item: item,
+                            );
+                          } else {
+                            return ProductCardSimple(
+                                title: item.name,
+                                imagePath: item.image ?? '',
                                 price: (item.price * item.quantity).toStringAsFixed(1),
                                 item: item
                             );
 
-                        }
-                      },
-                    );
-                  }
+                          }
+                        },
+                      );
+                    }
 
-                }),
+                  }),
 
-                SizedBox(height: 8.h),
-                Container(
-                  width: double.infinity.w,
-                  height: 55.h,
-                  padding: EdgeInsets.fromLTRB(35.w, 5.h, 35.w, 5.h),
-                  child: Stack(
-                    children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          hintText: "promo code",
-                          hintStyle: TextStyle(
-                            color: TColors.primary70,
-                            fontSize: 16.sp,
-                          ),
-                          filled: true,
-                          fillColor: dark ? TColors.primary40 : TColors.white,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                            borderSide: BorderSide.none,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 6.w,
-                        top: 6.h,
-                        width: 97.w,
-                        height: 32.h,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: TColors.primary,
-                            //color : ,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
+                  SizedBox(height: 8.h),
+                  Container(
+                    width: double.infinity.w,
+                    height: 55.h,
+                    padding: EdgeInsets.fromLTRB(35.w, 5.h, 35.w, 5.h),
+                    child: Stack(
+                      children: [
+                        TextField(
+                          decoration: InputDecoration(
+                            hintText: "promo code",
+                            hintStyle: TextStyle(
+                              color: TColors.primary70,
+                              fontSize: 16.sp,
                             ),
-                          ),
-                          child: Text(
-                            "Apply",
-                            style: TextStyle(
-                              color: TColors.white,
-                              fontSize: 15.sp,
+                            filled: true,
+                            fillColor: dark ? TColors.primary40 : TColors.white,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                              borderSide: BorderSide.none,
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          right: 6.w,
+                          top: 6.h,
+                          width: 97.w,
+                          height: 32.h,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: TColors.primary,
+                              //color : ,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                            ),
+                            child: Text(
+                              "Apply",
+                              style: TextStyle(
+                                color: TColors.white,
+                                fontSize: 15.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(15.r),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "SubTotal",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w400,
+                  Padding(
+                    padding: EdgeInsets.all(15.r),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "SubTotal",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                          Text(
-                            '\$359.99',
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(thickness: 2, color: TColors.white),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Shipping",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            "\$4.99",
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(thickness: 2, color: TColors.white),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Bag Total (${controller.cartItems.length}Items)",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Obx(() =>
+                            Obx(() =>
                               Text(
                                 '${controller.totalCartPrice.value}',
                                 style: TextStyle(
                                   fontSize: 18.sp,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 25.h),
-                      SizedBox(
-                        width: 260.w,
-                        height: 38.h,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => Checkout(),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            backgroundColor: TColors.white,
-                            foregroundColor: TColors.primary,
-                            elevation: 5,
-                            shadowColor: TColors.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.r),
                             ),
-                          ),
-                          child: Text("Checkout"),
+                          ],
                         ),
-                      ),
-                    ],
+                        Divider(thickness: 2, color: TColors.white),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Shipping",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Text(
+                              "\$4.99",
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Divider(thickness: 2, color: TColors.white),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Bag Total (${controller.cartItems.length}Items)",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Obx(() =>
+                                Text(
+                                  '${controller.totalCartPrice.value + 4.99}',
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 25.h),
+                        SizedBox(
+                          width: 260.w,
+                          height: 38.h,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => Checkout(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              backgroundColor: TColors.white,
+                              foregroundColor: TColors.primary,
+                              elevation: 5,
+                              shadowColor: TColors.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.r),
+                              ),
+                            ),
+                            child: Text("Checkout"),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 100.h),
-              ],
+                  SizedBox(height: 100.h),
+                ],
+              ),
+
             ),
           ),
-        ),
-      )
-          );
+        )
+    );
+
   }
 }
 class ProductCardWithCustomization extends StatefulWidget {
@@ -268,7 +274,7 @@ class ProductCardWithCustomization extends StatefulWidget {
     required this.title,
     required this.imagePath,
     required this.price,
-     this.showAddRemoveButtons = true,required this.item,
+    this.showAddRemoveButtons = true,required this.item,
   });
 
   @override
@@ -302,194 +308,194 @@ class _ProductCardWithCustomizationState
     final cartController = CartController.instance;
     final dark = THelperFunctions.isDarkMode(context);
     final item = widget.item;
-      return Stack(
-        children: [
-          Card(
-            elevation: 0,
-            shape: RoundedRectangleBorder(side: BorderSide.none),
-            color: dark ? TColors.blackF : TColors.primaryBackground,
-            margin: EdgeInsets.symmetric(vertical: 2.h),
-            child: Padding(
-              padding: EdgeInsets.all(5.w.h),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Card(
-                        shadowColor: TColors.primary,
-                        color: TColors.white,
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
+    return Stack(
+      children: [
+        Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(side: BorderSide.none),
+          color: dark ? TColors.blackF : TColors.primaryBackground,
+          margin: EdgeInsets.symmetric(vertical: 2.h),
+          child: Padding(
+            padding: EdgeInsets.all(5.w.h),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Card(
+                      shadowColor: TColors.primary,
+                      color: TColors.white,
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        side: BorderSide(color: TColors.primary),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(4.w.h),
+                        child: ClipRRect(
                           borderRadius: BorderRadius.circular(12.r),
-                          side: BorderSide(color: TColors.primary),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(4.w.h),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12.r),
-                            child: Image.network(
-                              item.image ?? '',
-                              width: 102.w,
-                              height: 113.h,
-                              fit: BoxFit.cover,
-                            ),
+                          child: Image.network(
+                            item.image ?? '',
+                            width: 102.w,
+                            height: 113.h,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      SizedBox(width: 5.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.name,
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: TColors.primary,
-                              ),
+                    ),
+                    SizedBox(width: 5.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.name,
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              color: TColors.primary,
                             ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              (item.price * item.quantity)
-                                  .toStringAsFixed(
-                                  1),
-                              // item.price.toString(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16.sp,
-                              ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            (item.price * item.quantity)
+                                .toStringAsFixed(
+                                1),
+                            // item.price.toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
                             ),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    // if(showAddRemoveButtons) const SizedBox(height: TSizes.spaceBtwSections,),
+
+
+                    //if(showAddRemoveButtons)
+                    Container(
+                        height: 33.h,
+                        //width: 40.w,
+                        decoration: BoxDecoration(
+                          color: TColors.primary,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: ItemQantityWithAddRemoveButton(
+                          quantity: item.quantity,
+                          add: () => cartController.addOneToCart(item),
+                          remove: () =>
+                              cartController.removeOneFromCart(item),
+                        )
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(0),
+                      width: 160.w,
+                      height: 32.h,
+                      child: OutlinedButton(
+                        style: ButtonStyle(
+                          padding: WidgetStateProperty.all(
+                              EdgeInsets.zero),
+                          shape: WidgetStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7.r),
+                            ),
+                          ),
+                          side: WidgetStateProperty.all(
+                            BorderSide(color: TColors.primary),
+                          ),
+                        ),
+                        onPressed: () {
+                          final RenderBox renderBox = context
+                              .findRenderObject() as RenderBox;
+                          final position = renderBox.localToGlobal(
+                              Offset.zero);
+                          _customizationOrderDialog(context, position);
+                        },
+                        child: Text(
+                          'Customize Your Order',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: dark ? TColors.white : TColors
+                                .blackF,
+                          ),
                         ),
                       ),
-                      // if(showAddRemoveButtons) const SizedBox(height: TSizes.spaceBtwSections,),
+                    ),
 
-
-                      //if(showAddRemoveButtons)
-                      Container(
-                          height: 33.h,
-                          //width: 40.w,
-                          decoration: BoxDecoration(
-                            color: TColors.primary,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: ItemQantityWithAddRemoveButton(
-                            quantity: item.quantity,
-                            add: () => cartController.addOneToCart(item),
-                            remove: () =>
-                                cartController.removeOneFromCart(item),
-                          )
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(0),
+                    SizedBox(width: 10.w),
+                    Container(
                         width: 160.w,
                         height: 32.h,
-                        child: OutlinedButton(
-                          style: ButtonStyle(
-                            padding: WidgetStateProperty.all(
-                                EdgeInsets.zero),
-                            shape: WidgetStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(7.r),
-                              ),
-                            ),
-                            side: WidgetStateProperty.all(
-                              BorderSide(color: TColors.primary),
-                            ),
-                          ),
-                          onPressed: () {
-                            final RenderBox renderBox = context
-                                .findRenderObject() as RenderBox;
-                            final position = renderBox.localToGlobal(
-                                Offset.zero);
-                            _customizationOrderDialog(context, position);
-                          },
-                          child: Text(
-                            'Customize Your Order',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: dark ? TColors.white : TColors
-                                  .blackF,
-                            ),
-                          ),
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: TColors.primary),
+                          borderRadius: BorderRadius.circular(8.r),
+                          color:
+                          dark ? TColors.blackF : TColors
+                              .primaryBackground,
                         ),
-                      ),
-
-                      SizedBox(width: 10.w),
-                      Container(
-                          width: 160.w,
-                          height: 32.h,
-                          padding: EdgeInsets.symmetric(horizontal: 15.w),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: TColors.primary),
-                            borderRadius: BorderRadius.circular(8.r),
-                            color:
-                            dark ? TColors.blackF : TColors
-                                .primaryBackground,
-                          ),
-                          child: PopupMenuButton<String>(
-                            borderRadius: BorderRadius.circular(20),
-                            color: dark ? TColors.black : TColors
-                                .primaryBackground,
-                            position: PopupMenuPosition.under,
-                            onSelected: (value) {
-                              setState(() => selectedOption = value);
-                              if (value == 'Use your own') {
-                                final RenderBox renderBox = context
-                                    .findRenderObject() as RenderBox;
-                                final position = renderBox.localToGlobal(
-                                    Offset.zero);
-                                _cutomFlowerDialog(context, position);
-                              }
-                            },
-                            itemBuilder: (context) =>
-                            [
-                              PopupMenuItem(
-                                value: 'Use your own',
-                                child: Text('Use your own',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: dark ? Colors.white : Colors
-                                          .black
-                                  ),
-                                ),
-                              ),
-                              PopupMenuItem(
-                                value: 'Use Flory',
-                                child: Text('Use Flory', style: TextStyle(
+                        child: PopupMenuButton<String>(
+                          borderRadius: BorderRadius.circular(20),
+                          color: dark ? TColors.black : TColors
+                              .primaryBackground,
+                          position: PopupMenuPosition.under,
+                          onSelected: (value) {
+                            setState(() => selectedOption = value);
+                            if (value == 'Use your own') {
+                              final RenderBox renderBox = context
+                                  .findRenderObject() as RenderBox;
+                              final position = renderBox.localToGlobal(
+                                  Offset.zero);
+                              _cutomFlowerDialog(context, position);
+                            }
+                          },
+                          itemBuilder: (context) =>
+                          [
+                            PopupMenuItem(
+                              value: 'Use your own',
+                              child: Text('Use your own',
+                                style: TextStyle(
                                     fontSize: 16,
                                     color: dark ? Colors.white : Colors
                                         .black
-
-                                ),),
+                                ),
                               ),
-                            ],
-                            child: Row(
-                              children: [
-                                Text(selectedOption ?? "The Flowers",
-                                  style: TextStyle(
-                                      fontSize: 14.sp
-                                  ),),
-                                Icon(Icons.arrow_drop_down),
-                              ],
                             ),
-                          )
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                            PopupMenuItem(
+                              value: 'Use Flory',
+                              child: Text('Use Flory', style: TextStyle(
+                                  fontSize: 16,
+                                  color: dark ? Colors.white : Colors
+                                      .black
+
+                              ),),
+                            ),
+                          ],
+                          child: Row(
+                            children: [
+                              Text(selectedOption ?? "The Flowers",
+                                style: TextStyle(
+                                    fontSize: 14.sp
+                                ),),
+                              Icon(Icons.arrow_drop_down),
+                            ],
+                          ),
+                        )
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
 
   }
 
@@ -811,87 +817,87 @@ class ProductCardSimple extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartController = CartController.instance;
     final dark = THelperFunctions.isDarkMode(context);
-      return SizedBox(
-          width: double.infinity.w,
-          height: 140.h,
-          child: Card(
-            elevation: 0,
-            shape: RoundedRectangleBorder(side: BorderSide.none),
-            color: dark ? TColors.blackF : TColors.primaryBackground,
-            margin: EdgeInsets.symmetric(vertical: 0),
-            child: Padding(
-              padding: EdgeInsets.all(5.w.h),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Card(
-                        shadowColor: TColors.primary,
-                        color: TColors.white,
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
+    return SizedBox(
+        width: double.infinity.w,
+        height: 140.h,
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(side: BorderSide.none),
+          color: dark ? TColors.blackF : TColors.primaryBackground,
+          margin: EdgeInsets.symmetric(vertical: 0),
+          child: Padding(
+            padding: EdgeInsets.all(5.w.h),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Card(
+                      shadowColor: TColors.primary,
+                      color: TColors.white,
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        side: BorderSide(color: TColors.primary),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(4.w.h),
+                        child: ClipRRect(
                           borderRadius: BorderRadius.circular(12.r),
-                          side: BorderSide(color: TColors.primary),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(4.w.h),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12.r),
-                            child: Image.network(
-                              item.image ?? '',
-                              width: 102.w,
-                              height: 113.h,
-                              fit: BoxFit.cover,
-                            ),
+                          child: Image.network(
+                            item.image ?? '',
+                            width: 102.w,
+                            height: 113.h,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      SizedBox(width: 5.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.name,
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: TColors.primary,
-                              ),
+                    ),
+                    SizedBox(width: 5.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.name,
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              color: TColors.primary,
                             ),
-                            SizedBox(height: 3.h),
-                            Text((item.price * item.quantity)  .toStringAsFixed(
-                                1),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                          height: 33.h,
-                          //width: 40.w,
-                          decoration: BoxDecoration(
-                            color: TColors.primary,
-                            borderRadius: BorderRadius.circular(8.r),
                           ),
-                          child: ItemQantityWithAddRemoveButton(
-                            quantity: item.quantity,
-                            add: () => cartController.addOneToCart(item),
-                            remove: () =>
-                                cartController.removeOneFromCart(item),
-                          )
+                          SizedBox(height: 3.h),
+                          Text((item.price * item.quantity)  .toStringAsFixed(
+                              1),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        ],
                       ),
+                    ),
+                    Container(
+                        height: 33.h,
+                        //width: 40.w,
+                        decoration: BoxDecoration(
+                          color: TColors.primary,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: ItemQantityWithAddRemoveButton(
+                          quantity: item.quantity,
+                          add: () => cartController.addOneToCart(item),
+                          remove: () =>
+                              cartController.removeOneFromCart(item),
+                        )
+                    ),
 
-                    ],
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
-          )
+          ),
+        )
 
-      );
+    );
 
 
   }

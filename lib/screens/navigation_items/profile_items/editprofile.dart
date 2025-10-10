@@ -115,41 +115,51 @@ class _EditprofileState extends State<Editprofile> {
               SizedBox(height: 5.h,),
               Form(
                 key: controller.EditFormKey,
-                child: TextFormField(
-                  controller: controller.fullNameController,
-                  style: TextStyle(fontSize: 20.sp),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(7.r),
-                        borderSide: BorderSide.none,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      validator: (value)=>TValidator.validateEmptyText('Name', value),
+                      controller: controller.fullNameController,
+                      style: TextStyle(fontSize: 20.sp),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7.r),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: EdgeInsets.only(left: 15),
+                          hintText: controller.fullNameController.text,
+                          hintStyle: TextStyle(fontFamily: "Inter",fontSize: 15.sp,color: TColors.primary40),
+                          filled: true,
+                          fillColor: dark ? TColors.white.withOpacity(0.2): Colors.white
+
+                      ),),
+                    SizedBox(height:  TSizes.spaceBtwInputFields.h),
+                    Text("Phone Number",textAlign: TextAlign.start,
+                      style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),
+                    SizedBox(height: 5.h,),
+                    TextFormField(
+                      validator:(value)=>TValidator.validatePhoneNumber(value),
+                      controller: controller.phoneNumController,
+                      keyboardType: TextInputType.phone,
+                      style: TextStyle(fontSize: 20.sp),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(7.r),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: EdgeInsets.only(left: 15.w),
+                          hintText:controller.phoneNumController.text,
+                          hintStyle: TextStyle(fontFamily: "Inter",fontSize: 15.sp,color: TColors.primary40),
+                          filled: true,
+                          fillColor: dark ? TColors.white.withOpacity(0.2): Colors.white
+
                       ),
-                      contentPadding: EdgeInsets.only(left: 15),
-                      hintText: controller.fullNameController.text,
-                      hintStyle: TextStyle(fontFamily: "Inter",fontSize: 15.sp,color: TColors.primary40),
-                      filled: true,
-                      fillColor: dark ? TColors.white.withOpacity(0.2): Colors.white
-
-                  ),),
-              ),
-              SizedBox(height:  TSizes.spaceBtwInputFields.h),
-              Text("Phone Number",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),
-              SizedBox(height: 5.h,),
-              TextFormField(
-                controller: controller.phoneNumController,
-                keyboardType: TextInputType.phone,
-                style: TextStyle(fontSize: 20.sp),
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7.r),
-                      borderSide: BorderSide.none,
                     ),
-                    contentPadding: EdgeInsets.only(left: 15.w),
-                    hintText:controller.phoneNumController.text,
-                    hintStyle: TextStyle(fontFamily: "Inter",fontSize: 15.sp,color: TColors.primary40),
-                    filled: true,
-                    fillColor: dark ? TColors.white.withOpacity(0.2): Colors.white
+                  ],
+                ),
+              ),
 
-                ),),
               SizedBox(height:  TSizes.spaceBtwInputFields.h),
               SizedBox(height: 5.h),
               Text("Gender",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),

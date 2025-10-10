@@ -29,11 +29,8 @@ class FavouriteIcon extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-          color: backgroundColor != null ? backgroundColor! : THelperFunctions
-              .isDarkMode(context)
-              ? Colors.red
-              : TColors.primary,
-          borderRadius: BorderRadius.circular(5.r)
+           color: THelperFunctions.isDarkMode(context)? TColors.dark :TColors.white,
+                borderRadius: BorderRadius.circular(40)
       ),
       child: Center(child: Container(child: IconButton(
           onPressed: onPressed, icon: Icon(icon, color: color, size: size,)))),

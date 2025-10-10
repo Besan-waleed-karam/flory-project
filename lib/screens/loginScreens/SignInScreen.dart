@@ -42,6 +42,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
           //title , subtitle
           SingleChildScrollView(
+            scrollDirection: Axis.vertical,
             child: Padding(
               padding: EdgeInsets.all(30.r),
               child: Column(
@@ -94,38 +95,21 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: TSizes.spaceBtwSections.h),
-                        //confirm msg
+                     //   SizedBox(height: TSizes.spaceBtwInputFields.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            Obx(()=>Checkbox(value: controller.rememberMe.value,
+                                onChanged:(value)=>controller.rememberMe.value =!controller.rememberMe.value )),
+                            //onChanged:(value)=> controller.rememberMe.value = value!,)),
+
                             Text(
-                              TTexts.confirm_msg2,
+                              TTexts.remeberme,
                               style: TextStyle(
                                 fontSize: 14.0.sp,
                                 fontWeight: FontWeight.w500,
                                 color: TColors.primary,
                                 fontFamily: "LibreBaskerville",
-                              ),
-                            ),
-                            SizedBox(width: TSizes.sm.w),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RegisterScreen(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'Register',
-                                style: TextStyle(
-                                  fontSize: 14.0.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: dark ? TColors.white : TColors.black,
-                                  fontFamily: "LibreBaskerville",
-                                ),
                               ),
                             ),
                             SizedBox(width: TSizes.spaceBtwSections * 2.w),
@@ -150,7 +134,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 25.h),
+                        SizedBox(height: 10.h),
                         SizedBox(
                           height: 70.h,
                           width: 349.w,
@@ -174,23 +158,58 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: TSizes.spaceBtwSections),
-                        DividerSocialLogin(
-                          dividerText: 'Or Sign in With',
-                          controller: controller,
-                          onGooglePressed:controller.googleSignIn,
-                          onTwitterPressed: controller.googleSignIn,
+                       SizedBox(height: TSizes.spaceBtwItems),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              TTexts.confirm_msg2,
+                              style: TextStyle(
+                                fontSize: 14.0.sp,
+                                fontWeight: FontWeight.w500,
+                                color: TColors.primary,
+                                fontFamily: "LibreBaskerville",
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RegisterScreen(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Register',
+                                style: TextStyle(
+                                  fontSize: 14.0.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: dark ? TColors.white : TColors.black,
+                                  fontFamily: "LibreBaskerville",
+                                ),
+                              ),
+                            ),
 
-                        ),
                       ],
                     ),
+                  ]),
+                ),
+                  SizedBox(height: TSizes.spaceBtwSections),
+                  DividerSocialLogin(
+                    dividerText: 'Or Sign in With',
+                    controller: controller,
+                    onGooglePressed:controller.googleSignIn,
+                    onTwitterPressed: controller.googleSignIn,
+
                   ),
-                ],
+
+           ]
               ),
-            ),
           ),
-        ],
-      ),
+
+          ),
+   ] )
     );
   }
 }

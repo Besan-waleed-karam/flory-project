@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flory/data/repositories/categories/item_repository.dart';
 import 'package:flory/features/shop/models/item_model.dart';
 import 'package:flory/utils/loader/loaders.dart';
@@ -11,7 +12,9 @@ class FavouritesController extends GetxController{
 
 
   final favourites = <String,bool>{}.obs;
-  final storage = GetStorage();
+ // final storage = GetStorage();
+
+  bool get hasFavourites => favourites.isNotEmpty;
 
   @override
   void onInit() {
@@ -19,74 +22,50 @@ class FavouritesController extends GetxController{
     initFavourites();
   }
 
+  void initFavourites() {
+    try {
+      final raw = TLocalStorage.instance().readData('favourites');
+      print("Stored favourites raw: $raw");
+
+      if (raw == null || raw == '' || raw == '{}') {
+        favourites.clear();
+        return;
+      }
+      final decoded = jsonDecode(raw);
+
+        if (decoded is Map<String, dynamic>) {
+          favourites.value = decoded.map((k, v) => MapEntry(k, v == true));
+        } else {
+          favourites.clear();
+          TLocalStorage.instance().saveData('favourites', jsonEncode({}));
+      }
+    } catch (e) {
+      print("Error decoding favourites: $e");
+      favourites.clear();
+      TLocalStorage.instance().saveData('favourites', jsonEncode({}));
+    }
+  }
   // void initFavourites() {
   //   try {
-  //     final raw = storage.read('favourites');
+  //     final raw = TLocalStorage.instance().readData('favourites');
+  //
   //     if (raw != null && raw is String && raw.isNotEmpty) {
   //       final decoded = jsonDecode(raw);
   //       if (decoded is Map<String, dynamic>) {
   //         favourites.value = decoded.map((k, v) => MapEntry(k, v == true));
+  //       } else {
+  //         // unexpected format -> reset to empty
+  //         clearFavourites();
   //       }
-  //     }
-  //     print("RAW favourites in storage: $raw");
-  //   } catch (e) {
-  //     print("Error decoding favourites: $e");
-  //     favourites.clear();
-  //     //GetStorage().write('favourites', jsonEncode(favourites));
-  //   }
-  // }
-
-  // void initFavourites() {
-  //   try {
-  //     final raw = storage.read('favourites');
-  //
-  //     if (raw == null || raw.toString().isEmpty) {
-  //       favourites.clear();
-  //       return;
-  //     }
-  //
-  //     // Ensure raw is a String
-  //     final decoded = jsonDecode(raw.toString());
-  //
-  //     if (decoded is Map) {
-  //       // Force keys to String, values to bool
-  //       favourites.value = decoded.map((k, v) =>
-  //           MapEntry(k.toString(), v == true));
   //     } else {
-  //       favourites.clear(); // fallback
+  //       // nothing stored -> create safe empty
+  //       clearFavourites();
   //     }
-  //
-  //     print("Loaded favourites: $favourites");
   //   } catch (e) {
   //     print("Error decoding favourites: $e");
-  //     favourites.clear();
+  //     clearFavourites();
   //   }
   // }
-
-  void initFavourites() {
-    try {
-      final raw = storage.read('favourites');
-
-      if (raw == null || raw.toString().isEmpty) {
-        // nothing saved yet → start empty
-        favourites.clear();
-        return;
-      }
-
-      final decoded = jsonDecode(raw.toString());
-
-      if (decoded is Map) {
-        favourites.value = decoded.map((k, v) => MapEntry(k.toString(), v == true));
-      } else {
-        favourites.clear();
-      }
-
-      print("Loaded favourites: $favourites");
-    } catch (e) {
-      print("Error decoding favourites: $e");
-      favourites.clear();
-    }
-  }
 
   bool isFavourites(String itemId) {
     return favourites[itemId] ?? false;
@@ -104,20 +83,67 @@ class FavouritesController extends GetxController{
       Loaders.customToast(message: 'Item has been removed from the wishlist');
     }
   }
-
-
-
-  void saveFavouritesToStorage(){
-    final encodedFavourites = json.encode(favourites);
-    //TLocalStorage.instance().savaData('favourites', encodedFavourites);
-    storage.write('favourites', encodedFavourites);
+  void saveFavouritesToStorage() {
+    try {
+      final encodedFavourites = jsonEncode(favourites);
+      TLocalStorage.instance().saveData('favourites', encodedFavourites);
+    } catch (e) {
+      print("Error saving favourites: $e");
+    }
   }
 
-  Future<List<ItemModel>> favouriteItems() async{
-    return await ItemRepository.instance.getFavouriteItems(favourites.keys.toList());
+  Future<List<ItemModel>> favouriteItems() async {
+    print("Favourites content before fetch: $favourites");
+
+    // 🔹 Prevent repository call when favourites are empty
+    if (favourites.isEmpty) {
+      print("No favourites to fetch (controller).");
+      return [];
+    }
+
+    try {
+      final result = await ItemRepository.instance
+          .getFavouriteItems(favourites.keys.toList());
+      return result;
+    } catch (e) {
+      print("Error fetching favourite items: $e");
+      return [];
+    }
+  }
+  void clearFavourites() {
+    favourites.clear();
+    TLocalStorage.instance().saveData('favourites', jsonEncode({}));
+    print("After removal favourites: ${favourites.keys}");
+
   }
 
 }
+
+// void initFavourites() {
+//   try {
+//     final raw = TLocalStorage.instance().readData('favourites');
+//
+//     if (raw != null && raw is String && raw.isNotEmpty) {
+//       final decoded = jsonDecode(raw);
+//
+//       if (decoded is Map<String, dynamic>) {
+//         favourites.value =
+//             decoded.map((k, v) => MapEntry(k, v == true));
+//       } else {
+//         // if decoded is not a Map, reset
+//         clearFavourites();
+//       }
+//     } else {
+//       // if raw is null or empty, reset
+//       clearFavourites();
+//     }
+//
+//     print("RAW favourites in storage: $raw");
+//   } catch (e) {
+//     print("Error decoding favourites: $e");
+//     clearFavourites();
+//   }
+// }
 //
 // TLocalStorage.instance().removeData(itemId);
 // favourites.remove(itemId);
@@ -148,7 +174,6 @@ class FavouritesController extends GetxController{
 //     }
 //   }
 // }
-
 // Future<void> initFavourites() async {
 //   final jsonStr = TLocalStorage.instance().readData<String>('favourites');
 //

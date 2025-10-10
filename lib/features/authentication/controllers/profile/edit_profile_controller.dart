@@ -37,33 +37,33 @@ class EditProfileController extends GetxController{
     selectedGender.value = userController.user.value.gender ;
   }
   Future<void> editUserData()async{
-    try{
-      //start loading
-      THelperFunctions.openLoadDialog(
-        'We are processing your information...',
-        TImages.loaderAsset,
-      );
-      //check Internet connectivity
-      // check the internet
-      final isConnected = await NetworkManager.instance.isConnected();
-      if (!isConnected){
-        THelperFunctions.stopLoading();
-        return;
-      }
-      //Form validation
 
-      if(!EditFormKey.currentState!.validate()){
-        THelperFunctions.stopLoading();
-        return;
-      }
+      try {
+        //Form Validation
+        if (!EditFormKey.currentState!.validate()) return;
 
-      //update user's data in the Firebase Firestore
+        // check the internet
+        final isConnected = await NetworkManager.instance.isConnected();
+        if (!isConnected){
+          Loaders.errorSnackBar(
+            title: 'No Internet',
+            message: 'Please check your connection and try again.',
+          );
+          return;
+        }
+        // Loading
+        THelperFunctions.openLoadDialog(
+          'We are processing your information...',
+          TImages.loaderAsset,
+        );
+
+      //update user's data in the Firebase Firestore.
       Map<String , dynamic>userData = {
         'FullName':fullNameController.text.trim() ,
         'PhoneNumber':phoneNumController.text.trim() ,
         'Gender':selectedGender.value
       };
-      await userRepository.updateSingleField(userData);
+        await userRepository.updateSingleField(userData);
 
       //update RX user value
       userController.user.value.fullName = fullNameController.text.trim();

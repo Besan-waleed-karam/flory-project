@@ -32,6 +32,7 @@ class TTexts {
   static const String forgetPasswordTittle = "Don’t worry sometimes people can forget too,enter your email and we will send you a password reset link.";
   static const String cofirmEmail = "Verify your email address!";
   static const String cofirmEmailSubTit = "Your Account Awaits: Verify Your Email to Start Shopping and Experience a World of Unrivaled Deals and Personalized Offers.";
+  static const String remeberme = 'Remember Me';
 
 //
   static const String createdSuccessfully = "Your account successfully created!";
