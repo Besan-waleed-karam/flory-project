@@ -66,19 +66,31 @@ class _Wishlist1State extends State<Wishlist1> {
                   if (controller.favourites.isEmpty) {
                     print("Wishlist empty → skip FutureBuilder");
                     return emptyWidget;
-                  }else{
+                  }
+
                     return FutureBuilder<List<ItemModel>>(
                       future: controller.favouriteItems(),
                       builder: (context, snapshot) {
                         const loader = TShimmerEffect(height: 23, width: 23);
-                        final widget = TCloudHelperFunctions.checkMultiRecordState(
-                          snapshot: snapshot,
-                          loader: loader,
-                          nothingFound: emptyWidget,
-                        );
-                        if (widget != null) return widget;
+                        // final widget = TCloudHelperFunctions.checkMultiRecordState(
+                        //   snapshot: snapshot,
+                        //   loader: loader,
+                        //   nothingFound: emptyWidget,
+                        // );
+                        // if (widget != null) return widget;
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return loader;
+                        }
 
+                        if (snapshot.hasError) {
+                          print("Error loading favourites: ${snapshot.error}");
+                          return emptyWidget;
+                        }
                         final items = snapshot.data!;
+                        if (items.isEmpty) {
+                          print("FutureBuilder returned empty list");
+                          return emptyWidget;
+                        }
                         return ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -178,7 +190,7 @@ class _Wishlist1State extends State<Wishlist1> {
                         );
                       },
                     );
-                  }
+
 
 
                 })
