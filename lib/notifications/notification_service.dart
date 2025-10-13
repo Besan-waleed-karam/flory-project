@@ -64,15 +64,15 @@ Future<void> initNotification() async {
 
     final iconPath;
     if (title.contains("Order")) {
-      iconPath = "assets/images/notificationPageImages/order.png";
+      iconPath = "assets/images/notification_icons/order.png";
     } else if (title.contains("Check")) {
-      iconPath = "assets/images/notificationPageImages/promo.png";
+      iconPath = "assets/images/notification_icons/promo.png";
     } else if (title.contains("Promo")) {
-      iconPath = "assets/images/notificationPageImages/promo.png";
+      iconPath = "assets/images/notification_icons/promo.png";
     } else if (title.contains("New")) {
-      iconPath = "assets/images/notificationPageImages/new.png";
+      iconPath = "assets/images/notification_icons/new.png";
     }else if (title.contains("Done")) {
-      iconPath = "assets/images/notificationPageImages/check.png";
+      iconPath = "assets/images/notification_icons/check.png";
     } else {
       iconPath = "assets/images/appLogo.png";
     }

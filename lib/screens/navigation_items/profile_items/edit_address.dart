@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../features/shop/controllers/address_controller.dart';
@@ -12,14 +13,14 @@ import '../../../utils/helpers/helper_functions.dart';
 import '../../../utils/theme/custom_themes/appbar_theme.dart';
 import '../../../utils/theme/custom_themes/text_theme.dart';
 
-class Newdeliveryaddress extends StatefulWidget {
-  const Newdeliveryaddress({super.key});
+class EditAddress extends StatefulWidget {
+  const EditAddress({super.key});
 
 
   @override
-  State<Newdeliveryaddress> createState() => _NewdeliveryaddressState();
+  State<EditAddress> createState() => _EditAddressState();
 }
-class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
+class _EditAddressState extends State<EditAddress> {
 
   String? selectedCountry;
   final controller = AddressController.instance;
@@ -81,7 +82,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
             children: [
               Center(
                 child: Text(
-                    "New Delivery Address",
+                    "Edit Address",
                     style: TextStyle(
                         fontFamily: "LibreBaskerville",
                         fontSize: 24.sp,
@@ -108,25 +109,32 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                       fontSize: 16.sp,
                       fontFamily: "Inter",
                       color: dark ? TColors.white : Colors.black)),
-                     SizedBox(height: 5.h),
-                  TextFormField(
-                style: TextStyle(fontSize: 20.sp),
-                controller: controller.name,
-                validator: (value) => TValidator.validateEmptyText('Name', value),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(7.r),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: EdgeInsets.only(left: 15.w),
-                  prefixIcon: Icon(Iconsax.user, color: TColors.primary, size: 26),
-                  hintText: "Full Name",
-                  hintStyle: TextStyle(
-                      fontFamily: "Inter",
-                      fontSize: 15.sp,
-                      color: TColors.primary40),
-                  filled: true,
-                  fillColor: dark ? Colors.white.withOpacity(0.2) : Colors.white,
+              SizedBox(height: 5.h),
+              Form(
+                key: controller.editAddressFormKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      style: TextStyle(fontSize: 20.sp),
+                      controller: controller.name,
+                      validator: (value) => TValidator.validateEmptyText('Name', value),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(7.r),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.only(left: 15.w),
+                        prefixIcon: Icon(Iconsax.user, color: TColors.primary, size: 26),
+                        hintText: controller.selectedAddress.value.name,
+                        hintStyle: TextStyle(
+                            fontFamily: "Inter",
+                            fontSize: 15.sp,
+                            color: TColors.primary40),
+                        filled: true,
+                        fillColor: dark ? Colors.white.withOpacity(0.2) : Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
@@ -151,7 +159,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   ),
                   contentPadding: EdgeInsets.only(left: 15.w),
                   prefixIcon: Icon(Iconsax.call, color: TColors.primary, size: 26),
-                  hintText: "Enter your phone number",
+                  hintText: controller.selectedAddress.value.phoneNumber,
                   hintStyle: TextStyle(
                       fontFamily: "Inter",
                       fontSize: 15.sp,
@@ -171,9 +179,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                       color: dark ? TColors.white : Colors.black)),
               SizedBox(height: 5.h),
               Obx(()=>DropdownButtonFormField<String>(
-                value: controller.selectedCountry.value.isEmpty
-                    ? null  // إذا فارغة استخدم null مع hint
-                    : controller.selectedCountry.value,
+                value: controller.selectedAddress.value.country.isEmpty? null : controller.selectedAddress.value.country,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor:dark ? TColors.dark :TColors.white,
@@ -184,7 +190,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   hintText: 'Select Country',
                   prefixIcon: Icon(CupertinoIcons.person, color: TColors.primary),
                 ),
-                hint: Text('Select Country'), // أضف hint هنا
+                hint: Text('Select Country'),
                 items: ["Bahrain", "Kuwait","Oman","Qatar","Saudi Arabia","UAE"].map((country) {
                   return DropdownMenuItem<String>(
                     value: country,
@@ -224,7 +230,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   contentPadding: EdgeInsets.only(left: 15.w),
                   prefixIcon:
                   Icon(Iconsax.buildings, color: TColors.primary, size: 26),
-                  hintText: "City",
+                  hintText: controller.selectedAddress.value.city,
                   hintStyle: TextStyle(
                       fontFamily: "Inter",
                       fontSize: 15.sp,
@@ -253,7 +259,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   contentPadding: EdgeInsets.only(left: 15.w),
                   prefixIcon:
                   Icon(Iconsax.buildings, color: TColors.primary, size: 26),
-                  hintText: "e.g New cairo , Rehap",
+                  hintText: controller.selectedAddress.value.street,
                   hintStyle: TextStyle(
                       fontFamily: "Inter",
                       fontSize: 15.sp,
@@ -284,7 +290,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   ),
                   contentPadding: EdgeInsets.only(left: 15.w),
                   prefixIcon: Icon(Iconsax.code, color: TColors.primary, size: 26),
-                  hintText: "Postal Code (e.g. 12345)",
+                  hintText: controller.selectedAddress.value.postalCode,
                   hintStyle: TextStyle(
                       fontFamily: "Inter",
                       fontSize: 15.sp,
@@ -315,7 +321,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   contentPadding: EdgeInsets.only(left: 15.w),
                   prefixIcon:
                   Icon(Iconsax.activity, color: TColors.primary, size: 26),
-                  hintText: "State / Governorate",
+                  hintText:controller.selectedAddress.value.state,
                   hintStyle: TextStyle(
                       fontFamily: "Inter",
                       fontSize: 15.sp,
@@ -337,8 +343,8 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                     padding: EdgeInsets.symmetric(
                         horizontal: 120.w, vertical: 9.h),
                   ),
-                  onPressed: () => controller.addNewAddresses(),
-                  child: Text("Save Address",
+                  onPressed: () => controller.updateUserAddress(),
+                  child: Text("Save Edits",
                       style: TextStyle(fontSize: 16.sp, fontFamily: "Inter")),
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:flory/screens/navigation_items/profile_items/edit_address.dart';
 import 'package:flory/screens/navigation_items/profile_items/newdeliveryaddress.dart';
 import 'package:flory/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../../features/shop/controllers/address_controller.dart';
+import '../../../features/shop/models/address_model.dart';
+import '../../../utils/helpers/cloud_helper_functions.dart';
 import '../../../utils/helpers/helper_functions.dart';
 import '../../../utils/theme/custom_themes/appbar_theme.dart';
 import '../../../utils/theme/custom_themes/text_theme.dart';
@@ -17,306 +21,242 @@ class Shippingaddress extends StatefulWidget {
 }
 
 class _ShippingaddressState extends State<Shippingaddress> {
-  int selectedIndex = 1;
+  final controller = Get.put(AddressController());
+
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      appBar: dark ?TAppbarTheme.darkAppBarTheme(leading: Padding(
-        padding: EdgeInsets.only(left: 20.0.w),
-        child: IconButton(icon:Icon(Iconsax.arrow_left_2), iconSize: 40.r,
-          onPressed: () {
-            Get.back();
-          }, ),
-      ),
-          actions: [
-            SizedBox(width: 150.w),
-            CircleAvatar(
-                backgroundColor: TColors.primary40,
-                radius: 40.r,
-                child:Icon(Iconsax.location,size: 40.sp,color: Colors.white,)
-            ),
-            SizedBox(width: 30.w),
-          ]) : TAppbarTheme.lightAppBarTheme(leading: Padding(
-        padding: EdgeInsets.only(left: 20.0.w),
-        child: IconButton(icon:Icon(Iconsax.arrow_left_2), iconSize: 40.r,
-          onPressed: () {
-            Get.back();
-          }, ),
-      ),
-          actions: [
-            SizedBox(width: 150.w),
-            CircleAvatar(
-                backgroundColor: TColors.primary40,
-                radius: 40.r,
-                child:Icon(Iconsax.location,size: 40.sp,color: Colors.white,)
-            ),
-            SizedBox(width: 30.w),
-          ]) ,
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 31.w,vertical: 0.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(child: Text("Shipping Address",style: TextStyle(fontFamily: "LibreBaskerville",fontSize: 24.sp,color: dark ?TColors.white:TColors.black)),),
-            SizedBox(height: 15.h),
-            Text(
-              "We’ll ship it to your address below:",
-              style: TTextTheme.lightTextTheme.titleLarge?.copyWith(
-                fontSize: 20.sp,
-                letterSpacing: 0,
-                fontWeight: FontWeight.w400,
+      appBar: dark
+          ? TAppbarTheme.darkAppBarTheme(
+              leading: Padding(
+                padding: EdgeInsets.only(left: 20.0.w),
+                child: IconButton(
+                  icon: Icon(Iconsax.arrow_left_2),
+                  iconSize: 40.r,
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
               ),
-            ),
-            SizedBox(height: 18.h,),
-            buildSendToAddressOption(
-              context,
-              index: 0,
-              iconWidget: Icon(Iconsax.buildings, size: 35,color: TColors.primary,),
-              title: "My Office",
-            ),
-            SizedBox(height: 20.h),
-            buildSendToAddressOption(
-              context,
-              index: 1,
-              iconWidget: Icon(Iconsax.house,size: 35,color: TColors.primary,),
-              title: "My Home",
-            ),
-            SizedBox(height: 30.h),
-            Container(
-              width: 349.w,
-              height:2.h,
-              color: Colors.white,
-            ),
-            SizedBox(height: 50.h),
-            _buildNewAddressOption(
-              index: 2,
-              title: "Add New Delivery Address",
-              iconWidget: Icon(Iconsax.location_add,size: 35,color: TColors.primary,),
-            ),
-            SizedBox(height: 220.h),
-            Center(
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25.r)
-                    ),
-                    backgroundColor: Colors.white,
-                    foregroundColor: TColors.primary,
-                    padding: EdgeInsets.symmetric(horizontal: 120.w,vertical: 10.h),
-
+              actions: [
+                SizedBox(width: 150.w),
+                CircleAvatar(
+                  backgroundColor: TColors.primary40,
+                  radius: 40.r,
+                  child: Icon(
+                    Iconsax.location,
+                    size: 40.sp,
+                    color: Colors.white,
                   ),
-                  onLongPress: (){},
-                  onPressed: (){},
-                  child: Text("Save Changes",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter"),)),
+                ),
+                SizedBox(width: 30.w),
+              ],
+            )
+          : TAppbarTheme.lightAppBarTheme(
+              leading: Padding(
+                padding: EdgeInsets.only(left: 20.0.w),
+                child: IconButton(
+                  icon: Icon(Iconsax.arrow_left_2),
+                  iconSize: 40.r,
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+              ),
+              actions: [
+                SizedBox(width: 150.w),
+                CircleAvatar(
+                  backgroundColor: TColors.primary40,
+                  radius: 40.r,
+                  child: Icon(
+                    Iconsax.location,
+                    size: 40.sp,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(width: 30.w),
+              ],
             ),
+            body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            child: Column(
+
+              children: [
+                Center(child: Text("Shipping Address",style: TTextTheme.lightTextTheme.labelLarge?.copyWith(
+                  fontFamily: 'LibreBaskerville',
+                  fontSize: 24,
+                  color: dark ? TColors.light : TColors.black,
+                ),
+                ),  ),
+                SizedBox(height: 15,),
+                Obx(
+                  () => FutureBuilder<List<AddressModel>>(
+                    key: ValueKey(controller.refreshData.value), // 🔑 التحديث
+                    future: controller.getAllUserAddresses(),
+                    builder: (context, snapshot) {
+                      final state =
+                          TCloudHelperFunctions.checkMultiRecordState<AddressModel>(
+                            snapshot: snapshot,
+                            nothingFound: _buildNewAddressOption(controller),
+                            loader: const Center(child: CircularProgressIndicator()),
+                            error: const Center(child: Text("Something went wrong")),
+                          );
+
+                      if (state != null) return state;
+
+                      final addresses = snapshot.data!;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "We’ll ship it to your address below:",
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                                fontFamily: "ScheherazadeNew",color:TColors.primary
+                            ),
+                          ),
+                          SizedBox(height: 20.h),
+                          // 🟢 قائمة العناوين
+                          Container(
+                            height:  addresses.length * 120.h,
+                            child: ListView.builder(
+                              itemCount: addresses.length,
+                              itemBuilder: (context, index) {
+                                final address = addresses[index];
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 20.h),
+                                  child: GestureDetector(
+                                    onTap: () => controller.selectAddress(address),
+                                    child: Container(
+                                      padding: EdgeInsets.all(16.r),
+                                      decoration: BoxDecoration(
+                                        color: address.selectedAddress
+                                            ? TColors.primaryBackground
+                                            : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(20.r),
+                                        boxShadow: address.selectedAddress
+                                            ? [
+                                                BoxShadow(
+                                                  color: TColors.primary,
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 4),
+                                                ),
+                                              ]
+                                            : [],
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Iconsax.house,
+                                            color: TColors.primary,
+                                            size: 28.sp,
+                                          ),
+                                          SizedBox(width: 12.w),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  address.name,
+                                                  style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${address.street}, ${address.city}, ${address.state}, ${address.country}, ${address.postalCode}",
+                                                  style: TextStyle(fontSize: 14.sp),
+                                                ),
+                                                Text(
+                                                  address.phoneNumber,
+                                                  style: TextStyle(fontSize: 14.sp),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(Iconsax.edit_2),
+                                            color: TColors.primary,
+                                            onPressed: () {
+                                              AddressController.instance.loadAddressData(address);
+                                              Get.to(() => EditAddress());
+                                            },
+                                          ),IconButton(
+                                            icon: const Icon(Icons.delete_outline),
+                                            color: TColors.primary,
+                                            onPressed: (){
+                                              Get.defaultDialog(
+                                                title: 'Delete Address',
+                                                titleStyle: TextStyle(
+                                                  fontSize: 20 ,
+                                                  color: TColors.primary
+                                                ),
+                                                titlePadding: EdgeInsets.fromLTRB(30, 30, 30, 0),
+                                                contentPadding: EdgeInsets.all(20),
+                                                backgroundColor: dark ? TColors.black : TColors.primaryBackground,
+                                                buttonColor: TColors.primary,
+                                                middleText: 'Are you sure you want to delete this address?',
+                                                middleTextStyle: TextStyle(
+                                                  fontSize: 16.sp
+                                                ),
+                                                textConfirm: 'Yes',
+                                                textCancel: 'No',
+                                                cancelTextColor: dark ?TColors.primaryBackground :TColors.primary ,
+                                                confirmTextColor: Colors.white,
+                                                onConfirm: () {
+                                                  Get.back();
+                                                  AddressController.instance.deleteUserAddress(address.id);
+                                                },
+                                              );                                          },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+                          _buildNewAddressOption(controller),
+                          SizedBox(height: 20.h),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
 
 
-          ],
-
-        ),
-      ),
     );
   }
 
-
-
-  Widget buildSendToAddressOption(
-      BuildContext context ,
-      {
-        required int index,
-        required Widget iconWidget,
-        required String title,
-
-      })
-  {
-    final dark = THelperFunctions.isDarkMode(context);
-    final bool isSelected = index == selectedIndex;
-
+  Widget _buildNewAddressOption(AddressController controller) {
     return GestureDetector(
-      onTap: () => setState(() => selectedIndex = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding:  EdgeInsets.all(16.r),
+      onTap: () {
+        controller.resetFormData();
+        Get.to(() => Newdeliveryaddress());},
+      child: Container(
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
-          color: isSelected ? (dark ? Colors.black :TColors.primaryBackground)
-              :Colors.transparent,
+          border: Border.all(color: TColors.primary),
           borderRadius: BorderRadius.circular(20.r),
-          boxShadow: isSelected
-              ? [
-            BoxShadow(
-              color: TColors.primary,
-              blurRadius: 10,
-              offset: Offset(0.h, 4.h),
-            ),
-          ]
-              : [],
         ),
         child: Row(
           children: [
-            // Radio Circle
-            Container(
-              width: 24.w,
-              height: 24.h,
-              padding:  EdgeInsets.all(3.r),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Color(0xFFB2ADAD), width: 2.w),
-              ),
-              child: isSelected
-                  ? Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: TColors.primary,
-                ),
-              )
-                  : null,
-            ),
-            SizedBox(width: 16.w),
-
-            // Icon
-            SizedBox(width: 32.w, height: 32.h, child: iconWidget),
-
-            SizedBox(width: 16.w),
-
-            // Texts
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "SEND TO",
-                  style: TextStyle(
-                      color:Color(0xFFB2ADAD),
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Inter"
-                  ),
-                ),
-                Text(
-                  title,
-                  style:  TextStyle(
-                    color: dark ?TColors.white:TColors.black,
-                    fontSize: 16.sp,
-                    fontFamily: "Inter",
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-
-            const Spacer(),
-
-            // Edit Icon
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Newdeliveryaddress()));
-
-                  },
-                  icon: Icon(Icons.edit_outlined), color: TColors.primary,
-                  padding: EdgeInsets.zero,         // Remove internal padding
-                  constraints: BoxConstraints(),
-                ),
-                SizedBox(height: 2.h), // spacing between icon and line
-                Transform.translate(
-                  offset:  Offset(0.h, -12.h), // Moves the line up
-                  child: Container(
-                    width: 20.w,
-                    height: 1.5.h,
-                    color: TColors.primary,
-                  ),
-                ),
-              ],
+            Icon(Iconsax.location_add, size: 28.sp, color: TColors.primary),
+            SizedBox(width: 12.w),
+            Text(
+              "Add New Delivery Address",
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
             ),
           ],
         ),
       ),
     );
   }
-
-  Widget _buildNewAddressOption({
-    required int index,
-    required String title,
-    required Widget iconWidget,
-  }) {
-    final bool isSelected = selectedIndex == index;
-
-    return GestureDetector(
-      onTap: () => setState(() => selectedIndex = index),
-      child: Row(
-        children: [
-          _buildRadioCircle(isSelected),
-          SizedBox(width: 16.w),
-
-          // Icon
-          SizedBox(width: 32.w, height: 32.h, child: iconWidget),
-          SizedBox(width: 16.w),
-
-          // Text
-          Text(
-            title,
-            style:  TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                fontFamily: "Inter"
-            ),
-          ),
-          const Spacer(),
-
-          // Edit Icon
-          _buildEditIcon(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRadioCircle(bool isSelected) {
-    return Container(
-      width: 24.w,
-      height: 24.h,
-      padding:  EdgeInsets.all(3.r),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Color(0xFFB2ADAD), width: 2.w),
-      ),
-      child: isSelected
-          ? Container(
-        decoration:  BoxDecoration(
-          shape: BoxShape.circle,
-          color: TColors.primary,
-        ),
-      )
-          : null,
-    );
-  }
-  Widget _buildEditIcon() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Newdeliveryaddress()));
-          },
-          icon: Icon(Icons.edit_outlined), color: TColors.primary,
-          padding: EdgeInsets.zero,         // Remove internal padding
-          constraints: BoxConstraints(),
-
-        ),
-        // const SizedBox(height: 2),
-        Transform.translate(
-          offset:  Offset(0.h, -9.h), // Moves the line up
-          child: Container(
-            width: 20.w,
-            height: 1.5.h,
-            color: TColors.primary,
-          ),
-        ),
-        //  Container(width: 20, height: 1.5, color: TColors.primary),
-      ],
-    );
-  }
-
-
 }

@@ -22,11 +22,6 @@ class ShoppingBag extends StatelessWidget {
    // final cartController =
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      //drawer: DrawerNav(),
-      // appBar:
-      //     dark
-      //         ? TAppbarTheme.darkAppBarTheme()
-      //         : TAppbarTheme.lightAppBarTheme(),
       body:Obx((){
               final emptyWidget = AnimationLoaderWidget(
                 text: 'Woops! cart is empty',

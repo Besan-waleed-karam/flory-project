@@ -20,17 +20,17 @@ class Ordertracking extends StatelessWidget {
       {
         'title': 'ORDER PLACED',
         'desc': 'Your order is placed successfully',
-        'icon': Image.asset('assets/images/trackImages/ordertrack1.png'),
+        'icon': Image.asset('assets/images/track_icons/ordertrack1.png'),
       },
       {
         'title': 'ON THE WAY',
         'desc': 'Your Order is placed successfully',
-        'icon': Image.asset('assets/images/trackImages/ordertrack2.png'),
+        'icon': Image.asset('assets/images/track_icons/ordertrack2.png'),
       },
       {
         'title': 'PRODUCT DELIVERED',
         'desc': 'Your Order is placed successfully',
-        'icon': Image.asset('assets/images/trackImages/ordertrack3.png'),
+        'icon': Image.asset('assets/images/track_icons/ordertrack3.png'),
       },
     ];
     return Scaffold(
@@ -41,14 +41,32 @@ class Ordertracking extends StatelessWidget {
             Get.back();
           }, ),
       ),
-          actions: []) :TAppbarTheme.lightAppBarTheme(leading: Padding(
+          actions: [
+            SizedBox(width: 150.w),
+            CircleAvatar(
+                backgroundColor: TColors.primary40,
+                radius: 40.r,
+                child:Icon(Icons.track_changes,size: 40.sp,color: Colors.white,)
+            ),
+            SizedBox(width: 30.w),
+
+          ])  :TAppbarTheme.lightAppBarTheme(leading: Padding(
         padding: EdgeInsets.only(left: 20.0.w),
         child: IconButton(icon:Icon(Iconsax.arrow_left_2), iconSize: 40.r,
           onPressed: () {
             Get.back();
           }, ),
       ),
-          actions: []) ,
+          actions: [
+            SizedBox(width: 150.w),
+            CircleAvatar(
+                backgroundColor: TColors.primary40,
+                radius: 40.r,
+                child:Icon(Icons.track_changes,size: 40.sp,color: Colors.white,)
+            ),
+            SizedBox(width: 30.w),
+
+          ]) ,
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 31.w,vertical: 0.h),
         child: Column(
