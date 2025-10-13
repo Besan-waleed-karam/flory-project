@@ -1,4 +1,6 @@
 import 'package:flory/screens/navigation_items/favourite_icon.dart';
+import 'package:flory/widgets/button_add_to_cart.dart';
+import 'package:flory/widgets/item_quantity_with_add_remove_button_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -80,7 +82,7 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      widget.item.name,
+                      widget.item.name,maxLines: 1,
                       style: dark ? TTextTheme.darkTextTheme.labelLarge : TTextTheme.lightTextTheme.labelLarge
                   ),
                   SizedBox(height: 30.h),
@@ -97,30 +99,15 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
                         ),
                       ),
                       Container(
-                        height: 40.h,
-                        decoration: BoxDecoration(
-                          color:TColors.primary ,
-                          borderRadius: BorderRadius.circular(12.r),
+                          height: 40.h,
+                          decoration: BoxDecoration(
+                            color:TColors.primary ,
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          padding:  EdgeInsets.symmetric(horizontal: 0.w),
+                          child: ItemQuantityWithAddRemoveButtonDetails(item: widget.item)
                         ),
-                        padding:  EdgeInsets.symmetric(horizontal: 0.w),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon:  Icon(Icons.remove, size: 20.sp,color: Colors.white,),
-                              onPressed: () {},
-                              padding: EdgeInsets.zero,
-                              constraints:  BoxConstraints(),
-                            ),
-                            Text('1',style:TextStyle(fontSize: 20.sp,color: Colors.white), ),
-                            IconButton(
-                              icon:  Icon(Icons.add, size: 20.sp,color: Colors.white),
-                              onPressed: () {},
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
-                            ),
-                          ],
-                        ),
-                      ),
+
                     ],
                   ),
                   SizedBox(height: 10.h),
@@ -155,26 +142,7 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
                     child: SizedBox(
                       width: 281.w,
                       height: 40.h,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: TColors.primary,
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                        ),
-                        child: Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 24.w),
-                          child:  Text(
-                            'Add To Cart',
-                            style: TextStyle(fontSize: 20.sp,
-                                color: TColors.white,
-                                fontWeight: FontWeight.w400
-                            ),
-                          ),
-                        ),
-                      ),
+                      child: ButtonAddToCart(item: widget.item)
                     ),
                   ) ,
 

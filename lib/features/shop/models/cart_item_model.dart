@@ -6,7 +6,8 @@ class CartItemModel {
   int quantity;
   String description;
   Map<String, dynamic>? includes;
-
+  final String categoryId;
+  final String variantKey;
 
   CartItemModel({
     required this.itemId,
@@ -15,12 +16,12 @@ class CartItemModel {
     this.price = 0.0,
     this.name = '',
     this.description = '',
-    this.includes
+    this.includes,
+    required this.categoryId,
+    required this.variantKey,
   });
-
-
-  static CartItemModel empty() => CartItemModel(itemId: '', quantity: 0);
-
+  static CartItemModel empty() => CartItemModel(itemId: '', quantity: 0, categoryId: '',variantKey: '',) ;
+      //CartItemModel(itemId: '', quantity: 0,);
   Map<String, dynamic> toJson() {
     return {
       'itemId': itemId,
@@ -29,11 +30,11 @@ class CartItemModel {
       'image': image,
       'quantity': quantity,
       'description': description,
-      'includes': includes
+      'includes': includes,
+      'categoryId': categoryId,
+      "variantKey": variantKey,
     };
   }
-
-
   factory CartItemModel.fromJson(Map<String, dynamic> json){
     return CartItemModel(
         itemId: json['itemId'],
@@ -43,11 +44,9 @@ class CartItemModel {
         quantity: json['quantity'],
         description: json['description'],
         includes : json['includes'] != null? Map<String,dynamic>.from(json['includes']): null,
-
+        categoryId: json['categoryId'],
+      variantKey: json["variantKey"] ?? "",
 
     );
   }
-
-
-
 }
