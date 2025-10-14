@@ -9,10 +9,10 @@ import 'bindings/general_bindings.dart';
 
 
 class App extends StatelessWidget {
-   const App({super.key});
+  const App({super.key});
 
   // This widget is the root of your application.
-   @override
+  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
       valueListenable: ThemeManager.themeNotifier,

@@ -1,9 +1,12 @@
 import 'package:flory/features/shop/models/item_model.dart';
 import 'package:flory/screens/navigation_items/favourite_icon.dart';
+import 'package:flory/widgets/button_add_to_cart.dart';
+import 'package:flory/widgets/item_quantity_with_add_remove_button_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import '../../features/shop/controllers/cart_controller.dart';
 import '../../features/shop/controllers/favourites_controller.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/helpers/helper_functions.dart';
@@ -18,9 +21,17 @@ class Detailspage extends StatefulWidget {
 }
 
 class _DetailspageState extends State<Detailspage> {
+  final cartController = CartController.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    cartController.updateAlreadyAddedProductCount(widget.item);
+  }
   @override
   Widget build(BuildContext context) {
     final favouriteController = Get.put(FavouritesController());
+
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       body:
@@ -79,7 +90,7 @@ class _DetailspageState extends State<Detailspage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        widget.item.name,
+                        widget.item.name,maxLines: 1,
                         style: dark ? TTextTheme.darkTextTheme.labelLarge : TTextTheme.lightTextTheme.labelLarge
                     ),
                     SizedBox(height: 30.h),
@@ -95,31 +106,16 @@ class _DetailspageState extends State<Detailspage> {
                               fontWeight: FontWeight.w400
                           ),
                         ),
-                        Container(
-                          height: 40.h,
-                          decoration: BoxDecoration(
-                            color:TColors.primary ,
-                            borderRadius: BorderRadius.circular(12.r),
+                         Container(
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              color:TColors.primary ,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            padding:  EdgeInsets.symmetric(horizontal: 0.w),
+                            child: ItemQuantityWithAddRemoveButtonDetails(item: widget.item)
                           ),
-                          padding:  EdgeInsets.symmetric(horizontal: 0.w),
-                          child: Row(
-                            children: [
-                              IconButton(
-                                icon:  Icon(Icons.remove, size: 20.sp,color: Colors.white,),
-                                onPressed: () {},
-                                padding: EdgeInsets.zero,
-                                constraints:  BoxConstraints(),
-                              ),
-                              Text('1',style:TextStyle(fontSize: 20.sp,color: Colors.white), ),
-                              IconButton(
-                                icon:  Icon(Icons.add, size: 20.sp,color: Colors.white),
-                                onPressed: () {},
-                                padding: EdgeInsets.zero,
-                                constraints: const BoxConstraints(),
-                              ),
-                            ],
-                          ),
-                        ),
+
                       ],
                     ),
                     SizedBox(height: 10.h),
@@ -135,7 +131,7 @@ class _DetailspageState extends State<Detailspage> {
                         style: dark ? TTextTheme.darkTextTheme.labelLarge : TTextTheme.lightTextTheme.labelLarge
                     ),
                     SizedBox(height: 8.h),
-                    Text(widget.item.description,
+                    Text(widget.item.description,maxLines: 1,
                       style: TTextTheme.lightTextTheme.bodyLarge?.copyWith(
                           fontSize: 15.sp
                       ),
@@ -144,26 +140,7 @@ class _DetailspageState extends State<Detailspage> {
                     Center(
                       child: Container(
 
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: TColors.primary,
-                            padding: EdgeInsets.zero,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 120.w, vertical: 5.h),
-                            child:  Text(
-                              'Add To Cart',
-                              style: TextStyle(fontSize: 20.sp,
-                                  color: TColors.white,
-                                  fontWeight: FontWeight.w400
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: ButtonAddToCart(item: widget.item,)
                       ),
                     ) ,
 

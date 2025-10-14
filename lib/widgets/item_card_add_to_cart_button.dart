@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../utils/constants/colors.dart';
+import '../utils/loader/loaders.dart';
 
 class ItemCardAddToCartButton extends StatelessWidget {
   const ItemCardAddToCartButton({super.key, required this.item});
@@ -18,6 +19,8 @@ class ItemCardAddToCartButton extends StatelessWidget {
       onTap: () {
        final cartItem = cartController.convertToCartItem(item, 1);
        cartController.addOneToCart(cartItem);
+       Loaders.customToast(message: '${item.name} added to cart');
+
       },
       child: Obx(() {
         final itemQuantityInCart = cartController.getItemQuantityInCart(item.id);
@@ -31,11 +34,11 @@ class ItemCardAddToCartButton extends StatelessWidget {
             BorderRadius.circular(5.r),
           ),
           child: SizedBox(
-            width: TSizes.iconLg * 1.2,
-            height: TSizes.iconLg * 1.2,
+            width: 19.w,
+            height: 19.h,
             child: Center(
               child:  Icon(Icons.add,
-                  color: Colors.white, size: 15.sp),
+                  color: Colors.white, size: 20.sp),
             ),
           ),
 
