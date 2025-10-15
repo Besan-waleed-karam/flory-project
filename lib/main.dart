@@ -1,5 +1,6 @@
 import 'package:flory/data/repositories/authentication/authentication_repository.dart';
 import 'package:flory/data/repositories/categories/item_repository.dart';
+import 'package:flory/features/shop/controllers/address_controller.dart';
 import 'package:flory/utils/local_storage/storage_utility.dart';
 import 'package:flory/utils/theme/theme_manager.dart';
 import 'package:flutter/material.dart' hide SearchController;
@@ -41,7 +42,7 @@ Future<void> main() async {
   Get.put(SearchCtr());
   Get.put(ItemRepository());
   Get.put(FavouritesController());
-  //Get.put(CartController());
+  Get.put(AddressController());
 
   NotificationService notificationService = NotificationService();
   await notificationService.initNotification();

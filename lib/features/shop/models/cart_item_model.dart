@@ -9,6 +9,11 @@ class CartItemModel {
   final String categoryId;
   final String variantKey;
 
+  Map<String, dynamic>? customizationData;
+  static const double customizationPrice = 7.99;
+
+  double get customizationCost => customizationData != null ? customizationPrice : 0.0;
+  double get totalPrice => (price * quantity) + customizationCost;
   CartItemModel({
     required this.itemId,
     required this.quantity,
@@ -19,6 +24,8 @@ class CartItemModel {
     this.includes,
     required this.categoryId,
     required this.variantKey,
+    this.customizationData,
+
   });
   static CartItemModel empty() => CartItemModel(itemId: '', quantity: 0, categoryId: '',variantKey: '',) ;
       //CartItemModel(itemId: '', quantity: 0,);
@@ -32,6 +39,7 @@ class CartItemModel {
       'description': description,
       'includes': includes,
       'categoryId': categoryId,
+      'customizationData': customizationData,
       "variantKey": variantKey,
     };
   }
@@ -46,6 +54,9 @@ class CartItemModel {
         includes : json['includes'] != null? Map<String,dynamic>.from(json['includes']): null,
         categoryId: json['categoryId'],
       variantKey: json["variantKey"] ?? "",
+      customizationData: json['customizationData'] != null
+          ? Map<String, dynamic>.from(json['customizationData'])
+          : null,
 
     );
   }

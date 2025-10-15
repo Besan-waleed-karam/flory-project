@@ -1,13 +1,15 @@
 import 'package:flory/features/shop/controllers/cart_controller.dart';
 import 'package:flory/features/shop/models/cart_item_model.dart';
+import 'package:flory/screens/navigation_items/profile_items/newdeliveryaddress.dart';
 import 'package:flory/screens/navigation_items/shopping_items/checkout.dart';
+import 'package:flory/utils/validators/validation.dart';
 import 'package:flory/widgets/animation_loader_widget.dart';
 import 'package:flory/widgets/navigation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flory/widgets/item_qantity_with_add_remove_button.dart';
-import '../../features/shop/models/item_model.dart';
+import '../../features/shop/models/address_model.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
@@ -282,17 +284,43 @@ class ProductCardWithCustomization extends StatefulWidget {
       _ProductCardWithCustomizationState();
 }
 
-class _ProductCardWithCustomizationState
-    extends State<ProductCardWithCustomization> {
+class _ProductCardWithCustomizationState extends State<ProductCardWithCustomization> {
   _ProductCardWithCustomizationState();
 
   final nameCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
   final msgCtrl = TextEditingController();
   final deliveryCtrl = TextEditingController();
-
+    GlobalKey<FormState> customizeFormKey =GlobalKey<FormState>();
   String? selectedOption;
+  void _loadStoredCustomizationData() {
+    final cartController = CartController.instance;
+    final hasCustomization = cartController.hasCustomization(widget.item.itemId);
 
+    if (hasCustomization) {
+      final customizationData = cartController.getCustomizationData(widget.item.itemId);
+      if (customizationData != null) {
+        nameCtrl.text = customizationData['name'] ?? '';
+        dateCtrl.text = customizationData['date'] ?? '';
+        msgCtrl.text = customizationData['message'] ?? '';
+        deliveryCtrl.text = customizationData['deliveryAddress'] ?? '';
+        selectedOption = customizationData['flowerOption'];
+      }
+    }
+  }
+  void _saveCustomizationData(bool isCustomFlower) {
+    if (customizeFormKey.currentState!.validate()) {
+      CartController.instance.updateItemCustomization(
+        itemId: widget.item.itemId,
+        name: nameCtrl.text.trim(),
+        date: dateCtrl.text.trim(),
+        message: msgCtrl.text.trim(),
+        deliveryAddress: isCustomFlower ? deliveryCtrl.text.trim() : null,
+        flowerOption: selectedOption,
+      );
+      Navigator.pop(context);
+    }
+  }
 
   @override
   void dispose() {
@@ -368,10 +396,6 @@ class _ProductCardWithCustomizationState
                         ],
                       ),
                     ),
-                    // if(showAddRemoveButtons) const SizedBox(height: TSizes.spaceBtwSections,),
-
-
-                    //if(showAddRemoveButtons)
                     Container(
                         height: 33.h,
                         //width: 40.w,
@@ -501,6 +525,8 @@ class _ProductCardWithCustomizationState
 
   void _customizationOrderDialog(BuildContext context , Offset position) {
     final dark = THelperFunctions.isDarkMode(context);
+    _loadStoredCustomizationData();
+
     showDialog(
       barrierColor: dark ? TColors.black.withOpacity(0.7) :TColors.primaryBackground.withOpacity(0.8),
       context: context,
@@ -525,78 +551,80 @@ class _ProductCardWithCustomizationState
                     ),
                   ),
                   padding: EdgeInsets.all(10.w),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildDialogField(context,
-                          "Name or Initials",
-                          "Add a name, or just initials.",
-                          nameCtrl
-                      ) ,
-                      _buildDialogField(context,
-                          "Special Date",
-                          "Wedding date, proposal day, or any moment.",
-                          dateCtrl
-                      ) ,
-                      _buildDialogField(context,
-                          "Short Message",
-                          "A few words you want to keep forever",
-                          msgCtrl
-                      ) ,
-                      Divider(
-                        thickness: 1,
-                        color: TColors.primary70,
-                      ) ,
-                      SizedBox(height: 10.h,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Customize Your Order",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: dark ? TColors.white :Colors.black,
-                            ),
-                          ),
-                          Text(
-                            "\$7.99 USD",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: dark ? TColors.white :Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15.h,),
-                      // Confirm Button
-                      Center(
-                        child: SizedBox(
-                          width: 281.w,
-                          height:40.h ,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:TColors.primary,
-                              padding: EdgeInsets.zero,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.r),
+                  child: Form(
+                    key: customizeFormKey ,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildDialogField(context,
+                            "Name or Initials",
+                            "Add a name, or just initials.",
+                            nameCtrl
+                        ) ,
+                        _buildDialogField(context,
+                            "Special Date",
+                            "Wedding date, proposal day, or any moment.",
+                            dateCtrl
+                        ) ,
+                        _buildDialogField(context,
+                            "Short Message",
+                            "A few words you want to keep forever",
+                            msgCtrl
+                        ) ,
+                        Divider(
+                          thickness: 1,
+                          color: TColors.primary70,
+                        ) ,
+                        SizedBox(height: 10.h,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Customize Your Order",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: dark ? TColors.white :Colors.black,
                               ),
                             ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              "Confirm",
+                            Text(
+                              "\$7.99 USD",
                               style: TextStyle(
-                                color: TColors.white,
                                 fontSize: 16.sp,
+                                color: dark ? TColors.white :Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 15.h,),
+                        // Confirm Button
+                        Center(
+                          child: SizedBox(
+                            width: 281.w,
+                            height:40.h ,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:TColors.primary,
+                                padding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                              ),
+                              onPressed: () {
+                                _saveCustomizationData(false);                              },
+                              child: Text(
+                                "Confirm",
+                                style: TextStyle(
+                                  color: TColors.white,
+                                  fontSize: 16.sp,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -609,6 +637,8 @@ class _ProductCardWithCustomizationState
 
   void _cutomFlowerDialog(BuildContext context , Offset position) {
     final dark = THelperFunctions.isDarkMode(context);
+    _loadStoredCustomizationData();
+
     showDialog(
       barrierColor: dark ? TColors.black.withOpacity(0.7) :TColors.primaryBackground.withOpacity(0.8),
       context: context,
@@ -633,101 +663,98 @@ class _ProductCardWithCustomizationState
                     ),
                   ),
                   padding: EdgeInsets.all(10.w),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildDialogField(context,
-                          "Name or Initials",
-                          "Add a name, or just initials.",
-                          nameCtrl
-                      ) ,
-                      _buildDialogField(context,
-                          "Special Date",
-                          "Wedding date, proposal day, or any moment.",
-                          dateCtrl
-                      ) ,
+                  child: Form(
+                    key: customizeFormKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildDialogField(context,
+                            "Name or Initials",
+                            "Add a name, or just initials.",
+                            nameCtrl
+                        ) ,
+                        _buildDialogField(context,
+                            "Special Date",
+                            "Wedding date, proposal day, or any moment.",
+                            dateCtrl
+                        ) ,
 
-                      _buildDialogField(context,
-                          "Short Message",
-                          "A few words you want to keep forever",
-                          msgCtrl
-                      ) ,
-                      _buildDialogField(
-                          context,
-                          "Delivery Address",
-                          "Egypt , Cairo , floor 5 , apartment 23",
-                          deliveryCtrl
-                      ) ,
-                      Divider(
-                        thickness: 1,
-                        color: TColors.primary70,
-                      ) ,
-                      SizedBox(height: 10.h,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Frame Base Price", style: TextStyle(
-                            fontSize: 16.sp,
-                            color: dark ? Colors.white : Colors.black,
-                          ),), Text(
-                            "\$7.99 USD",
-                            style: TextStyle(
+                        _buildDialogField(context,
+                            "Short Message",
+                            "A few words you want to keep forever",
+                            msgCtrl
+                        ) ,
+                        _buildAddressDropdown( context, CartController.instance),
+                        Divider(
+                          thickness: 1,
+                          color: TColors.primary70,
+                        ) ,
+                        SizedBox(height: 10.h,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Frame Base Price", style: TextStyle(
                               fontSize: 16.sp,
                               color: dark ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.h,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Customize Your Order",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: dark ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          Text(
-                            "\$7.99 USD",
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: dark ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15.h,),
-                      // Confirm Button
-                      Center(
-                        child: SizedBox(
-                          width: 281.w,
-                          height:40.h ,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:TColors.primary,
-                              padding: EdgeInsets.zero.r,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.r),
+                            ),), Text(
+                              "\$7.99 USD",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: dark ? Colors.white : Colors.black,
                               ),
                             ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              "Confirm",
+                          ],
+                        ),
+                        SizedBox(height: 10.h,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Customize Your Order",
                               style: TextStyle(
-                                color: TColors.white,
                                 fontSize: 16.sp,
+                                color: dark ? Colors.white : Colors.black,
+                              ),
+                            ),
+                            Text(
+                              "\$7.99 USD",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                color: dark ? Colors.white : Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 15.h,),
+                        // Confirm Button
+                        Center(
+                          child: SizedBox(
+                            width: 281.w,
+                            height:40.h ,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:TColors.primary,
+                                padding: EdgeInsets.zero.r,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                              ),
+                              onPressed: () {
+                                _saveCustomizationData(true);                            },
+                              child: Text(
+                                "Confirm",
+                                style: TextStyle(
+                                  color: TColors.white,
+                                  fontSize: 16.sp,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
 
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -755,7 +782,8 @@ class _ProductCardWithCustomizationState
         SizedBox(
           width: 330.w,
           height: 35.h,
-          child: TextField(
+          child: TextFormField(
+            validator:(value)=>TValidator.validateEmptyText(tittle, value),
             controller: controller,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.all(5.w.h),
@@ -793,6 +821,104 @@ class _ProductCardWithCustomizationState
       ],
     );
 
+  }
+  Widget _buildAddressDropdown(BuildContext context, CartController cartController) {
+    final dark = THelperFunctions.isDarkMode(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Delivery Address",
+          style: TextStyle(fontSize: 16.sp, color: dark ? Colors.white : Colors.black),
+        ),
+        SizedBox(height: 8.h),
+
+        Obx(() {
+          cartController.addressController.refreshData.value;
+
+          return FutureBuilder<List<AddressModel>>(
+            future: cartController.addressController.getAllUserAddresses(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container(
+                  width: 330.w, height: 45.h,
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(color: TColors.primary),
+                );
+              }
+
+              final addresses = snapshot.data ?? [];
+              final addressStrings = addresses.map((addr) => '${addr.street}, ${addr.city}').toList();
+
+              return Column(
+                children: [
+                  Container(
+                    width: 330.w, height: 45.h,
+                    padding: EdgeInsets.symmetric(horizontal: 10.w),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: TColors.primary70, width: 1.w),
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: cartController.selectedAddress.value.isEmpty ? null : cartController.selectedAddress.value,
+                        isExpanded: true,
+                        hint: Text(
+                          cartController.selectedAddress.value.isNotEmpty
+                              ? cartController.selectedAddress.value
+                              : 'Select Address',
+                          style: TextStyle(color: TColors.primary, fontSize: 14.sp),
+                        ),
+                        items: [
+                          DropdownMenuItem<String>(
+                            value: 'add_new',
+                            child: Row(
+                              children: [
+                                Icon(Icons.add, size: 18, color: TColors.primary),
+                                SizedBox(width: 8.w),
+                                Text('Add New Address', style: TextStyle(color: TColors.primary, fontSize: 14.sp)),
+                              ],
+                            ),
+                          ),
+                          // فصل
+                          DropdownMenuItem<String>(
+                            value: 'divider',
+                            enabled: false,
+                            child: Container(
+                              height: 1.h,
+                              color: TColors.primary70,
+                              margin: EdgeInsets.symmetric(vertical: 5.h),
+                            ),
+                          ),
+                          // العناوين
+                          ...addressStrings.map((address) =>
+                              DropdownMenuItem(
+                                value: address,
+                                child: Text(address, style: TextStyle(fontSize: 14.sp)),
+                              )
+                          ).toList(),
+                        ],
+                        onChanged: (newValue) {
+                          if (newValue == 'add_new') {
+                            Get.to(() => Newdeliveryaddress());
+                          } else if (newValue != null && newValue != 'divider') {
+                            cartController.selectedAddress.value = newValue;
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+
+
+                ],
+              );
+            },
+          );
+        }),
+      ],
+    );
   }
 }
 
