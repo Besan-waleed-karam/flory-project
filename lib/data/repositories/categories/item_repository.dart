@@ -20,8 +20,6 @@ class ItemRepository extends GetxController{
           .where('categoryId', isEqualTo: categoryId)
           .get();
 
-
-
       List<String> itemsIds = itemCategoryQuery.docs
           .map((doc) => doc['itemId'] as String)
           .toList();
@@ -103,13 +101,7 @@ class ItemRepository extends GetxController{
   Future<List<ItemModel>> getFavouriteItems(List<String> itemIds) async {
     try {
       print("getFavouriteItems called with: $itemIds");
-      // 🔹 Prevent Firestore query when list is empty
-      // if (itemIds.isEmpty) {
-      //   print("No favourite items to fetch.");
-      //   return [];
-      // }
       if (itemIds.isEmpty) return [];
-
 
       final snapshot = await _db
           .collection('Items')
@@ -128,39 +120,4 @@ class ItemRepository extends GetxController{
       throw "Something went wrong, Please try again";
     }
   }
-
-  // Future<List<ItemModel>> getFavouriteItems(List<String> itemIds) async{
-  //   try{
-  //    final snapshot = await _db.collection('Items').where(FieldPath.documentId, whereIn: itemIds).get();
-  //    return snapshot.docs.map((querySnapshot) => ItemModel.fromSnapshot(querySnapshot)).toList();
-  //   }
-  //   on FirebaseException catch (e){
-  //     throw TFirebaseException(e.code).message;
-  //   }on PlatformException catch (e) {
-  //     throw TPlatformException(e.code).message;
-  //   } catch(e){
-  //    throw "Something went wrong, Please try again";
-  //   }
-  // }
-
-  // Future<List<ItemModel>> getFavouriteItems(List<String> favourites) async {
-  //   if (favourites.isEmpty) {
-  //     return []; // ← prevent Firestore query with empty list
-  //   }
-  //
-  //   try {
-  //     final snapshot = await FirebaseFirestore.instance
-  //         .collection('items')
-  //         .where(FieldPath.documentId, whereIn: favourites)
-  //         .get();
-  //
-  //     return snapshot.docs.map((doc) => ItemModel.fromSnapshot(doc)).toList();
-  //   } catch (e) {
-  //     print("Error fetching favourite items: $e");
-  //     return [];
-  //   }
-  // }
-
-
-
 }

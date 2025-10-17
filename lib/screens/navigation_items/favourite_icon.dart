@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../utils/constants/colors.dart';
 import '../../widgets/icons/favourite_icon.dart';
 
 class TFavouriteIcon extends StatelessWidget {
@@ -14,8 +15,8 @@ class TFavouriteIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(FavouritesController());
     return  Obx(() => FavouriteIcon(
-      icon: controller.isFavourites(itemId) ? Icons.favorite : Icons.favorite,
-      color: controller.isFavourites(itemId) ? Colors.red : Colors.white,
+      icon: controller.isFavourites(itemId) ? Iconsax.heart5 : Iconsax.heart,
+      color: controller.isFavourites(itemId) ? Colors.red : TColors.primary,
        height: 32.h,
        width: 32.w,
       onPressed: () => controller.toggleFavouritesItem(itemId),

@@ -97,7 +97,7 @@ try{
           postalCode: postalCode.text.trim(),
           country: selectedCountry.value,
            selectedAddress: true);
-  final id= await addressRepository.addAdress(address);
+  final id= await addressRepository.addAddress(address);
 
   ///update Selected Address Status
       address.id = id ;

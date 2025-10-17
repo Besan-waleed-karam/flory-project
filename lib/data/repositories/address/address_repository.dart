@@ -6,9 +6,10 @@ import '../../../features/shop/models/address_model.dart';
 
 class AddressRepository extends GetxController{
   static AddressRepository get instance =>Get.find();
+
   final _db = FirebaseFirestore.instance ;
 
-
+  // function to fetch user addresses
   Future<List<AddressModel>>fetchUserAddresses ()async{
     try{
       final userId = AuthenticationRepository.instance.authUser!.uid;
@@ -22,8 +23,9 @@ class AddressRepository extends GetxController{
     }
 
   }
-  ///store new user order
-  Future<String> addAdress(AddressModel address)async{
+
+  ///store new user address
+  Future<String> addAddress(AddressModel address)async{
     try{
       final userId = AuthenticationRepository.instance.authUser!.uid;
       final currentAddress = await _db.collection('Users').doc(userId).collection('Addresses').add(address.toJson());
@@ -43,6 +45,7 @@ class AddressRepository extends GetxController{
       throw "Unable to update your address selection. Try again later" ;
     }
   }
+
   /// Update address fields
   Future<void> updateAddressFields(AddressModel address) async {
     try {
@@ -57,8 +60,6 @@ class AddressRepository extends GetxController{
       throw "Unable to update your address. Try again later";
     }
   }
-
-
 
   // Delete user address
   Future<void> deleteAddress(String addressId) async {

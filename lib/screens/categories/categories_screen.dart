@@ -37,10 +37,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
 
-  //  final cartController = CartController.instance;
-
     final cartController = CartController.instance;
-
     final controller = Get.put(ItemController());
     final dark = THelperFunctions.isDarkMode(context);
 
