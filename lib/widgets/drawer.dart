@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../data/repositories/authentication/authentication_repository.dart';
 import '../screens/drawer_items/notifications.dart';
-import '../screens/drawer_items/ordertracking.dart';
+import '../screens/drawer_items/orders/ordertracking.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/image_strings.dart';
 import '../utils/helpers/helper_functions.dart';

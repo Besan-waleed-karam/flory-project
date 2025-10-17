@@ -24,6 +24,7 @@ class TImages {
   static const String verifyEmail = "assets/images/verifyEmail.png";
   static const String verifyDone = "assets/images/verify_done.png";
   static const String loaderAsset = "assets/images/Loading.json";
+  static const String orderCompleted ="assets/images/orderCompleted.png";
 
 
 
