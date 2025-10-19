@@ -1,7 +1,3 @@
-
-import 'dart:async';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flory/notifications/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,9 +26,7 @@ class _NotificationsState extends State<Notifications> {
   @override
   void initState() {
     super.initState();
-   // NotificationService().initNotification();
   }
-
 
 
   @override

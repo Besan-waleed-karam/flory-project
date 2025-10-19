@@ -19,6 +19,7 @@ class VerifyEmailController extends GetxController {
     setTimerForAutoRedirect();
     super.onInit();
   }
+
   /// Send Email Verification link
   sendEmailVerification() async {
     try {
@@ -28,6 +29,7 @@ class VerifyEmailController extends GetxController {
       Loaders.errorSnackBar (title: 'Oh Snap!', message: e.toString());
     }
   }
+
   /// Timer to automatically redirect on Email Verification
   setTimerForAutoRedirect() {
     Timer.periodic(

@@ -36,6 +36,8 @@ class EditProfileController extends GetxController{
     phoneNumController.text= userController.user.value.phoneNumber ;
     selectedGender.value = userController.user.value.gender ;
   }
+
+  // Function to edit user's profile
   Future<void> editUserData()async{
 
       try {

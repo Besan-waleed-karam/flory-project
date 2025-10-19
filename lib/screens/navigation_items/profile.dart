@@ -265,7 +265,6 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                           ),
-                          // SizedBox(width: 10.w,),
                           IconButton(
                             onPressed: () {
                               Navigator.of(context).push(
@@ -288,26 +287,4 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
-
-  // Future<void> _uploadImageFromGallery() async {
-  //   var status = await Permission.photos.request(); // أو Permission.storage
-  //   if (status.isGranted) {
-  //     final ImagePicker picker = ImagePicker();
-  //     // choosing image from the gallery
-  //     final XFile? image = await picker.pickImage(
-  //       source: ImageSource.gallery,
-  //       imageQuality: 85,
-  //       maxWidth: 800,
-  //     );
-  //     if (image != null) {
-  //       setState(() {
-  //         _selectedImage = File(image.path);
-  //       });
-  //
-  //       print('Image : ${image.path}');
-  //     }
-  //   } else {
-  //     print('Permission denied.');
-  //   }
-  // }
 }

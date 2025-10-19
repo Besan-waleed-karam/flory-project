@@ -11,6 +11,7 @@ class TFavouriteIcon extends StatelessWidget {
   const TFavouriteIcon({super.key, required this.itemId});
 
   final String itemId;
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(FavouritesController());
@@ -20,12 +21,7 @@ class TFavouriteIcon extends StatelessWidget {
        height: 32.h,
        width: 32.w,
       onPressed: () => controller.toggleFavouritesItem(itemId),
-
-
     )
-
-
-
     );
   }
 }

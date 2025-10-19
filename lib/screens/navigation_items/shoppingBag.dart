@@ -2,6 +2,7 @@ import 'package:flory/features/shop/controllers/cart_controller.dart';
 import 'package:flory/features/shop/models/cart_item_model.dart';
 import 'package:flory/screens/navigation_items/profile_items/newdeliveryaddress.dart';
 import 'package:flory/screens/navigation_items/shopping_items/checkout.dart';
+import 'package:flory/utils/loader/loaders.dart';
 import 'package:flory/utils/validators/validation.dart';
 import 'package:flory/widgets/animation_loader_widget.dart';
 import 'package:flory/widgets/navigation_menu.dart';
@@ -14,6 +15,7 @@ import '../../utils/constants/colors.dart';
 import '../../utils/constants/image_strings.dart';
 import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_functions.dart';
+import '../../utils/helpers/pricing_calculator.dart';
 import '../../utils/theme/custom_themes/text_theme.dart';
 
 
@@ -23,16 +25,8 @@ class ShoppingBag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = CartController.instance;
-    //final cartController = Get.put(CartController());
-    //final controller = Get.put(CartController());
-    // final cartController =
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      //drawer: DrawerNav(),
-      // appBar:
-      //     dark
-      //         ? TAppbarTheme.darkAppBarTheme()
-      //         : TAppbarTheme.lightAppBarTheme(),
         body:SafeArea(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -172,14 +166,13 @@ class ShoppingBag extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            Obx(() =>
-                              Text(
-                                '${controller.totalCartPrice.value}',
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                            Obx(() => Text(
+                              '\$${controller.totalCartPrice.value.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w400,
                               ),
+                            ),
                             ),
                           ],
                         ),
@@ -194,16 +187,46 @@ class ShoppingBag extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            Text(
-                              "\$4.99",
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                            Obx(() {
+                              final subTotal = controller.totalCartPrice.value;
+                              return Text(
+                                "\$${TPricingCalculator.calculateShippingCost(subTotal, 'Us')}",
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              );
+                            })
+
+
                           ],
                         ),
                         Divider(thickness: 2, color: TColors.white),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Tax Fee",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Obx(() {
+                              final subTotal = controller.totalCartPrice.value;
+                              return  Text(
+                                "\$${TPricingCalculator.calculateTax(subTotal, 'US')}",
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              );
+                            })
+
+                          ],
+                        ),
+                        Divider(thickness: 2, color: TColors.white),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -214,15 +237,17 @@ class ShoppingBag extends StatelessWidget {
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
-                            Obx(() =>
-                                Text(
-                                  '${controller.totalCartPrice.value + 4.99}',
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            Obx(() {
+                              final subTotal = controller.totalCartPrice.value;
+                              return Text(
+                                '\$${TPricingCalculator.calculateTotalPrice(subTotal, 'US')}',
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                            ),
+                              );
+                            })
+
                           ],
                         ),
                         SizedBox(height: 25.h),
@@ -231,11 +256,11 @@ class ShoppingBag extends StatelessWidget {
                           height: 38.h,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => Checkout(),
-                                ),
-                              );
+                              if(controller.cartItems.isEmpty){
+                                Loaders.warningSnackBar(title: 'Your cart is empty', message: "Lets explore and fill it");
+                              } else {
+                                Get.to(() =>Checkout());
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.zero,

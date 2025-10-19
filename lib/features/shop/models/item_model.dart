@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemModel{
@@ -24,7 +22,8 @@ class ItemModel{
 
   });
 
-  static ItemModel empty() => ItemModel(id: '', categoryId: '', name: '', description: '', image: '', isFeatured: false, price: 0, includes: {
+  static ItemModel empty() =>
+      ItemModel(id: '', categoryId: '', name: '', description: '', image: '', isFeatured: false, price: 0, includes: {
   });
 
   Map<String,dynamic>toJson(){
@@ -39,8 +38,7 @@ class ItemModel{
     };
   }
 
-  factory ItemModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> document) {
+  factory ItemModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
     if(document.data() == null) return ItemModel.empty();
       final data = document.data()!;
       return ItemModel(

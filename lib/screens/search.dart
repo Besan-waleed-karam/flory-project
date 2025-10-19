@@ -67,17 +67,14 @@ class _SearchState extends State<Search> {
 
   Widget _buildSearchBody(bool dark) {
     return Obx(() {
-      // إذا ما في بحث، عرض السجل
+
       if (controller.searchQuery.isEmpty) {
         return _buildSearchHistory(dark);
       }
 
-      // تحميل
       if (controller.isLoading.value) {
         return Center(child: CircularProgressIndicator(color: TColors.primary));
       }
-
-      // لا توجد نتائج
       if (controller.searchQuery.isNotEmpty && controller.searchResults.isEmpty) {
         return Center(
           child: Column(
@@ -90,8 +87,6 @@ class _SearchState extends State<Search> {
           ),
         );
       }
-
-      // عرض نتائج البحث
       return ListView.builder(
         itemCount: controller.searchResults.length,
         itemBuilder: (context, index) {
@@ -101,7 +96,6 @@ class _SearchState extends State<Search> {
       );
     });
   }
-
   Widget _buildSearchResultItem(ItemModel item, bool dark) {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),

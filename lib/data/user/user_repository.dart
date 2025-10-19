@@ -16,9 +16,7 @@ import '../../utils/exceptions/platform_exceptions.dart';
 /// Repository class for user-related operations.
 class UserRepository extends GetxController {
   static UserRepository get instance => Get.find();
-  //final profileLoading  =false.obs ;
 
-  // Rx<UserModel> user =UserModel.empty().obs ;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final authenticationRepository = AuthenticationRepository.instance;
 

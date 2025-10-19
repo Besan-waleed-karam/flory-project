@@ -71,7 +71,6 @@ class _ChangepasswordState extends State<Changepassword> {
                     isNetworkImage: networkImage.isNotEmpty,
                   );
                 }),
-               // Image.asset(TImages.women,width: 108.w,height: 108.h),
                 SizedBox(width: 20.w,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

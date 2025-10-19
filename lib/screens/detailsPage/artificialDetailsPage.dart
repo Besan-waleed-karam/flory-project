@@ -24,7 +24,6 @@ class Artificialdetailspage extends StatefulWidget {
 class _ArtificialdetailspageState extends State<Artificialdetailspage> {
   @override
   Widget build(BuildContext context) {
-    final favouriteController = Get.put(FavouritesController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       body: Stack(
@@ -39,11 +38,9 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
                   height: 549.h,
 
                 ),
-                //  const Spacer(flex: 5),
               ],
             ),
           ),
-
           Positioned(
             top: 50.h,
             left: 16.w,
@@ -131,10 +128,6 @@ class _ArtificialdetailspageState extends State<Artificialdetailspage> {
                            widget.item.includes?['flower name'] ?? '',
                          )
                       ]
-
-                      //_buildIncludeItem("PinkChrysanthemum"),
-
-
                     ],
                   ),
                   SizedBox(height: 30.h),

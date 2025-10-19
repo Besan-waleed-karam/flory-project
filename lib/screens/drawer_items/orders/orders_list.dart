@@ -8,6 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_functions.dart';
+import 'ordertracking.dart';
 
 class TOrdersList extends StatelessWidget {
   const TOrdersList({super.key});
@@ -67,8 +68,11 @@ class TOrdersList extends StatelessWidget {
           itemBuilder: (_, index) {
             final order = orders[index];
            return Container(
+             decoration: BoxDecoration(
+               color: TColors.textFieldsColor ,
+               borderRadius: BorderRadius.circular(30)
+             ),
               padding: const EdgeInsets.all(TSizes.md),
-              color: dark ?TColors.dark : TColors.light,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -91,8 +95,12 @@ class TOrdersList extends StatelessWidget {
                         ],
                       )),
                       IconButton(
-                          onPressed: (){},
-                          icon: const Icon(Iconsax.arrow_right_34 , size: TSizes.iconSm,)),
+                          onPressed: (){
+                            Get.to(() => Ordertracking(order: order));
+                          },
+                          icon: const Icon(Iconsax.arrow_right_34 ,
+                            size: TSizes.iconSm,
+                          )),
                     ],
                   ) , const SizedBox(height: TSizes.spaceBtwItems,) ,
                   Row(
@@ -135,7 +143,7 @@ class TOrdersList extends StatelessWidget {
                                       Text('Shipping Date',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context).textTheme.labelLarge,
+                                        style: Theme.of(context).textTheme.labelMedium,
                                       ) ,
                                       Text(
                                         order.formattedDeliveryDate,

@@ -9,9 +9,9 @@ import 'dart:typed_data';
 class TFirebaseStorageService extends GetxController{
   static TFirebaseStorageService get instance =>Get.find();
 
-
-
 final _firebaseStorage = FirebaseStorage.instance;
+
+// Function to convert the photo to Unit8List
 Future<Uint8List> getImageDataFromAssets(String path) async{
   try{
     final byteData = await rootBundle.load(path);
@@ -22,6 +22,7 @@ Future<Uint8List> getImageDataFromAssets(String path) async{
   }
 }
 
+// Function to upload the photo to the firestore
 Future<String> uploadImageData(String path , Uint8List image , String name) async{
   try{
      final ref = _firebaseStorage.ref(path).child(name);
@@ -40,13 +41,4 @@ Future<String> uploadImageData(String path , Uint8List image , String name) asyn
      }
   }
 }
-
-// Future<String> uploadImageFile(String path,XFile image)async{
-// try{
-//
-// }catch(e){
-//
-// }
-// }
-
 }

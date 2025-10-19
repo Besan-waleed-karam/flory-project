@@ -27,19 +27,6 @@ class UserModel {
   /// Helper function to format phone number.
   String get formattedPhoneNo => TFormatter.formatPhoneNumber(phoneNumber);
 
-  // /// Static function to split full name into first and last name.
-  // static List<String> namePars(fullName) => fullName.split(" ");
-
-  /// Static function to generate a username from the full name.
-  static String generateUsername(fullName) {
-    List<String> nameParts = fullName.split(" ");
-    String firstName = nameParts[0].toLowerCase();
-    String lastName = nameParts.length > 1 ? nameParts [1].toLowerCase() : "";
-
-    String camelCaseUsername = "$firstName$lastName"; // Combine first and last name
-    String usernameWithPrefix = "cwt_$camelCaseUsername"; // Add "cwt_" prefix
-    return usernameWithPrefix;
-  }
 
   /// Static function to create an empty user model.
   static UserModel empty() =>

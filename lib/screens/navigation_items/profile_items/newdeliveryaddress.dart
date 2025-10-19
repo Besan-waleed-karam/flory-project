@@ -23,15 +23,16 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
 
   String? selectedCountry;
   final controller = AddressController.instance;
+
   @override
   void initState() {
     super.initState();
     selectedCountry = controller.selectedCountry.value;
   }
+
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-
     return Scaffold(
       appBar: dark
           ? TAppbarTheme.darkAppBarTheme(
@@ -72,6 +73,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
           SizedBox(width: 30.w),
         ],
       ),
+
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 31.w, vertical: 20.h),
         child: Form(
@@ -88,10 +90,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                         color: dark ? TColors.white : Colors.black)
                 ),
               ),
-
-
               SizedBox(height: TSizes.spaceBtwInputFields.h),
-
               Text(
                 "We’ll ship it to your address below:",
                 style: TTextTheme.lightTextTheme.titleLarge?.copyWith(
@@ -101,15 +100,14 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                 ),
               ),
               SizedBox(height: 18.h),
-
               // Name
               Text("Name",
                   style: TextStyle(
                       fontSize: 16.sp,
                       fontFamily: "Inter",
                       color: dark ? TColors.white : Colors.black)),
-                     SizedBox(height: 5.h),
-                  TextFormField(
+              SizedBox(height: 5.h),
+              TextFormField(
                 style: TextStyle(fontSize: 20.sp),
                 controller: controller.name,
                 validator: (value) => TValidator.validateEmptyText('Name', value),
@@ -129,7 +127,6 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   fillColor: dark ? Colors.white.withOpacity(0.2) : Colors.white,
                 ),
               ),
-
               SizedBox(height: TSizes.spaceBtwInputFields.h),
 
               // Phone Number
@@ -160,7 +157,6 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   fillColor: dark ? Colors.white.withOpacity(0.2) : Colors.white,
                 ),
               ),
-
               SizedBox(height: TSizes.spaceBtwInputFields.h),
 
               // Country
@@ -172,7 +168,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
               SizedBox(height: 5.h),
               Obx(()=>DropdownButtonFormField<String>(
                 value: controller.selectedCountry.value.isEmpty
-                    ? null  // إذا فارغة استخدم null مع hint
+                    ? null
                     : controller.selectedCountry.value,
                 decoration: InputDecoration(
                   filled: true,
@@ -202,9 +198,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   controller.selectedCountry.value = value ?? "";
                 },
               ),),
-
               SizedBox(height: TSizes.spaceBtwInputFields.h),
-
               // City
               Text("City",
                   style: TextStyle(
@@ -233,7 +227,6 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   fillColor: dark ? Colors.white.withOpacity(0.2) : Colors.white,
                 ),
               ),
-
               SizedBox(height: TSizes.spaceBtwInputFields.h),
               Text("Use My Current Location",
                   style: TextStyle(
@@ -251,8 +244,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                     borderSide: BorderSide.none,
                   ),
                   contentPadding: EdgeInsets.only(left: 15.w),
-                  prefixIcon:
-                  Icon(Iconsax.buildings, color: TColors.primary, size: 26),
+                  prefixIcon: Icon(Iconsax.buildings, color: TColors.primary, size: 26),
                   hintText: "e.g New cairo , Rehap",
                   hintStyle: TextStyle(
                       fontFamily: "Inter",
@@ -262,10 +254,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   fillColor: dark ? Colors.white.withOpacity(0.2) : Colors.white,
                 ),
               ),
-
-
               SizedBox(height: TSizes.spaceBtwInputFields.h),
-
               // Postal Code
               Text("Postal Code",
                   style: TextStyle(
@@ -293,9 +282,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   fillColor: dark ? Colors.white.withOpacity(0.2) : Colors.white,
                 ),
               ),
-
               SizedBox(height: TSizes.spaceBtwInputFields.h),
-
               // State
               Text("State",
                   style: TextStyle(
@@ -324,9 +311,7 @@ class _NewdeliveryaddressState extends State<Newdeliveryaddress> {
                   fillColor: dark ? Colors.white.withOpacity(0.2) : Colors.white,
                 ),
               ),
-
               SizedBox(height: 50.h),
-
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(

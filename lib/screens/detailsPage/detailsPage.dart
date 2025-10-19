@@ -30,8 +30,6 @@ class _DetailspageState extends State<Detailspage> {
   }
   @override
   Widget build(BuildContext context) {
-    final favouriteController = Get.put(FavouritesController());
-
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       body:
@@ -47,7 +45,6 @@ class _DetailspageState extends State<Detailspage> {
                     height: 549.h,
 
                   ),
-                  //  const Spacer(flex: 5),
                 ],
               ),
             ),

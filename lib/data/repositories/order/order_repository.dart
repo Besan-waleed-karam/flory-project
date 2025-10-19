@@ -9,29 +9,38 @@ class OrderRepository extends GetxController {
   // variables
   final _db = FirebaseFirestore.instance;
 
-  // ------------------- functions ---------------------------//
+  // ------------------- functions ---------------------------
 
-   // Get all orders related to current user
- Future<List<OrderModel>> fetchUserOrders() async {
-   try {
-     final userId = AuthenticationRepository.instance.authUser?.uid;
-     if (userId!.isEmpty) throw 'Unable to find user information. Try again in few minutes';
+  // Get all orders related to current user
+  Future<List<OrderModel>> fetchUserOrders() async {
+    try {
+      final userId = AuthenticationRepository.instance.authUser?.uid;
+      if (userId!.isEmpty)
+        throw 'Unable to find user information. Try again in few minutes';
 
-     final result = await _db.collection('Users').doc(userId).collection('Orders').get();
-     return result.docs.map((documentSnapshot) =>
-         OrderModel.fromSnapshot(documentSnapshot)).toList();
-   } catch (e){
-     throw 'Something went wrong while fetching Order Information. Try again later';
-   }
- }
+      final result = await _db
+          .collection('Users')
+          .doc(userId)
+          .collection('Orders')
+          .get();
+      return result.docs
+          .map((documentSnapshot) => OrderModel.fromSnapshot(documentSnapshot))
+          .toList();
+    } catch (e) {
+      throw 'Something went wrong while fetching Order Information. Try again later';
+    }
+  }
 
- // store new user order
-Future<void> saveOrder(OrderModel order , String userId) async{
-   try{
-     await _db.collection('Users').doc(userId).collection('Orders').add(order.toJson());
-   } catch (e){
-     throw 'Something went wrong while saving order info . Try again later';
-   }
-}
-
+  // store new user order
+  Future<void> saveOrder(OrderModel order, String userId) async {
+    try {
+      await _db
+          .collection('Users')
+          .doc(userId)
+          .collection('Orders')
+          .add(order.toJson());
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 }

@@ -31,6 +31,7 @@ Future<List<OrderModel>> fetchUserOrders() async{
     return [];
   }
 }
+
 //  methods for order Processing
 void processOrder(double totalAmount) async {
   try{
@@ -45,7 +46,7 @@ void processOrder(double totalAmount) async {
     final order = OrderModel(
         id: UniqueKey().toString(),
         userId: userId,
-        status: OrderStatus.pending,
+        status: OrderStatus.shipped,
         items: cartController.cartItems.toList(),
         deliveryDate: DateTime.now(),
         totalAmount: totalAmount,
@@ -62,10 +63,11 @@ void processOrder(double totalAmount) async {
         image: TImages.orderCompleted,
         tittle: 'Payment success!',
         subTittle: 'your item will be shipped soon!',
-        onPressed: ()=> Get.offAll(()=> const NavigationMenu())
+        onPressed: ()=> Get.offAll(()=> NavigationMenu())
     ));
   } catch(e) {
     Loaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
+    THelperFunctions.stopLoading();
   }
 }
 

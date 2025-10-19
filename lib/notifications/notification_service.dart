@@ -7,14 +7,16 @@ import '../main.dart';
 
 class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
   final FlutterLocalNotificationsPlugin _localNotifications =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
+
   ///  Notifier to update notifications screen when the notification arrived while its open
   static final ValueNotifier<List<Map<String, dynamic>>> notificationsNotifier =
-  ValueNotifier([]);
+      ValueNotifier([]);
 
-// initiate notifications
-Future<void> initNotification() async {
+  // initiate notifications
+  Future<void> initNotification() async {
     await _firebaseMessaging.requestPermission();
     // print token
     String? token = await _firebaseMessaging.getToken();
@@ -22,21 +24,21 @@ Future<void> initNotification() async {
 
     // initialize local notification
     const AndroidInitializationSettings androidInitSettings =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
-    const InitializationSettings initSettings =
-    InitializationSettings(android: androidInitSettings);
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const InitializationSettings initSettings = InitializationSettings(
+      android: androidInitSettings,
+    );
     await _localNotifications.initialize(initSettings);
 
     // topic for all users
     await _firebaseMessaging.subscribeToTopic("all_users");
 
-     // receive notification when app is open
+    // receive notification when app is open
     FirebaseMessaging.onMessage.listen((message) async {
       debugPrint("onMessage");
       final notif = _buildNotification(message);
       await _saveNotification(notif);
       await _showForegroundNotification(notif);
-
     });
 
     // receive notification when app is on background
@@ -56,7 +58,7 @@ Future<void> initNotification() async {
     notificationsNotifier.value = await getNotifications();
   }
 
- // build notification
+  // build notification
   Map<String, dynamic> _buildNotification(RemoteMessage message) {
     final title = message.notification?.title ?? "No title";
     final body = message.notification?.body ?? "No body";
@@ -71,30 +73,28 @@ Future<void> initNotification() async {
       iconPath = "assets/images/notification_icons/promo.png";
     } else if (title.contains("New")) {
       iconPath = "assets/images/notification_icons/new.png";
-    }else if (title.contains("Done")) {
+    } else if (title.contains("Done")) {
       iconPath = "assets/images/notification_icons/check.png";
     } else {
       iconPath = "assets/images/appLogo.png";
     }
-    return {
-      "title": title,
-      "subtitle": body,
-      "time": now,
-      "image": iconPath,
-    };
+    return {"title": title, "subtitle": body, "time": now, "image": iconPath};
   }
+
   // show the notification in foreground using localPlugin
   Future<void> _showForegroundNotification(Map<String, dynamic> notif) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      'flory_channel', // channel identifier
-      'Flory Notifications',
-      importance: Importance.high,
-      priority: Priority.high,
-      playSound: true,
-    );
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
+          'flory_channel', // channel identifier
+          'Flory Notifications',
+          importance: Importance.high,
+          priority: Priority.high,
+          playSound: true,
+        );
 
-    const NotificationDetails platformDetails =
-    NotificationDetails(android: androidDetails);
+    const NotificationDetails platformDetails = NotificationDetails(
+      android: androidDetails,
+    );
 
     await _localNotifications.show(
       DateTime.now().millisecondsSinceEpoch ~/ 1000,
@@ -104,9 +104,8 @@ Future<void> initNotification() async {
     );
   }
 
-
-// function to save Notifications in sharedPreferences
-Future<void>_saveNotification(Map<String, dynamic> notif) async {
+  // function to save Notifications in sharedPreferences
+  Future<void> _saveNotification(Map<String, dynamic> notif) async {
     final prefs = await SharedPreferences.getInstance();
     final currentNotifs = await getNotifications();
 
@@ -144,11 +143,4 @@ Future<void>_saveNotification(Map<String, dynamic> notif) async {
     await prefs.remove('notifications');
     notificationsNotifier.value = [];
   }
-  bool _isAppInForeground() {
-    return WidgetsBinding.instance.lifecycleState == AppLifecycleState.resumed;
-  }
 }
-
-
-
-

@@ -16,7 +16,6 @@ class ItemController extends GetxController{
 
   @override
   void onInit() {
-    // fetchFeaturedItems();
     super.onInit();
   }
 
@@ -24,7 +23,7 @@ class ItemController extends GetxController{
     try {
       isLoading.value = true;
       final items = await itemRepository.getItemsForCategory(categoryId: categoryId);
-      categoryItems.assignAll(items);   // <-- This updates the observable
+      categoryItems.assignAll(items);   // updates the observable
       return items;
     } catch (e) {
       Loaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());

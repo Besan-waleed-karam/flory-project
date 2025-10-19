@@ -35,13 +35,11 @@ class SearchCtr extends GetxController {
   Future<void> _searchItems(String query) async {
     try {
       isLoading.value = true;
-      print('🔄 Searching: $query');
+      print('Searching: $query');
 
-      // جلب كل العناصر مرة واحدة
       final snapshot = await _db.collection('Items').get();
-      print('📊 Total items in DB: ${snapshot.docs.length}');
+      print('Total items in DB: ${snapshot.docs.length}');
 
-      // تصفية محلي
       final results = snapshot.docs.where((doc) {
         final data = doc.data();
         final name = data['name']?.toString().toLowerCase() ?? '';
@@ -54,10 +52,10 @@ class SearchCtr extends GetxController {
       }).toList();
 
       searchResults.value = results;
-      print('✅ Search results: ${results.length}');
+      print(' Search results: ${results.length}');
 
     } catch (e) {
-      print('❌ Search failed: $e');
+      print(' Search failed: $e');
       searchResults.value = [];
     } finally {
       isLoading.value = false;

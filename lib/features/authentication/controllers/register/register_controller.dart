@@ -13,6 +13,8 @@ import '../login_controller/user_controller.dart';
 
 class RegisterController extends GetxController {
   static RegisterController get instance => Get.find();
+
+  // Variables
   final hidePassword = true.obs;
   final fullNameController = TextEditingController();
   final emailController = TextEditingController();
@@ -22,6 +24,7 @@ class RegisterController extends GetxController {
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   final userController = UserController.instance;
 
+  // User registration function
   void register() async {
     try {
       //Form Validation
@@ -72,6 +75,7 @@ class RegisterController extends GetxController {
       //THelperFunctions.stopLoading();
     }
   }
+
   // Google sign in
   Future<void> googleSignIn() async {
     try{
@@ -96,6 +100,7 @@ class RegisterController extends GetxController {
       Loaders.errorSnackBar(title: 'Oh Snap', message: e.toString());
     }
   }
+
   void clearFields() {
     registerFormKey.currentState?.reset();
     emailController.clear();

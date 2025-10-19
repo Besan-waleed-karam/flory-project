@@ -1,3 +1,5 @@
+import 'package:flory/features/shop/controllers/order_controller.dart';
+import 'package:flory/screens/drawer_items/orders/orders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -60,7 +62,7 @@ class DrawerNav extends StatelessWidget {
                 color: TColors.primary,
               ),
               onTap: () {
-                Get.to(Ordertracking());
+                Get.to(OrdersScreen());
               },
             ),
             ListTile(

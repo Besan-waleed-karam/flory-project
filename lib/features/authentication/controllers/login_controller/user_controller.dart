@@ -171,7 +171,6 @@ class UserController extends GetxController {
   /// Change password method
   Future<void> changePassword() async {
     try {
-      // تحقق من تطابق الباسوورد الجديد مع التأكيد
       if (newPassword.text.trim() != confirmPassword.text.trim()) {
         Loaders.warningSnackBar(
           title: "Error",
@@ -188,7 +187,7 @@ class UserController extends GetxController {
         );
         return;
       }
-      // إعادة المصادقة باستخدام الباسوورد الحالي
+      // reauthenticate with the current password
       final cred = EmailAuthProvider.credential(
         email: user.email!,
         password: currentPassword.text.trim(),
@@ -196,7 +195,7 @@ class UserController extends GetxController {
 
       await user.reauthenticateWithCredential(cred);
 
-      // تحديث كلمة المرور
+      // update the password
       await user.updatePassword(newPassword.text.trim());
 
       Loaders.successSnackBar(
@@ -204,7 +203,7 @@ class UserController extends GetxController {
         message: "Password changed successfully!",
       );
 
-      // مسح الحقول
+      // clear fields
       currentPassword.clear();
       newPassword.clear();
       confirmPassword.clear();

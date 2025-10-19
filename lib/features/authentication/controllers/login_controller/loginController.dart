@@ -2,7 +2,6 @@ import 'package:flory/features/authentication/controllers/login_controller/user_
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/helpers/helper_functions.dart';
@@ -23,8 +22,8 @@ class SignInController extends GetxController{
 
   @override
   void onInit() {
-  // emailController.text = localStorage.read('REMEMBER_ME_EMAIL');
-   //passwordController.text = localStorage.read('REMEMBER_ME_PASSWORD');
+   emailController.text = localStorage.read('REMEMBER_ME_EMAIL') ?? '';
+   passwordController.text = localStorage.read('REMEMBER_ME_PASSWORD') ?? '';
     super.onInit();
   }
   // Email and password sign in
@@ -53,7 +52,6 @@ class SignInController extends GetxController{
 
 
       //SignIn user using Email & Password Auth
-
       final userCredentials = await AuthenticationRepository.instance.loginWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
       //  Remove Loader
       THelperFunctions.stopLoading();
@@ -120,9 +118,8 @@ class SignInController extends GetxController{
   //   }
   // }
 
-
   void clearFields() {
-    loginFormKey.currentState?.reset(); //
+    loginFormKey.currentState?.reset();
     emailController.clear();
     passwordController.clear();
     FocusScope.of(Get.context!).unfocus();

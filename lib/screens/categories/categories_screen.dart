@@ -36,7 +36,6 @@ class CategoriesScreen extends StatefulWidget {
 class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
-
     final cartController = CartController.instance;
     final controller = Get.put(ItemController());
     final dark = THelperFunctions.isDarkMode(context);
@@ -67,6 +66,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           ),
         ),
       ),
+
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
@@ -213,7 +213,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               ),
                             ),
 
-                            /// ❤️ Favorite Icon (top-right)
+                            /// Favorite Icon
                             Positioned(
                                 top: 16.h,
                                 right: 16.w,
@@ -232,22 +232,3 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     );
   }
 }
-
-// Positioned(
-//   top: 16.h,
-//   right: 16.w,
-//   child: Container(
-//     alignment: Alignment.center,
-//     width: 28.w,
-//     height: 28.h,
-//     decoration: BoxDecoration(
-//       color: TColors.primary,
-//       borderRadius: BorderRadius.circular(5.r),
-//     ),
-//     child: Icon(
-//       Icons.favorite,
-//       color: Colors.white,
-//       size: 16.sp,
-//     ),
-//   ),
-// ),

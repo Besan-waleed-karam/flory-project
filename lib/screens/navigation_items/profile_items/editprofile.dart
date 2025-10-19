@@ -59,7 +59,10 @@ class _EditprofileState extends State<Editprofile> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(child: Text("Edit Profile",style: TextStyle(fontFamily: "LibreBaskerville",fontSize: 24.sp,color:dark?TColors.white :TColors.dark),)),
+              Center(child: Text("Edit Profile",
+                style: TextStyle(fontFamily: "LibreBaskerville",
+                    fontSize: 24.sp,
+                    color:dark?TColors.white :TColors.dark),)),
               SizedBox(height: 60.h,),
               Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +85,6 @@ class _EditprofileState extends State<Editprofile> {
                         isNetworkImage: networkImage.isNotEmpty,
                       );
                     }),
-                    //Image.asset(TImages.women,width: 108.w,height: 108.h),
                     SizedBox(width: 20.w,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,3 +1,4 @@
+import 'package:flory/screens/drawer_items/orders/orders_list.dart';
 import 'package:flory/utils/constants/sizes.dart';
 import 'package:flory/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,19 @@ class OrdersScreen extends StatelessWidget {
 
           ]),
       body: Padding(padding: EdgeInsets.all(TSizes.defaultSpace),
-      child: Container(),
+      child: Column(
+          children:[
+        Text(
+        "Your Orders List",
+        style: TextStyle(
+          fontFamily: "LibreBaskerville",
+          fontSize: 24.sp,
+          color: dark ? TColors.white : TColors.black,
+        ),
+      ),
+            SizedBox(height: TSizes.spaceBtwSections,),
+            Expanded(child: TOrdersList())
+          ] ),
       ),
     );
 

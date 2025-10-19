@@ -7,9 +7,7 @@ import 'package:flory/utils/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../features/shop/models/item_model.dart';
-import '../../utils/constants/sizes.dart';
 import '../../utils/helpers/helper_functions.dart';
 import '../../utils/theme/custom_themes/text_theme.dart';
 import '../../widgets/search_Field.dart';
@@ -30,8 +28,6 @@ class _Wishlist1State extends State<Wishlist1> {
     final controller = FavouritesController.instance;
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
-      //drawer: DrawerNav(),
-      //appBar: dark ? TAppbarTheme.darkAppBarTheme(): TAppbarTheme.lightAppBarTheme(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
@@ -199,8 +195,6 @@ class _Wishlist1State extends State<Wishlist1> {
 
               ),
               SizedBox(height: 50.w,),
-
-
             ],
           ),
         ),

@@ -4,17 +4,12 @@ import 'package:flory/screens/categories/categories_screen.dart';
 import 'package:flory/screens/detailsPage/detailsPage.dart';
 import 'package:flory/screens/navigation_items/favourite_icon.dart';
 import 'package:flory/utils/constants/colors.dart';
-import 'package:flory/utils/constants/image_strings.dart';
 import 'package:flory/utils/helpers/helper_functions.dart';
 import 'package:flory/utils/theme/custom_themes/text_theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
-import '../../data/services/shimmer_effect.dart';
-import '../../utils/theme/custom_themes/appbar_theme.dart';
-import '../../widgets/drawer.dart';
 import '../../widgets/search_Field.dart';
 import '../detailsPage/artificialDetailsPage.dart';
 class HomeScreen extends StatelessWidget {
@@ -27,6 +22,7 @@ class HomeScreen extends StatelessWidget {
     final popularItemsController = Get.put(PopularItemsController());
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
+
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
@@ -74,7 +70,6 @@ class HomeScreen extends StatelessWidget {
                   width: double.infinity.w,
                   height: 76.h,
                   decoration: BoxDecoration(
-                    // color: da TColors.light,
                     borderRadius: BorderRadius.all(Radius.circular(10.r)),
                   ),
                   child: ListView.builder(
@@ -90,7 +85,6 @@ class HomeScreen extends StatelessWidget {
                         width: 100.w,
                         height: 10.h,
                         decoration: BoxDecoration(
-                          //color: TColors.light,
                           borderRadius: BorderRadius.all(Radius.circular(10.r)),
                           border: Border.all(color: TColors.primary, width: 1.w),
                         ),
@@ -126,7 +120,7 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(width: 110.w),
                     GestureDetector(
                       onTap: (){
-                      //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CategoriesScreen(category:category)));
+                      //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CategoriesScreen(category:category)));
                       },
                       child: Text(
                         "View All",
@@ -236,21 +230,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-// Positioned(
-//   top: 16.h,
-//   right: 16.w,
-//   child: Container(
-//     alignment: Alignment.center,
-//     width: 28.w,
-//     height: 28.h,
-//     decoration: BoxDecoration(
-//       color: TColors.primary,
-//       borderRadius: BorderRadius.circular(5.r),
-//     ),
-//     child: Icon(
-//       Icons.favorite,
-//       color: Colors.white,
-//       size: 16.sp,
-//     ),
-//   ),
-// ),

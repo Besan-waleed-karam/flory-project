@@ -1,4 +1,3 @@
-
 import 'package:flory/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -11,7 +10,6 @@ class TShimmerEffect extends StatelessWidget {
     this.radius = 15,
     this.color
 });
-
 
   final double width,height,radius;
   final Color? color;

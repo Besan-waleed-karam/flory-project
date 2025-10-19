@@ -10,7 +10,7 @@ class OnBoardingController extends GetxController {
 
   // Variables
   final pageController = PageController();
-  Rx<int> currentPageIndex = 0.obs; //تحول أي متغير عادي إلى متغير تفاعلي (Reactive variable)، يعني لما تتغير قيمته، يتم إعلام الواجهات (Widgets) أو أي شيء يراقبه بالتغيير.
+  Rx<int> currentPageIndex = 0.obs;
 
   // Update current Index when page scroll
   void updatePageIndicator(index)=> currentPageIndex.value = index;

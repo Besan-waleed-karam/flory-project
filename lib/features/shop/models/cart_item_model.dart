@@ -28,7 +28,7 @@ class CartItemModel {
 
   });
   static CartItemModel empty() => CartItemModel(itemId: '', quantity: 0, categoryId: '',variantKey: '',) ;
-      //CartItemModel(itemId: '', quantity: 0,);
+
   Map<String, dynamic> toJson() {
     return {
       'itemId': itemId,
@@ -43,6 +43,7 @@ class CartItemModel {
       "variantKey": variantKey,
     };
   }
+
   factory CartItemModel.fromJson(Map<String, dynamic> json){
     return CartItemModel(
         itemId: json['itemId'],

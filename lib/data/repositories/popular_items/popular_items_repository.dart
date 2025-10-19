@@ -8,7 +8,7 @@ class PopularItemsRepository extends GetxController{
 
   final _db = FirebaseFirestore.instance;
 
-
+  // Function to get popular items
   Future<List<ItemModel>> getPopularItems() async {
     try {
       final itemQuery = await _db

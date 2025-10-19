@@ -26,6 +26,14 @@ class TImages {
   static const String loaderAsset = "assets/images/Loading.json";
   static const String orderCompleted ="assets/images/orderCompleted.png";
 
+//
+  static const String masterCard = "assets/images/axis.png";
+  static const String paypal = "assets/images/paypal.png";
+  static const String googlePay = "assets/images/google-pay.png";
+  static const String applePay = "assets/images/apple-pay.png";
+  static const String visa = "assets/images/visa.png";
+  static const String creditCard = "assets/images/atm-card.png";
+  static const String paytm = "assets/images/paytm.png";
 
 
 
