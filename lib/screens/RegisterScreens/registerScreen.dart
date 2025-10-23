@@ -217,7 +217,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   DividerSocialLogin(dividerText: 'Or Sign up With',
                     controller: controller,
                     onGooglePressed:controller.googleSignIn,
-                    onTwitterPressed: controller.googleSignIn,
                   ),
                 ],
               ),

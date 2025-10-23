@@ -21,7 +21,6 @@ class Addcard extends StatefulWidget {
 class _AddcardState extends State<Addcard> {
   bool save = false;
 
-  // ✅ Step 1: Add Form Key & Controllers
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _numberController = TextEditingController();
@@ -30,7 +29,6 @@ class _AddcardState extends State<Addcard> {
 
   @override
   void dispose() {
-    // ✅ Step 2: Dispose controllers
     _nameController.dispose();
     _numberController.dispose();
     _expiryController.dispose();
@@ -207,7 +205,9 @@ class _AddcardState extends State<Addcard> {
                                           TColors.primary,
                                           width: 2.w),
                                     ),
-                                    contentPadding: EdgeInsets.only(left: 15.w, top: 14.h, bottom: 14.h),                                    hintText: "Baraa Alaydi",
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15.w, top: 14.h, bottom: 14.h),
+                                    hintText: "Baraa Alaydi",
                                     hintStyle: TextStyle(
                                         fontFamily: "Inter",
                                         fontSize: 14.sp,
@@ -226,7 +226,6 @@ class _AddcardState extends State<Addcard> {
 
                               SizedBox(height: 23.h),
 
-                              // ✅ Card Number
                               Text("Card Number",
                                   style: TextStyle(
                                       fontFamily: "Inter",
@@ -270,8 +269,10 @@ class _AddcardState extends State<Addcard> {
                                           TColors.primary,
                                           width: 2.w),
                                     ),
-                                    contentPadding: EdgeInsets.only(left: 15.w, top: 14.h, bottom: 14.h),                                    hintText:
-                                  "1234 5678 9101 22592",
+                                    contentPadding: EdgeInsets.only(
+                                        left: 15.w, top: 14.h, bottom: 14.h),
+                                    hintText:
+                                    "1234 5678 9101 22592",
                                     hintStyle: TextStyle(
                                         fontFamily: "Inter",
                                         fontSize: 14.sp,
@@ -292,7 +293,6 @@ class _AddcardState extends State<Addcard> {
 
                               Row(
                                 children: [
-                                  // ✅ Expiry
                                   Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment
@@ -356,8 +356,12 @@ class _AddcardState extends State<Addcard> {
                                                   width:
                                                   2.w),
                                             ),
-                                            contentPadding: EdgeInsets.only(left: 15.w, top: 14.h, bottom: 14.h),                                            hintText:
-                                          "02/2028",
+                                            contentPadding: EdgeInsets.only(
+                                                left: 15.w,
+                                                top: 14.h,
+                                                bottom: 14.h),
+                                            hintText:
+                                            "02/2028",
                                             hintStyle: TextStyle(
                                                 fontFamily:
                                                 "Inter",
@@ -383,7 +387,6 @@ class _AddcardState extends State<Addcard> {
                                   ),
                                   SizedBox(width: 10.w),
 
-                                  // ✅ CVV
                                   Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment
@@ -448,7 +451,9 @@ class _AddcardState extends State<Addcard> {
                                                   width:
                                                   2.w),
                                             ),
-                                            contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 15.w),
+                                            contentPadding: EdgeInsets
+                                                .symmetric(vertical: 12.h,
+                                                horizontal: 15.w),
                                             hintText:
                                             "...",
                                             hintStyle: TextStyle(
@@ -547,10 +552,8 @@ class _AddcardState extends State<Addcard> {
                         vertical: 10.h),
                   ),
                   onPressed: () {
-                    // ✅ Step 5: Validate form first
                     if (_formKey.currentState!
                         .validate()) {
-                      // ✅ Step 6: Validate checkbox
                       if (!save) {
                         Loaders.warningSnackBar(
                             title:
@@ -560,7 +563,6 @@ class _AddcardState extends State<Addcard> {
                         return;
                       }
 
-                      // ✅ If everything is correct, check subtotal and proceed
                       if (subtotal > 0) {
                         orderController
                             .processOrder(

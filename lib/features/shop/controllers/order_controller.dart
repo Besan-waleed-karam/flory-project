@@ -42,6 +42,12 @@ void processOrder(double totalAmount) async {
     final userId = AuthenticationRepository.instance.authUser!.uid;
     if(userId.isEmpty) return;
 
+    final Map<String, dynamic> customizationData = {};
+    for (final item in cartController.cartItems) {
+      if (item.customizationData != null && item.customizationData!.isNotEmpty) {
+        customizationData[item.itemId] = item.customizationData!;
+      }
+    }
     // add details
     final order = OrderModel(
         id: UniqueKey().toString(),
@@ -51,7 +57,8 @@ void processOrder(double totalAmount) async {
         deliveryDate: DateTime.now(),
         totalAmount: totalAmount,
         orderDate: DateTime.now(),
-        address: addressController.selectedAddress.value
+        address: addressController.selectedAddress.value,
+        customizationData: customizationData.isNotEmpty? customizationData: null
      //  paymentMethod: checkoutController.selectedPaymentMethod.value.name,
     );
     await orderRepository.saveOrder(order, userId);

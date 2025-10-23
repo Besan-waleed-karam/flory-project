@@ -14,7 +14,7 @@ class OrderModel {
   final AddressModel? address;
   final DateTime? deliveryDate;
   final List<CartItemModel> items;
-
+  final Map<String, dynamic>? customizationData;
 
   OrderModel({
     required this.id,
@@ -25,7 +25,8 @@ class OrderModel {
     required this.orderDate,
     this.paymentMethod = 'PayPal',
     this.address,
-    this.deliveryDate
+    this.deliveryDate,
+    this.customizationData
 });
 
   String get formattedOrderDate => THelperFunctions.getFormattedDate(orderDate);
@@ -48,6 +49,7 @@ class OrderModel {
       'address': address?.toJson(),
       'deliveryDate':deliveryDate,
       'items':items.map((item)=> item.toJson()).toList(),
+      'customizationData': customizationData,
     };
   }
 
@@ -63,6 +65,9 @@ class OrderModel {
         address: AddressModel.fromMap(data['address'] as Map<String , dynamic>),
         deliveryDate: data['deliveryDate'] == null ? null :(data['deliveryDate'] as Timestamp).toDate(),
         items: (data['items'] as List<dynamic>).map((itemData)=> CartItemModel.fromJson(itemData as Map<String , dynamic>)).toList(),
+      customizationData: data['customizationData'] != null
+          ? Map<String, dynamic>.from(data['customizationData'])
+          : null,
     );
   }
 }

@@ -1,12 +1,8 @@
 // contain all app images as string
 class TImages {
   // -- App logos
-  static const String darkAppLogo = "assets/logos";
-  static const String lightAppLogo = "";
-
   // -- social logos
 
-  static const String facebook = "";
   static const String google = "";
 
 // - onboarding

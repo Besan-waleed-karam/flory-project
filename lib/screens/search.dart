@@ -26,6 +26,8 @@ class _SearchState extends State<Search> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: dark ? TColors.blackF :TColors.primaryBackground,
+        scrolledUnderElevation: 0,
         title: _buildSearchField(dark),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: TColors.primary),
@@ -58,7 +60,7 @@ class _SearchState extends State<Search> {
               _searchTextController.clear();
             },
           )
-              : Icon(Icons.abc)),
+              : Icon(Icons.clear)),
         ),
         onChanged: controller.onSearchChanged,
       ),
@@ -242,7 +244,6 @@ class _SearchState extends State<Search> {
   }
 
   void _openProductDetails(ItemModel item) async {
-    // حفظ في السجل عند فتح المنتج
     await _saveToSearchHistory(item);
     Get.to(() => Detailspage(item: item));
   }
@@ -252,20 +253,14 @@ class _SearchState extends State<Search> {
       final prefs = await SharedPreferences.getInstance();
       List<String> currentHistory = prefs.getStringList('search_history') ?? [];
 
-      // إزالة العنصر إذا موجود مسبقاً
       currentHistory.removeWhere((id) => id == item.id);
-
-      // إضافة العنصر في البداية
       currentHistory.insert(0, item.id);
 
-      // حفظ فقط آخر 10 عناصر
       if (currentHistory.length > 10) {
         currentHistory = currentHistory.sublist(0, 10);
       }
 
       await prefs.setStringList('search_history', currentHistory);
-
-      // تحديث الواجهة إذا كنا في صفحة السجل
       if (mounted) setState(() {});
 
     } catch (e) {
@@ -280,7 +275,6 @@ class _SearchState extends State<Search> {
 
   Future<ItemModel?> _getItemById(String itemId) async {
     try {
-      // استخدام الـ repository الموجود لديك
       final items = await controller.getAllItems();
       return items.firstWhere((item) => item.id == itemId);
     } catch (e) {

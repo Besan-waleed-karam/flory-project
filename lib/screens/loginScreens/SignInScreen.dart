@@ -200,7 +200,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     dividerText: 'Or Sign in With',
                     controller: controller,
                     onGooglePressed:controller.googleSignIn,
-                    onTwitterPressed: controller.googleSignIn,
 
                   ),
 

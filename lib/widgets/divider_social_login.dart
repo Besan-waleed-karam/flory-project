@@ -5,12 +5,10 @@ import '../utils/helpers/helper_functions.dart';
 
 
 class DividerSocialLogin extends StatelessWidget {
-  const DividerSocialLogin({super.key , required this.dividerText, this.controller, required this.onGooglePressed, required this.onTwitterPressed});
+  const DividerSocialLogin({super.key , required this.dividerText, this.controller, required this.onGooglePressed});
   final String dividerText ;
   final dynamic controller;
   final VoidCallback onGooglePressed;
-  final VoidCallback onTwitterPressed;
-
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
@@ -43,19 +41,6 @@ class DividerSocialLogin extends StatelessWidget {
               ),
             ),
             const SizedBox(width: TSizes.spaceBtwItems,),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: TColors.grey), borderRadius: BorderRadius.circular(100),
-              ),
-              child: IconButton(
-                  onPressed: onTwitterPressed,
-                  icon: const Image(
-                    width: TSizes.iconMd,
-                    height:TSizes.iconMd,
-                    image: AssetImage('assets/images/facebook_icon.png'),
-                  )
-              ),
-            ),
           ],
         )
       ],
