@@ -1,4 +1,5 @@
 import 'package:flory/features/authentication/controllers/login_controller/user_controller.dart';
+import 'package:flory/utils/validators/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -114,6 +115,7 @@ class _ChangepasswordState extends State<Changepassword> {
             Text("New Password",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),
             SizedBox(height: 5.h),
             TextFormField(
+              validator: (value)=>TValidator.validatePassword(value),
               controller: controller.newPassword,
               style: TextStyle(fontSize: 20.sp),
               decoration: InputDecoration(
@@ -130,6 +132,7 @@ class _ChangepasswordState extends State<Changepassword> {
             Text("Confirm Password",style: TextStyle(fontSize: 16.sp,fontFamily: "Inter",color:dark? TColors.white:Colors.black),),
             SizedBox(height: 5.h),
             TextFormField(
+              validator: (value)=>TValidator.validatePassword(value),
               controller: controller.confirmPassword,
               style: TextStyle(fontSize: 20.sp),
               decoration: InputDecoration(
