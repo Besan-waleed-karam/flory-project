@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class TValidator {
   // Empty Text Validation
   static String? validateEmptyText(String? fieldName , String? value){
@@ -5,6 +7,42 @@ class TValidator {
       return '$fieldName is required.';
     }
   }
+  // validate cvv
+  static String ? validateCvv( String? value ){
+       if(value == null ||
+           value.length !=3){
+         return 'Enter a valid card cvv';
+       } else {
+         return null;
+       }
+
+  }
+  // Validate Expiration Date (MM/YYYY)
+  static String? validateExpiryDate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Enter expiry date';
+    }
+
+    // MM/YYYY
+    final regex = RegExp(r'^(0[1-9]|1[0-2])\/\d{4}$');
+    if (!regex.hasMatch(value)) {
+      return 'Enter a valid expiry date';
+    }
+
+    final parts = value.split('/');
+    final month = int.parse(parts[0]);
+    final year = int.parse(parts[1]);
+    final now = DateTime.now();
+
+    final expiry = DateTime(year, month + 1, 0);
+
+    if (expiry.isBefore(now)) {
+      return 'Card has expired';
+    }
+
+    return null;
+  }
+
 
   //Empty Email
   static String? validateEmail(String? value) {

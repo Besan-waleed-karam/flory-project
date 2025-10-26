@@ -1,3 +1,4 @@
+import 'package:flory/utils/validators/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -207,7 +208,7 @@ class _AddcardState extends State<Addcard> {
                                     ),
                                     contentPadding: EdgeInsets.only(
                                         left: 15.w, top: 14.h, bottom: 14.h),
-                                    hintText: "Baraa Alaydi",
+                                    hintText: "Enter your name",
                                     hintStyle: TextStyle(
                                         fontFamily: "Inter",
                                         fontSize: 14.sp,
@@ -321,12 +322,7 @@ class _AddcardState extends State<Addcard> {
                                           keyboardType:
                                           TextInputType
                                               .number,
-                                          validator: (value) =>
-                                          value == null ||
-                                              value
-                                                  .isEmpty
-                                              ? 'Enter expiry date'
-                                              : null,
+                                          validator: (value) => TValidator.validateExpiryDate(value),
                                           style: TextStyle(
                                               fontSize:
                                               20.sp),
@@ -410,18 +406,13 @@ class _AddcardState extends State<Addcard> {
                                         height: 37.w,
                                         child:
                                         TextFormField(
+                                          
                                           controller:
                                           _cvvController,
                                           keyboardType:
                                           TextInputType
                                               .number,
-                                          validator: (value) =>
-                                          value == null ||
-                                              value
-                                                  .length <
-                                                  3
-                                              ? 'Enter valid CVV'
-                                              : null,
+                                          validator: (value) =>TValidator.validateCvv(value),
                                           style: TextStyle(
                                               fontSize:
                                               20.sp),
