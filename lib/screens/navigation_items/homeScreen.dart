@@ -139,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                 return Container(
                   padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                   width: double.infinity.w,
-                  height: 265.h,
+                  height: 270.h,
                   //  color: Colors.blue,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,

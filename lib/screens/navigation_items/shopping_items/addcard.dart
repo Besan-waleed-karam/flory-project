@@ -123,8 +123,8 @@ class _AddcardState extends State<Addcard> {
                 elevation: 4,
                 shadowColor: TColors.primary,
                 child: Container(
-                  width: 342.w,
-                  height: 440.h,
+                  width: 350.w,
+                  height: 460.h,
                   padding: EdgeInsets.all(8.r),
                   decoration: BoxDecoration(
                     color: dark
@@ -468,12 +468,13 @@ class _AddcardState extends State<Addcard> {
                                           ),
                                         ),
                                       ),
+                                      SizedBox(height: 0,)
                                     ],
                                   )
                                 ],
                               ),
 
-                              SizedBox(height: 30.h),
+                              SizedBox(height: 15.h),
 
                               Row(
                                 mainAxisSize:
@@ -518,17 +519,19 @@ class _AddcardState extends State<Addcard> {
                                           color: Color(
                                               0xFFB2ADAD))),
                                 ],
-                              )
+                              ) ,
+                             /// SizedBox(height: 50.h,)
+
                             ],
                           ),
-                        )
+                        ) ,
                       ],
                     ),
                   ),
                 ),
               ),
 
-              SizedBox(height: 160.h),
+              SizedBox(height: 150.h),
 
               Center(
                 child: ElevatedButton(
